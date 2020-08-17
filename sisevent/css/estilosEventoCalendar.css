@@ -1,0 +1,70 @@
+#cantidadHombres{
+    width: 231px;
+}
+#cantidadMujeres{
+    width: 231px;
+}
+#cantidadExpo{
+    width: 231px;
+}
+
+.hombres.form-group{
+    float: left;
+}
+.expositor.form-group{
+    position: relative;
+    float: left;
+    left: 70px;
+}
+.mujeres.form-group{
+    float: left;
+    position: relative;
+    left: 35px;
+}
+#pormenores{
+    height: 40px;
+}
+.evidencia1.form-group{
+    width: 47%;
+    float: left;
+}
+.evidencia2.form-group{
+    width: 47%;
+    float: left;
+    position: relative;
+    left: 30px;
+}
+
+.evidencia2{
+    width: 47%;
+    float: left;
+}
+.img{
+    width: 380px;
+    height: 250px;
+}
+.img1{
+    width: 380px;
+    height: 250px;
+}
+.img2{
+    width: 380px;
+    height: 250px;
+}
+.img-2{
+    width: 380px;
+    height: 250px;
+}
+.subir1.input-group{
+    position: relative;
+    top: 10px;
+    width: 106%;
+}
+.subir2.input-group{
+    position: relative;
+    top: 10px;
+    width: 106%;
+}
+.fc-event{
+    cursor: pointer;
+}

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Sistema</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- fullCalendar -->
+  <link rel="stylesheet" href="plugins/fullcalendar/main.min.css">
+  <link rel="stylesheet" href="plugins/fullcalendar-daygrid/main.min.css">
+  <link rel="stylesheet" href="plugins/fullcalendar-timegrid/main.min.css">
+  <link rel="stylesheet" href="plugins/fullcalendar-bootstrap/main.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- Estilo Evidencias -->
+  <link rel="stylesheet" type="text/css" href="css/css.css">
+  <link rel="stylesheet" type="text/css" href="css/estilosEventoCalendar.css">
+  <!-- aver -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet"/>
+  <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet"/>
+
+</head>
+<body class="hold-transition sidebar-mini">
+<div>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" style="margin: 0 0;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Calendario de Eventos</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+              <li class="breadcrumb-item active">Calendario</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-0">
+            <div class="sticky-top mb-3">
+                  <!-- the events -->
+                  <div id="external-events">
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              <!-- /.card -->
+              <div class="card">
+
+              </div>
+          <!-- /.col -->
+          <div class="col-md-12">
+            <div class="card card-primary" style="width: 100%;">
+              <div class="card-body p-0">
+                <!-- THE CALENDAR -->
+                <div id="calendar"></div>
+              </div>
+            </div>
+           </div>
+              <!-- /.card-body -->
+            <!-- /.card -->
+        <!-- /.row -->
+      </div>
+      </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    
+
+    <!-- DIV SIN EVIDENCIAS -->
+    <div class="modal fade" id="sinEvidencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tituloEvento"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="descripcionEvento" class="muestra"></div>
+            <div>
+                <table width="100%">
+                    <tr>
+                        <th width="50$">Tipo de Evento</th>
+                        <th>Publico Objetivo</th>
+                    </tr>
+                    <tr>
+                      <td><p id="tipo_evento">Curso</p></td>
+                      <td><p id="publico">Interno</p></td>
+                    </tr>
+                    <tr>
+                      <th>Fecha de Inicio</th>
+                      <th>Fecha de Fin</th>
+                    </tr>
+                    <tr>
+                        <td width="50%"><p id="fecha_in"></p></td>
+                        <td><p id="fecha_fin"></p></td>
+                    </tr>
+                </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-azulito" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- FIN DIV SIN EVIDENCIAS -->
+
+    <!-- DIV CON EVIDENCIAS -->
+    <div class="modal fade" id="conEvidencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tituloEv"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div>
+              <table width="100%">
+                <tr>
+                  <th>Hombres</th>
+                  <th>Mujeres</th>
+                  <th>Expositores</th>
+                </tr>
+                <tr>
+                  <td id="onvre" width="33%"></td>
+                  <td id="muhere" width="33%"></td>
+                  <td id="patos" width="33%"></td>
+                </tr>
+              </table>
+            </div>
+            <span><b>Pormenores:</b></span>
+            <div id="descripcionEv" class="muestra"></div>
+            <div>
+                <table width="100%">
+                    <tr>
+                      <th width="50%">Foto 1</th>
+                      <th width="50%">Foto 2</th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="img1">
+                          <img id="ev1" class="img1" src="">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="img2">
+                          <img id="ev2" class="img2" src="">
+                        </div>
+                      </td>
+                    </tr>
+                </table>
+                
+                
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-azulito" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- FIN DIV CON EVIDENCIAS -->
+
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer" style="margin: 0 0;">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 3.0.2
+    </div>
+    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+    reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery UI -->
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+<!-- fullCalendar 2.2.5 -->
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/fullcalendar/main.min.js"></script>
+<script src="plugins/fullcalendar-daygrid/main.min.js"></script>
+<script src="plugins/fullcalendar-timegrid/main.min.js"></script>
+<script src="plugins/fullcalendar-interaction/main.min.js"></script>
+<script src="plugins/fullcalendar-bootstrap/main.min.js"></script>
+<!--InputMask -->
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- date-range-picker -->
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="plugins/datatables/jquery.dataTables.js"></script>
+<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<script src="plugins/select2/js/select2.full.min.js"></script>
+<script src="plugins/toastr/toastr.min.js"></script>
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- IRAAAA -->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<!-- ORAAA -->
+<script src="js/calEviden.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+
+    /* initialize the external events
+     -----------------------------------------------------------------*/
+    function ini_events(ele) {
+      ele.each(function () {
+
+        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+        // it doesn't need to have a start or end
+        var eventObject = {
+          title: $.trim($(this).text()) // use the element's text as the event title
+        }
+
+        // store the Event Object in the DOM element so we can get to it later
+        $(this).data('eventObject', eventObject)
+
+        // make the event draggable using jQuery UI
+        $(this).draggable({
+          zIndex        : 1070,
+          revert        : true, // will cause the event to go back to its
+          revertDuration: 0  //  original position after the drag
+        })
+
+      })
+    }
+
+    ini_events($('#external-events div.external-event'))
+
+    /* initialize the calendar
+     -----------------------------------------------------------------*/
+    //Date for the calendar events (dummy data)
+    var date = new Date()
+    var d    = date.getDate(),
+        m    = date.getMonth(),
+        y    = date.getFullYear()
+
+    var Calendar = FullCalendar.Calendar;
+
+    var containerEl = document.getElementById('external-events');
+    var checkbox = document.getElementById('drop-remove');
+    var calendarEl = document.getElementById('calendar');
+
+    // initialize the external events
+    // -----------------------------------------------------------------
+
+
+
+    var calendar = new Calendar(calendarEl, {
+      locale : 'es',
+      plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid' ],
+      header    : {
+        left  : 'prev,next today',
+        center: 'title',
+        right : 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      //EVENTOS OBTENIDOS DE BD
+      events: {
+          url: 'php/eventos.php',
+          color: '#682444',
+          textColor: '#FFFFFF'
+      },
+      eventClick: function(info) {
+        aidi = info.event.extendedProps.idEvento;
+
+        consultaEV(aidi);
+        
+              $('#tituloEvento').html('Evento: '+info.event.title);
+              $('#descripcionEvento').html(info.event.extendedProps.descripcion);
+              $('#tipo_evento').text(info.event.extendedProps.tipoEv);
+              $('#publico').text(info.event.extendedProps.publico);
+        
+              var titulo = info.event.title;
+              $('#tituloEv').html('Evidencias Evento: '+titulo);
+              $('#pa').html(info.event.extendedProps.publico);
+              var fechaIn = info.event.start;
+              var fechaFin = info.event.end;
+              var dd    = fechaIn.getDate(),
+                  mm    = fechaIn.getMonth() +1,
+                  yy    = fechaIn.getFullYear()
+              $('#fecha_in').html(dd+"/"+mm+"/"+yy);
+              if (fechaFin != null) {
+                var dd    = fechaFin.getDate(),
+                    mm    = fechaFin.getMonth()+1,
+                    yy    = fechaFin.getFullYear()
+                    $('#fecha_fin').html(dd+"/"+mm+"/"+yy);
+              }
+              else{
+                  $('#fecha_fin').html();
+              }
+      },
+      editable  : false,
+      droppable : false,
+      drop      : function(info) {
+        // is the "remove after drop" checkbox checked?
+        if (checkbox.checked) {
+          // if so, remove the element from the "Draggable Events" list
+          info.draggedEl.parentNode.removeChild(info.draggedEl);
+        }
+      }    
+    });
+
+    calendar.render();
+    // $('#calendar').fullCalendar()
+  })
+</script>
+</body>
+</html>
