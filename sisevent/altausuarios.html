@@ -69,7 +69,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="altaevento.html" class="nav-link active">
+                <a href="altaevento.html" class="nav-link">
                   <i class="nav-icon fas fa-edit"></i>
                   <p>Alta de eventos</p>
                 </a>
@@ -90,8 +90,8 @@
               </li>
 
               <li class="nav-item">
-                <a href="altausuarios.html" class="nav-link">
-                  <i class="nav-icon fas fa-user-plus"></i>
+                <a href="altausuarios.html" class="nav-link active">
+                    <i class="nav-icon fas fa-user-plus"></i>
                   <p>Alta de Usuarios</p>
                 </a>
               </li>
@@ -117,128 +117,74 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Alta de Eventos</h1><br>
+            <h1>Alta de Usuarios</h1><br>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-              <li class="breadcrumb-item active">Alta de eventos</li>
+              <li class="breadcrumb-item active">Alta de Usuarios</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid --> 
     </section>
-           
-    <div class="modal fade" id="modal-lg">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="tituloEvidencias">Agregar Evidencias</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="hombres form-group">
-                 <label>Hombres</label><br>
-                 <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadHombres">
-              </div>
-              <div class="mujeres form-group">
-                 <label>Mujeres</label><br>
-                 <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadMujeres">
-              </div> 
-              <div class="expositor form-group" >
-                 <label>Expositores</label><br>
-                 <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadExpo">
-              </div>
-               <div class="form-group" >
-                 <label>Pormenores del evento</label><br>
-                 <textarea type="text" placeholder="Ingrese los pormenores..." rows="6" class="form-control" id="pormenores"></textarea>
-              </div>
-              <div class="evidencia1 form-group">
-                <label for="exampleInputFile">Evidencia 1</label>
-                <div class="img">
-                  <img class="img1" id="img1" src="">
-                </div>
-                 <div class="subir1 input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="image">
-                        <label class="custom-file-label" for="exampleInputFile" id="source1">Elegir archivo</label>
-                      </div>
-                 </div>
-              </div>
-               <div class="evidencia2 form-group">
-                <label for="exampleInputFile">Evidencia 2</label>
-                <div class="img2">
-                  <img class="img2" id="img2" src="">
-                </div>
-                 <div class="subir2 input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile1">
-                        <label class="custom-file-label" for="exampleInputFile" id="source2">Elegir archivo</label>
-                      </div>
-                 </div>
-              </div>        
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" onclick="agregarEvidencias();" data-dismiss="modal">Guardar</button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div>
-      <!-- /.modal -->   
+            
           
 
             <div class="modal fade" id="modal-success">
               <div class="modal-dialog">
                 <div class="modal-content bg-success">
                   <div class="modal-header">
-                   <h4 class="modal-title">Agregar Evento</h4>
+                   <h4 class="modal-title">Agregar Usuario</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
                  </div>
                   <div class="modal-body">
                         <div class="form-group">
-                           <label>Nombre del evento:</label><br>
-                          <input type="text" placeholder="Ingrese un nombre..." class="form-control" id="eventoNuevo">
-                        </div> 
+                           <label>Nombre Completo:</label><br>
+                          <input type="text" placeholder="Ingrese un nombre..." class="form-control" id="nombreCompletoUsuario">
+                        </div>
+
                         <div class="form-group">
-                          <label>Descripcion</label><br>
-                          <textarea class="form-control" placeholder="Descripcion..." id="descripcionEvento"></textarea>
-                        </div> 
+                            <label>Correo:</label><br>
+                           <input type="email" placeholder="Ingrese un correo..." class="form-control" id="correoUsuario">
+                         </div>
+                         
                          <div class="form-group">
-                          <label class="lblFechaHoraAgregar">Fecha y Hora:</label>
-                               <div class="input-group">
+                          <label>Número de Teléfono:</label><br>   
+                            <div class="input-group">
                                 <div class="input-group-prepend">
-                                 <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                 </div>
-                                <input type="text" class="form-control float-right" id="reservationtime">
-                              </div>
-                         </div>
+                                <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask id="celularUsuario">
+                            </div>
+                         </div> 
                          <div class="form-group">
-                          <label>Categoría</label>
-                          <select class="form-control select2" style="width: 100%;" id="tipoCategoria">
-                          </select>
-                          </div>
-                         <div class="form-group">
-                               <label>Tipo de evento</label>
-                               <select class="form-control select2" style="width: 100%;" id="tipoDeEvento">
-                               </select>
+                            <label>Nombre de Usuario:</label><br>
+                           <input type="text" placeholder="Ingrese un nombre..." class="form-control" id="nombreUsuario">
                          </div>
-                          <div class="form-group">
-                            <label>Público objetivo</label>
-                               <select class="form-control select2" style="width: 100%;" id="tipoPublico">
-                                  <option selected="selected">Interno</option>
-                                  <option>Externo</option>
-                               </select>
-                         </div>  
+                         
+                         <div class="form-group">
+                            <label>Contraseña:</label><br>
+                           <input type="password" placeholder="Ingrese una contraseña..." class="form-control" id="contraseñaUsuario">
+                         </div>
+
+                         <div class="form-group">
+                            <label>Confirmar Contraseña:</label><br>
+                           <input type="password" placeholder="Ingrese una contraseña..." class="form-control" id="contraseñaUsuario-Validar">
+                         </div>
+
+                         <div class="form-group">
+                            <label>Editor de la Memoria Institucional:</label>
+                            <select class="form-control select2" style="width: 100%;" id="editorUsuario">
+                                <option>Si</option>
+                                <option>No</option>
+                            </select>
+                      </div>
                   </div>
                    <div class="modal-footer justify-content-between">
                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-outline-light"  data-dismiss="modal" onclick="actionCreate();">Agregar</button>
+                    <button type="button" class="btn btn-outline-light" onclick="actionCreate();" id="btnAgregar">Agregar</button>
                   </div>
                  </div>
                  <!-- /.modal-content -->
@@ -286,50 +232,53 @@
                 </div>
                 <!-- /.modal-dialog -->
               </div>
+
               <div class="modal fade" id="modal-info">
                 <div class="modal-dialog">
                   <div class="modal-content bg-info">
                     <div class="modal-header">
-                      <h4 class="modal-title">Editar Evento</h4>
+                      <h4 class="modal-title">Editar Usuario</h4>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body">
-                       <div class="form-group">
-                           <label>Nombre del evento:</label><br>
-                          <input type="text" placeholder="Ingrese un nombre..." class="form-control" id="eventoEdit">
-                        </div> 
                         <div class="form-group">
-                          <label>Descripcion</label><br>
-                          <textarea class="form-control" placeholder="Descripcion..." id="descripcionEdit"></textarea>
-                        </div> 
+                            <label>Nombre Completo:</label><br>
+                           <input type="text" placeholder="Ingrese un nombre..." class="form-control" id="nombreCompletoUsuarioEdit">
+                         </div>
+ 
                          <div class="form-group">
-                          <label class="lblFechaHoraAgregar">Fecha y Hora:</label>
-                               <div class="input-group">
-                                <div class="input-group-prepend">
-                                 <span class="input-group-text"><i class="far fa-clock"></i></span>
-                                </div>
-                                <input type="text" class="form-control float-right" id="edit_reservationtime">
-                              </div>
-                         </div>
-                          <div class="form-group">
-                                <label>Categoría</label>
-                                <select class="form-control select2" style="width: 100%;" id="categoriaEdit">
-                                </select>
+                             <label>Correo:</label><br>
+                            <input type="email" placeholder="Ingrese un correo..." class="form-control" id="correoUsuarioEdit">
                           </div>
+                          
                           <div class="form-group">
-                               <label>Tipo de evento</label>
-                               <select class="form-control select2" style="width: 100%;" id="tipoDeEventoEdit">
-                               </select>
-                         </div>
+                           <label>Número de Teléfono:</label><br>   
+                             <div class="input-group">
+                                 <div class="input-group-prepend">
+                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                 </div>
+                                 <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask id="celularUsuarioEdit">
+                             </div>
+                          </div> 
                           <div class="form-group">
-                            <label>Público objetivo</label>
-                               <select class="form-control select2" style="width: 100%;" id="tipoPublicoEdit">
-                                  <option>Interno</option>
-                                  <option>Externo</option>
-                               </select>
-                         </div> 
+                             <label>Nombre de Usuario:</label><br>
+                            <input type="text" placeholder="Ingrese un nombre..." class="form-control" id="nombreUsuarioEdit">
+                          </div>
+                          
+                          <div class="form-group">
+                             <label>Contraseña:</label><br>
+                            <input type="password" placeholder="Ingrese una contraseña..." class="form-control" id="contraseñaUsuarioEdit">
+                          </div>
+ 
+                          <div class="form-group">
+                             <label>Editor de la Memoria Institucional:</label>
+                             <select class="form-control select2" style="width: 100%;" id="editorUsuarioEdit">
+                                 <option>Si</option>
+                                 <option>No</option>
+                             </select>
+                       </div>
                     </div>
                     <div class="modal-footer justify-content-between">
                       <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cancelar</button>
@@ -346,17 +295,20 @@
         <div class="col-12">    
           <div class="card">
           <div class="card-header">
-            <h3 class="card-title" style="padding-top: 10px;">Alta de Eventos</h3>
-            <button type="button" class="btn btn-success" style="float: right;" data-toggle="modal"  data-target="#modal-success" id = "nuevoEvento">Nuevo evento</button>
+            <h3 class="card-title" style="padding-top: 10px;">Alta de Usuarios</h3>
+            <button type="button" class="btn btn-success" style="float: right;" data-toggle="modal"  data-target="#modal-success" id = "nuevoEvento">Nuevo Usuario</button>
           </div>
             <div class="card-body table-responsive">
               <table id="example1" class="table table-bordered table-striped" style="width: 100%;"> 
                 <thead>
                 <tr>
                   <th width="400px">Nombre</th>
-                  <th width="100px;" align="center">Fecha Inicio</th>
-                  <th width="100px;">Fecha Fin</th>
-                  <th width="280px;">Acciones</th>
+                  <th width="400px">Correo</th>
+                  <th width="400px">Teléfono</th>
+                  <th width="400px">Usuario</th>
+                  <th width="400px">Contraseña</th>
+                  <th width="400px">Editor Memoria Institucional</th>
+                  <th width="400px">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -552,43 +504,7 @@
 <!-- date-range-picker -->
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-<script src="js/agregarNuevosEventos.js"></script>
-<script>
-  
-$(document).ready(function () {
-  bsCustomFileInput.init();
-});
-document.getElementById("exampleInputFile").onchange = function(e) {
-  let lector = new FileReader();
-
-  lector.readAsDataURL(e.target.files[0]);
-
-  lector.onload = function(){
-    let imagenActualizar = document.getElementById('img1'),
-    imagen = document.createElement('img');
-
-
-    imagen.src = lector.result;
-
-    imagenActualizar.setAttribute("src",imagen.src);
-    
-  };
-}
-document.getElementById("exampleInputFile1").onchange = function(e) {
-  let lector = new FileReader();
-
-  lector.readAsDataURL(e.target.files[0]);
-
-  lector.onload = function(){
-    let imagenActualizar = document.getElementById('img2'),
-    imagen = document.createElement('img');
-
-    imagen.src = lector.result;
-
-    imagenActualizar.setAttribute("src",imagen.src);
-  };
-}
-</script>
+<script src="js/agregarUsuario.js"></script>
 
 </body>
 </html>

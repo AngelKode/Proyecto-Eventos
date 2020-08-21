@@ -31,14 +31,14 @@
         $pswrd = $_POST["password"];//Obteniendo el valor de la contraseña
         include "conexion.php"; 
         if($conexion){//Buena conexion a la BD
-            $query = "SELECT * FROM usuarioin where usuario='$email' AND contraseña ='$pswrd'";//Query a hacer en la BD
+            $query = "SELECT * FROM administrador where usuario='$email' AND contraseña ='$pswrd'";//Query a hacer en la BD
             $buscarDatos = mysqli_query($conexion,$query);//Haciendo la consulta
             $Respuesta["bd"] = 1;
             if(mysqli_affected_rows($conexion) > 0){//Verificando que las credenciales fueron correctas!
                 //$_SESSION["usuarioInicio"] = "adentro";
                 $Respuesta["estatus"] = 1;
                 $renglon = mysqli_fetch_array($buscarDatos);
-                $Respuesta["obtenido"] = $renglon["idusuarioIn"];
+                $Respuesta["obtenido"] = $renglon["idadmin"];
             }else{
                 $Respuesta["estatus"] = 0;
                 $Respuesta["mensaje"] = "Acceso denegado!";
