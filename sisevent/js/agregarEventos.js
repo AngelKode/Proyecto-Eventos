@@ -40,6 +40,15 @@ function actionDelete(){
 
 }
 function actionRead(){
+  //Checar sesion
+    var nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
+    if(nombreUsuario != null){
+      $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
+    }else{
+      alert("Su sesión ha expirado, inicie de nuevo su sesion!");
+      window.location.replace("login.html");
+    }
+  //Checar sesion
     $.ajax({
         method : "post",
         url: "php/agregarEventos.php",

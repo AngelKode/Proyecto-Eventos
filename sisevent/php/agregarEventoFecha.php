@@ -37,8 +37,8 @@ if(isset($_POST['action'])){
 }
 
 function ActionReadPHP($conexion){
-	$Query = "SELECT * FROM eventos";//Query a realizar
-	
+	$creador = $_POST['creator'];
+	$Query = "SELECT * FROM eventos WHERE usuarioCreador ='".$creador."'";//Query a realizar
 	$Respuesta["eventos"] = array();//Arreglo donde guardaremos los datos de la BD
 
 	$Resultado 	= mysqli_query($conexion,$Query);//Guardamos el query obtenido
@@ -140,8 +140,9 @@ function ActionCreatePHP($conexion){
 	$fechaFin = $_POST["fechaFin"];
 	$tipoEvento = $_POST["tipoEvento"];
 	$publico = $_POST["publico"];
+	$creador = $_POST['creator'];
 
-	$query = "INSERT INTO eventos (`idEvento`, `titulo`, `descripcion`,`inicio`, `final`, `tipoEv`,`publico`) VALUES ($ultimoId,'$eventoCrear','$descripcionCrear','$fechaInicio','$fechaFin','$tipoEvento','$publico')";
+	$query = "INSERT INTO eventos (`idEvento`,`usuarioCreador`, `titulo`, `descripcion`,`inicio`, `final`, `tipoEv`,`publico`) VALUES ($ultimoId,'$creador','$eventoCrear','$descripcionCrear','$fechaInicio','$fechaFin','$tipoEvento','$publico')";
 	$respuesta = mysqli_query($conexion,$query);
 	$Respuesta = array();
 	if(mysqli_affected_rows($conexion)>0){

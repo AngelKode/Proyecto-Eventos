@@ -106,6 +106,15 @@ function actionCreate(){
     }
 }
 function actionRead(){
+  //Checamos la sesion
+    var nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
+    if(nombreUsuario != null){
+      $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
+    }else{
+      alert("Su sesión ha expirado, inicie de nuevo su sesion!");
+      window.location.replace("login.html");
+    }
+  //Checamos la sesion
     $.ajax({
         method : "post",
         url: "php/agregarCategoria.php",

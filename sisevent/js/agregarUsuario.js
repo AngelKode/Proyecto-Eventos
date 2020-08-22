@@ -1,6 +1,6 @@
 //Variables para poder actualizar y eliminar las categorías
 let idActualizar = 0;
-let idEliminar = 0;
+let idEstatus = 0;
 
 function actionCreate(){
 
@@ -9,7 +9,7 @@ function actionCreate(){
         let nombreRealUsuario = document.getElementById("nombreCompletoUsuario").value;
         let correoUsuario = document.getElementById("correoUsuario").value;
         let numeroTelefono = document.getElementById("celularUsuario").value;
-        let nombreUsuario = document.getElementById("nombreUsuario").value;
+        let nombreUsuario = document.getElementById("nombreUsuarioAgregar").value;
         let contrasenia = document.getElementById("contraseñaUsuario").value;
         let verificarContrasenia =  document.getElementById("contraseñaUsuario-Validar").value;
         let editorMemInst = document.getElementById("editorUsuario").value;
@@ -81,16 +81,17 @@ function actionCreate(){
           nombre : nombreRealUsuario,
           correo : correoUsuario,
           telefono : numeroTelefono,
-          usuario : nombreUsuario,
+          usuarioCrear : nombreUsuario,
           passwrd : contrasenia,
           boolEditor : editorMemInst
         },
         success: function( result ) {
-
             let resultadoJSON = JSON.parse(result);
+          if(resultadoJSON.correoRepetido == "No" && resultadoJSON.usuarioRepetido == "No"){//Si hay algun dato repetido
             if(resultadoJSON.estatus == 1){
                     
-                 Botones = '<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info" onclick = "identificarEditar('+resultadoJSON.ultimoID+');">Editar</button> <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger" onclick = "identificarEliminar('+resultadoJSON.ultimoID+');">Eliminar</button>';
+              BotonAccion = '<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info" onclick = "identificarEditar('+resultadoJSON.ultimoID+');">Editar</button>';
+              BotonEstado = '<button type="button" class="btn btn-outline-success" id = "botonEstatus'+resultadoJSON.ultimoID+'" onclick = "identificarEstatus('+resultadoJSON.ultimoID+');">Activo</button>';
                  let tabla = $("#example1").DataTable(); 
                  tabla.row.add([//Agregamos los datos a la tabla
                         nombreRealUsuario,
@@ -99,7 +100,8 @@ function actionCreate(){
                         nombreUsuario,
                         contrasenia,
                         editorMemInst,
-                        Botones]).draw().node().id= "row_"+resultadoJSON.ultimoID;
+                        BotonAccion,
+                        BotonEstado]).draw().node().id= "row_"+resultadoJSON.ultimoID;
 
                         //Notificacion de exito
                         $(function() {
@@ -112,12 +114,10 @@ function actionCreate(){
 
                               Toast.fire({
                                   type: 'success',
-                                  title: 'La categoría ha sido guardada exitósamente!'
+                                  title: 'El usuario ha sido guardado exitósamente!'
                               })
-
                         });
-                        document.getElementById("categoriaAgregar").value = "";
-                        document.getElementById("observacionAgregar").value = "";
+
             }else{
               $(function() {
                 const Toast = Swal.mixin({
@@ -129,16 +129,75 @@ function actionCreate(){
 
                   Toast.fire({
                       type: 'error',
-                      title: 'Error al guardar la categoría!'
+                      title: 'Error al guardar el usuario!'
                   })
 
               });
             }
+          }else{
+             
+              if(resultadoJSON.correoRepetido == "Si" && resultadoJSON.usuarioRepetido == "No"){
+                  $(function() {
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000
+                    });
+    
+                      Toast.fire({
+                          type: 'error',
+                          title: 'Correo existente. Inténtelo nuevamente!'
+                      })
+    
+                  });
+              }else if(resultadoJSON.correoRepetido == "No" && resultadoJSON.usuarioRepetido == "Si"){
+                  $(function() {
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000
+                    });
+    
+                      Toast.fire({
+                          type: 'error',
+                          title: 'Usuario existente. Inténtelo nuevamente!'
+                      })
+    
+                  });
+              }else{
+                  $(function() {
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000
+                    });
+    
+                      Toast.fire({
+                          type: 'error',
+                          title: 'Usuario y Correo existentes. Inténtelo nuevamente!'
+                      })
+    
+                  }); 
+              }
+
+          }
         }
       });
     }
 }
 function actionRead(){
+  //Checar sesion
+    var nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
+    if(nombreUsuario != null){
+      $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
+    }else{
+      alert("Su sesión ha expirado, inicie de nuevo su sesion!");
+      window.location.replace("login.html");
+    }
+  //Checar sesion
     $.ajax({
         method : "post",
         url: "php/agregarUsuario.php",
@@ -146,7 +205,7 @@ function actionRead(){
           action : "read"
         },
         success: function( result ) {
-            
+
             var resultJSON = JSON.parse(result);//Convertimos el dato JSON
 
             if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien
@@ -155,23 +214,31 @@ function actionRead(){
   
                 resultJSON.usuario.forEach(function(datos){//Recorremos cada valor obtenido
                     
-                    Botones = '<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info" onclick = "identificarEditar('+datos.id+');">Editar</button> <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger" onclick = "identificarEliminar('+datos.id+');">Eliminar</button>';
- 
-                    tabla.row.add([
-                        datos.nombre,//Agregamos el nombre a la tabla
+                    BotonAccion = '<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info" onclick = "identificarEditar('+datos.id+');">Editar</button>';
+                    
+                    //Aqui checamos el estado del usuario, para asi darle el estilo  
+                    if(datos.estado == "Activo"){
+                        BotonEstado = '<button type="button" class="btn btn-outline-success" id = "botonEstatus'+datos.id+'" onclick = "identificarEstatus('+datos.id+');">'+datos.estado+'</button>';
+                      }else{
+                        BotonEstado = '<button type="button" class="btn btn-outline-secondary" id = "botonEstatus'+datos.id+'" onclick = "identificarEstatus('+datos.id+');">'+datos.estado+'</button>';
+                      }
+                    
+                    tabla.row.add([//Agregamos los datos que vamos obteniendo, y al final los dos botones
+                        datos.nombre,
                         datos.correo,
                         datos.celular,
                         datos.usuario,
                         datos.contraseña,
-                        datos.editorMemInst,//Las observaciones
-                        Botones]).draw().node().id= "row_"+datos.id;  //Y los botones de Eliminar y editar
+                        datos.editorMemInst,
+                        BotonAccion,
+                        BotonEstado]).draw().node().id= "row_"+datos.id;
   
                 });
                 
             }else
               alert(resultJSON.mensaje);//Si hubo un error, mandamos un mensaje
         }
-      });
+    });
 }
 function actionUpdate(){
 
@@ -255,7 +322,7 @@ function actionDelete(){
      
   $.ajax({
     method : "post",
-    url: "php/agregarCategoria.php",
+    url: "php/agregarUsuario.php",
     data: {
         action : "delete",
         id : idEliminar
@@ -305,20 +372,79 @@ function actionDelete(){
 
 }
 
-function identificarEliminar(id){
+function identificarEstatus(id){
+    idEstatus = id;
+    let botonEstatus = "botonEstatus"+id;
+    let botonDom = document.getElementById(botonEstatus);
+    let estadoActual = "";
+    let estadoSiguiente = "";
 
-    idEliminar = id;
-    const tabla = $("#example1").DataTable();
-    const renglon = tabla.row("#row_"+id).data();
+    if(botonDom.textContent == "Activo"){//Con .textContent obtenemos si es "Activo" o "Inactivo"
+      estadoActual = "btn btn-outline-success";
+      estadoSiguiente = "btn btn-outline-secondary";
+      botonDom.textContent = "Inactivo";
+    }else{
+      estadoActual = "btn btn-outline-secondary";
+      estadoSiguiente = "btn btn-outline-success";
+      botonDom.textContent = "Activo";
+    }
 
-    const nombre = renglon[0];
-    const observaciones = renglon[1];
+    let jquery = "#"+botonEstatus;//Texto que nos sirve para detectar el objeto con la id usando jquery para luego usarlo
+    $(jquery).removeClass(estadoActual).addClass(estadoSiguiente);//Removemos la clase del boton y le agreamos otra
 
-    document.getElementById("categoriaEliminar").innerHTML = nombre;
-    document.getElementById("observacionEliminar").innerHTML = observaciones;
-
+    actualizarEstado(botonDom.textContent);//Usamos ajax para actualizar el estado
 }
 
+function actualizarEstado(estadoNuevo){
+  $.ajax({
+    method : "post",
+    url: "php/agregarUsuario.php",
+    data: {
+      action : "setEstatus",
+      estado : estadoNuevo,
+      id : idEstatus
+    },
+    success: function( result ) {
+        let resultadoJSON = JSON.parse(result);
+
+        if(resultadoJSON.estado == 1){//Si vale 1, quiere decir que se actualizo correctamente el estado del usuario
+            $(function() {
+              const tabla = $("#example1").DataTable();
+              const renglon = tabla.row("#row_"+idEstatus).data();
+              let mensaje = "Estado del usuario "+renglon[3]+" actualizado correctamente!";
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
+
+                Toast.fire({
+                    type: 'success',
+                    title: mensaje
+                })
+
+            });
+        }else{
+            $(function() {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
+
+                Toast.fire({
+                    type: 'error',
+                    title: "Error al actualizar el estado, inténtelo nuevamente!"
+                })
+
+            });
+        }
+
+    }
+});
+}
 function identificarEditar(id){
 
     idActualizar = id;

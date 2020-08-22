@@ -65,3 +65,21 @@ function leerEvidencias(id){
          }    
     });
 }
+
+function actionRead(){
+  var nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
+  if(nombreUsuario != null){
+    if(sessionStorage.getItem("admin") == "Si"){
+      $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
+    }else{
+      $("#linkAltaCategoria").remove();
+      $("#linkAltaTipoEvento").remove();
+      $("#linkAltaUsuarios").remove();
+      $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
+    }
+  }else{
+    alert("Su sesión ha expirado, inicie de nuevo su sesion!");
+    window.location.replace("login.html");
+  }
+  
+}

@@ -6,17 +6,33 @@ let eventoEditar;
 let categoriaEditar;
 let cambiarFecha = 1;
 function actionRead(){
-//checarSesion();
+
+  //Checar sesion
+    var nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
+    if(nombreUsuario != null){
+      if(sessionStorage.getItem("admin") == "Si"){
+        $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
+      }else{
+        $("#linkAltaCategoria").remove();
+        $("#linkAltaTipoEvento").remove();
+        $("#linkAltaUsuarios").remove();
+        $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
+      }
+    }else{
+      alert("Su sesión ha expirado, inicie de nuevo su sesion!");
+      window.location.replace("login.html");
+    }
+  //Checar sesion
     leerTipoDeEvento();
     leerCategorias();
       $.ajax({
         method : "post",
         url: "php/agregarEventoFecha.php",
         data: {
-          action : "read"
+          action : "read",
+          creator : sessionStorage.getItem("data")
         },
         success: function( result ) {
-
             var resultJSON = JSON.parse(result);//Convertimos el dato JSON
 
             if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien
@@ -27,6 +43,7 @@ function actionRead(){
                     let fechaFinal = datoEvento.fechaFinal.substring(0,datoEvento.fechaFinal.length-8);
                     Botones = '<button style = "background : rgb(255,193,7);" type="button" class="btn btn-default" onclick="identificarIdEvidencias('+datoEvento.id+');" id = "botonEvidencia'+datoEvento.id+'">Evidencias</button> | <button type="button" class="btn btn-info"  onclick = "identificarEditar('+datoEvento.id+');" id="botonEditar'+datoEvento.id+'">Actualizar</button> | <button type="button" class="btn btn-danger" onclick = "identificarEliminar('+datoEvento.id+');" id="botonEliminar'+datoEvento.id+'">Eliminar</button>';
                     tabla.row.add([
+                        
                         datoEvento.titulo,//Agregamos el nombre a la tabla
                         fechaInicio,//Las observaciones
                         fechaFinal,Botones
@@ -34,8 +51,9 @@ function actionRead(){
   
                 });  
               
-            }else
+            }else{
               alert(resultJSON.mensaje);//Si hubo un error, mandamos un mensaje
+            }
         }
       });    
 }
@@ -352,7 +370,8 @@ function agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento
           fechaInicio : fechaInicio,
           fechaFin : fechaFin,
           tipoEvento : tipoEvento,
-          publico : publico
+          publico : publico,
+          creator : sessionStorage.getItem("data")
         },
         success: function( result ) {
             var resultJSON = JSON.parse(result);//Convertimos el dato JSON
