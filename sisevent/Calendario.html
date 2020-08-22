@@ -221,44 +221,53 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" style="word-break: break-all">
             <div>
               <table width="100%">
                 <tr>
-                  <th>Hombres</th>
-                  <th>Mujeres</th>
-                  <th>Expositores</th>
+                  <th style="text-align: center;">Hombres</th>
+                  <th style="text-align: center;">Mujeres</th>
+                  <th style="text-align: center;">Expositores</th>
                 </tr>
                 <tr>
-                  <td id="onvre" width="33%"></td>
-                  <td id="muhere" width="33%"></td>
-                  <td id="patos" width="33%"></td>
+                  <td id="onvre" width="33%" style="text-align: center;"></td>
+                  <td id="muhere" width="33%" style="text-align: center;"></td>
+                  <td id="patos" width="33%" style="text-align: center;"></td>
                 </tr>
               </table>
             </div>
             <span><b>Pormenores:</b></span>
             <div id="descripcionEv" class="muestra"></div>
-            <div>
-                <table width="100%">
-                    <tr>
-                      <th width="50%">Foto 1</th>
-                      <th width="50%">Foto 2</th>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="img1">
-                          <img id="ev1" class="img1" src="">
-                        </div>
-                      </td>
-                      <td>
-                        <div class="img2">
-                          <img id="ev2" class="img2" src="">
-                        </div>
-                      </td>
-                    </tr>
-                </table>
-                
-                
+
+            <div class="d-inline-flex">
+              <div style="width: 50%;">
+                <table  class="table">
+                  <tr>
+                    <th width="50%">Foto 1</th>
+                  </tr>
+                  <tr>
+                    <td style="display: inline-block;">
+                      <div class="img1" style="width: 100%;">
+                        <img id="ev1" class="img-responsive" src="" style="width: 100%;">
+                      </div>
+                    </td>
+                  </tr>
+              </table>
+              </div>
+              <div style="width: 50%;">
+                <table class="table">
+                  <tr>
+                    <th width="100%">Foto 2</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="img2" style="width: 100%;">
+                        <img id="ev2" class="img-responsive" src="" style="width: 100%;">
+                      </div>
+                    </td>
+                  </tr>
+              </table>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
