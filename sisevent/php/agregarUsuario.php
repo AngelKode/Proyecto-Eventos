@@ -103,6 +103,28 @@ function ActionUpdatePHP($conexion){
 
 	$Respuesta['mensaje'] = "Datos correctos";
 
+	//Checamos si el nombre de usuario o correo no estan repetidos
+		$query = "SELECT * FROM usuarioeditor WHERE Correo_Editor ='".$correoUsuario."'";
+		$res = mysqli_query($conexion,$query);
+		$dato = mysqli_fetch_array($res);
+
+		 if(mysqli_affected_rows($conexion) > 0 && ($dato['id'] != $ID)){
+			$Respuesta['correoRepetido'] = "Si";
+		 }else{
+			$Respuesta['correoRepetido'] = "No";
+		 }
+
+		$query = "SELECT * FROM usuarioeditor WHERE Nombre_Usuario ='".$usuario."'";
+		$res = mysqli_query($conexion,$query);
+		$dato = mysqli_fetch_array($res);
+
+		 if(mysqli_affected_rows($conexion) > 0  && ($dato['id'] != $ID)){
+			$Respuesta['usuarioRepetido'] = "Si";
+		 }else{
+			$Respuesta['usuarioRepetido'] = "No";
+		 }
+	//Checamos si el nombre de usuario o correo no estan repetidos
+	 if($Respuesta['correoRepetido'] == "No" && $Respuesta['usuarioRepetido'] == "No"){
 		$query = "UPDATE usuarioeditor SET Nombre_Editor='".$nombreUsuario."', Correo_Editor='".$correoUsuario."', 
 				Celular_Editor = '".$telefonoUsuario."', Nombre_Usuario = '".$usuario."', 
 				Contraseña_Usuario = '".$contra."', Editor_MemInstitucional = '".$editor."'
@@ -116,7 +138,9 @@ function ActionUpdatePHP($conexion){
 			$Respuesta['estado'] = 0;
 			$Respuesta['mensaje'] = "No se hicieron modificaciones";
 		}
-	
+	}else{
+		$Respuesta['estado'] = -1;
+	}
 
 	echo json_encode($Respuesta);
     

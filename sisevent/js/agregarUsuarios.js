@@ -22,57 +22,25 @@ function actionCreate(){
     if(contrasenia != verificarContrasenia){
         $("#contraseñaUsuario").attr("class","form-control is-invalid");
         $("#contraseñaUsuario-Validar").attr("class","form-control is-invalid");
-    }else{
-        //Si son iguales, cerramos el modal
-        $("#btnAgregar").attr("data-dismiss","modal");
-        $("#contraseñaUsuario").attr("class","form-control");
-        $("#contraseñaUsuario-Validar").attr("class","form-control");
-    
-    
+    }else if(nombreRealUsuario == "" || correoUsuario == "" || numeroTelefono == "" || contrasenia == ""){
+        $(function() {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+          });
 
-    /*
-    if(nombreCategoria == "" && observacionCategoria != ""){
-        $(function() {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000
-            });
             Toast.fire({
                 type: 'warning',
-                title: 'Ingrese la Categoría!'
-              })
-        });
-    }else if(observacionCategoria == "" && nombreCategoria != ""){
-        $(function() {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000
-            });
-            Toast.fire({
-                type: 'warning',
-                title: 'Ingrese la Observacion!'
-              })
-        });
-    }else if(nombreCategoria == "" && observacionCategoria == ""){
-        $(function() {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000
-            });
-            Toast.fire({
-                type: 'warning',
-                title: 'Ingrese la Categoría y la Observacion!'
-              })
+                title: 'Faltan datos, por favor llene todos los campos'
+            })
         });
     }else{
-    }
-*/
+      $("#btnAgregar").attr("data-dismiss","modal");
+      $("#contraseñaUsuario").attr("class","form-control");
+      $("#contraseñaUsuario-Validar").attr("class","form-control");
+
       $.ajax({
         method : "post",
         url: "php/agregarUsuario.php",
@@ -86,7 +54,7 @@ function actionCreate(){
           boolEditor : editorMemInst
         },
         success: function( result ) {
-            let resultadoJSON = JSON.parse(result);
+          let resultadoJSON = JSON.parse(result);
           if(resultadoJSON.correoRepetido == "No" && resultadoJSON.usuarioRepetido == "No"){//Si hay algun dato repetido
             if(resultadoJSON.estatus == 1){
                     
@@ -205,7 +173,6 @@ function actionRead(){
           action : "read"
         },
         success: function( result ) {
-
             var resultJSON = JSON.parse(result);//Convertimos el dato JSON
 
             if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien
@@ -250,6 +217,8 @@ function actionUpdate(){
   let contraseniaEdit = document.getElementById("contraseñaUsuarioEdit").value;
   let editorMemInstEdit = document.getElementById("editorUsuarioEdit").value;
 //Obtenemos los datos del usuario
+
+  $("#btnActualizar").attr("data-dismiss","");
 
   //A través de ajax mandamos actualizar la BD
   $.ajax({
@@ -296,7 +265,18 @@ function actionUpdate(){
                     })
 
               });
-         }else{
+              $("#btnActualizar").attr("data-dismiss","modal");
+              $("#correoUsuarioEdit").attr("class","form-control");
+              $("#nombreUsuarioEdit").attr("class","form-control");
+              $("#modal-info").modal('hide');
+              if($("#labelCE").length > 0){
+                $("labelCE").remove();
+              }
+              if($("#labelUE").length > 0){
+                $("#labelUE").remove();
+              }
+              
+         }else if(resultJSON.estado == 0){
 
               $(function() {
                 const Toast = Swal.mixin({
@@ -312,6 +292,49 @@ function actionUpdate(){
                   })
 
               });
+
+              $("#btnActualizar").attr("data-dismiss","modal");
+              $("#correoUsuarioEdit").attr("class","form-control");
+              $("#nombreUsuarioEdit").attr("class","form-control");
+              $("#modal-info").modal('hide');
+              
+              if($("#labelCE").length > 0){
+                $("labelCE").remove();
+              }
+              if($("#labelUE").length > 0){
+                $("#labelUE").remove();
+              }
+
+         }else{
+            let boolCorreoRepetido = resultJSON.correoRepetido;
+            let boolUsuarioRepetido = resultJSON.usuarioRepetido;
+            let errorCorreo ='<p style="color:#dc3545; opacity:0.8;" id="labelCE">Correo existente</p>';
+            let errorUsuario = '<p style="color:#dc3545; opacity:0.8;" id ="labelUE">Usuario existente</p>';
+
+            if(boolCorreoRepetido == "Si" && boolUsuarioRepetido == "No"){
+              $("#correoUsuarioEdit").attr("class","form-control is-invalid");
+              $("#correoUsuarioEdit").val("");
+                if($("#labelCE").length == 0){
+                  $("#correoUsuarioEdit").after(errorCorreo);
+                }
+            }else if(boolCorreoRepetido == "No" && boolUsuarioRepetido == "Si"){
+              $("#nombreUsuarioEdit").attr("class","form-control is-invalid");
+              $("#nombreUsuarioEdit").val("");
+                if($("#labelUE").length == 0){
+                  $("#nombreUsuarioEdit").after(errorUsuario);
+                }
+            }else if(boolCorreoRepetido == "Si" && boolUsuarioRepetido == "Si"){
+              $("#correoUsuarioEdit").attr("class","form-control is-invalid");
+              $("#nombreUsuarioEdit").attr("class","form-control is-invalid");
+              $("#nombreUsuarioEdit").val("");
+              $("#correoUsuarioEdit").val("");
+              if($("#labelCE").length == 0){
+                $("#correoUsuarioEdit").after(errorCorreo);
+              }
+              if($("#labelUE").length == 0){
+                $("#nombreUsuarioEdit").after(errorUsuario);
+              }
+            }
 
          }
       }

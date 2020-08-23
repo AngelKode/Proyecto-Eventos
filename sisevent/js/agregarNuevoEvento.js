@@ -57,24 +57,7 @@ function actionRead(){
         }
       });    
 }
-/*
-function checarSesion(){
-       $.ajax({
-        method : "post",
-        url: "php/checarSesion.php",
-        data: {
-          action : "read"
-        },
-        success: function( result ) {
-  if(result){   
- 
-    }else{
-       window.location.replace("login.html");
-    }
-  } 
- });             
-}
-*/
+
 function actionUpdate(){
   let nombreEvento = document.getElementById("eventoEdit").value;
   let descripcionEvento = document.getElementById("descripcionEdit").value;
@@ -291,6 +274,7 @@ function leerCategorias(){//Obtenemos las categorias que se han dado de alta
 function actionCreate(){
 
   let nombreEvento = document.getElementById("eventoNuevo").value;
+  let categoria = document.getElementById("tipoCategoria").value;
   let descripcionEvento = document.getElementById("descripcionEvento").value;
   let fechaInicio = "";
   let fechaFin = "";
@@ -354,12 +338,12 @@ function actionCreate(){
      toastr.info('No se pudo guardar el evento');
   }else{
         
-        agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,publico);
+        agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,publico,categoria);
       
     }
 } 
 function agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento
-  ,publico){
+  ,publico,categoria){
   $.ajax({
         method : "post",
         url: "php/agregarEventoFecha.php",
@@ -371,6 +355,7 @@ function agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento
           fechaFin : fechaFin,
           tipoEvento : tipoEvento,
           publico : publico,
+          categ : categoria,
           creator : sessionStorage.getItem("data")
         },
         success: function( result ) {

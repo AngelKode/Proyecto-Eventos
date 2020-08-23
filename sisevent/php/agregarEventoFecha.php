@@ -38,11 +38,18 @@ if(isset($_POST['action'])){
 
 function ActionReadPHP($conexion){
 	$creador = $_POST['creator'];
-	$Query = "SELECT * FROM eventos WHERE usuarioCreador ='".$creador."'";//Query a realizar
+
+	   if($creador != "Admin"){//Si no es el administrador, checamos cuales eventos ha dado de alta
+		 $Query = "SELECT * FROM eventos WHERE usuarioCreador ='".$creador."'";//Query a realizar
+	   }else{
+		 $Query = "SELECT * FROM eventos";//Query a realizar
+	   }
+
+	$Respuesta = array();
 	$Respuesta["eventos"] = array();//Arreglo donde guardaremos los datos de la BD
 
 	$Resultado 	= mysqli_query($conexion,$Query);//Guardamos el query obtenido
-
+	
 	while($Renglon = mysqli_fetch_array($Resultado)){//Mientras haya un renglón, seguimos guardando los datos en $Resultado
 
 		$Tipo_Evento = array();
@@ -140,9 +147,10 @@ function ActionCreatePHP($conexion){
 	$fechaFin = $_POST["fechaFin"];
 	$tipoEvento = $_POST["tipoEvento"];
 	$publico = $_POST["publico"];
+	$categoria = $_POST['categ'];
 	$creador = $_POST['creator'];
 
-	$query = "INSERT INTO eventos (`idEvento`,`usuarioCreador`, `titulo`, `descripcion`,`inicio`, `final`, `tipoEv`,`publico`) VALUES ($ultimoId,'$creador','$eventoCrear','$descripcionCrear','$fechaInicio','$fechaFin','$tipoEvento','$publico')";
+	$query = "INSERT INTO eventos (`idEvento`,`usuarioCreador`, `titulo`, `descripcion`,`inicio`, `final`, `tipoEv`,`categoria`,`publico`) VALUES ($ultimoId,'$creador','$eventoCrear','$descripcionCrear','$fechaInicio','$fechaFin','$tipoEvento','$categoria','$publico')";
 	$respuesta = mysqli_query($conexion,$query);
 	$Respuesta = array();
 	if(mysqli_affected_rows($conexion)>0){
