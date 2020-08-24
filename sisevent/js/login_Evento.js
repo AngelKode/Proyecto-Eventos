@@ -20,12 +20,14 @@ function log_In(){
 							let nombreUsuario = resultado.usuario;
 							sessionStorage.setItem("data",nombreUsuario);//Mandamos el dato al local storage
 							sessionStorage.setItem("admin","Si");
+							sessionStorage.setItem("idUsuario",resultado.obtenido);
 							window.location.replace("Calendario.html");//Cambiamos de ventana
 						}else{
 							if(resultado.estado == "Activo"){
 								//El usuario en esta condicion se encuentra activo, por lo que puede iniciar sesion
 								//con normalidad
 								sessionStorage.setItem("data",resultado.usuario);//Mandamos el dato al local storage
+								sessionStorage.setItem("idUsuario",resultado.obtenido);
 								window.location.replace("Calendario.html");//Cambiamos de ventana
 								sessionStorage.setItem("admin","No");
 							}else{

@@ -189,46 +189,6 @@
                       </div>
                  </div>
               </div>
-              
-              <!---------------------------------------------------->
-              <div>
-                <table width="100%">
-                  <tr>
-                    <th>Hombres</th>
-                    <th>Mujeres</th>
-                    <th>Expositores</th>
-                  </tr>
-                  <tr>
-                    <td id="onvre" width="33%"></td>
-                    <td id="muhere" width="33%"></td>
-                    <td id="patos" width="33%"></td>
-                  </tr>
-                </table>
-              </div>
-              <span><b>Pormenores:</b></span>
-              <div id="descripcionEv" class="muestra"></div>
-              <div>
-                  <table width="100%" class="table table-responsive">
-                      <tr>
-                        <th width="50%">Foto 1</th>
-                        <th width="50%">Foto 2</th>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="img1">
-                            <img id="ev1" class="img1" src="">
-                          </div>
-                        </td>
-                        <td>
-                          <div class="img2">
-                            <img id="ev2" class="img2" src="">
-                          </div>
-                        </td>
-                      </tr>
-                  </table>
-                   
-              </div>
-              <!---------------------------------------------------->
 
             </div>
             <div class="modal-footer justify-content-between">
@@ -252,40 +212,89 @@
                     <span aria-hidden="true">&times;</span></button>
                  </div>
                   <div class="modal-body">
+
                         <div class="form-group">
                            <label>Nombre del evento:</label><br>
-                          <input type="text" placeholder="Ingrese un nombre..." class="form-control" id="eventoNuevo">
+                           <div class="input-group">
+                             <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-file-signature"></i></span>
+                             </div>
+                             <input type="text" placeholder="Ingrese un nombre..." class="form-control float-right" id="eventoNuevo">
+                           </div>
                         </div> 
+
                         <div class="form-group">
                           <label>Descripcion</label><br>
                           <textarea class="form-control" placeholder="Descripcion..." id="descripcionEvento"></textarea>
                         </div> 
+
                          <div class="form-group">
                           <label class="lblFechaHoraAgregar">Fecha y Hora:</label>
                                <div class="input-group">
                                 <div class="input-group-prepend">
-                                 <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                  <span class="input-group-text"><i class="far fa-clock"></i></span>
                                 </div>
                                 <input type="text" class="form-control float-right" id="reservationtime">
                               </div>
                          </div>
+
                          <div class="form-group">
-                          <label>Categoría</label>
-                          <select class="form-control select2" style="width: 100%;" id="tipoCategoria">
-                          </select>
-                          </div>
+                          <label>Costo del Evento</label>
+                           <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                              </div>
+                              <input type="number" placeholder="Ingrese el costo..." min="0" class="form-control float-right" id="costoEventoAgregar"> 
+                          </div> 
+                         </div>
+
+                         <div class="form-group">
+                          <label>Cantidad de Horas</label>
+                           <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-hourglass-end"></i></span>
+                              </div>
+                              <input type="number" placeholder="Ingrese la cantidad..." min="0" class="form-control float-right" id="cantidadHorasAgregar"> 
+                          </div> 
+                         </div>
+
+                         <div class="form-group">
+                            <label>Categoría</label>
+                               <select class="form-control select2" style="width: 100%;" id="tipoCategoria"></select>
+                         </div>
+
                          <div class="form-group">
                                <label>Tipo de evento</label>
                                <select class="form-control select2" style="width: 100%;" id="tipoDeEvento">
                                </select>
                          </div>
+
+                         <div class="form-group">
+                          <label>Origen de los Ponentes</label>
+                          <select class="form-control select2" style="width: 100%;" id="origenPonentesAgregar">
+                             <option selected="selected">Interno</option>
+                             <option>Externo</option>
+                             <option>Ambos</option>
+                             <option>No aplica</option>
+                          </select>
+                         </div>
+
                           <div class="form-group">
                             <label>Público objetivo</label>
                                <select class="form-control select2" style="width: 100%;" id="tipoPublico">
                                   <option selected="selected">Interno</option>
                                   <option>Externo</option>
                                </select>
-                         </div>  
+                         </div>
+
+                         <div class="form-group">
+                          <label>¿Se considera para la Memoria Institucional?</label>
+                          <select class="form-control select2" style="width: 100%;" id="memInstitucionalAgregar">
+                             <option selected="selected">Si</option>
+                             <option>No</option>
+                          </select>
+                         </div>
+
                   </div>
                    <div class="modal-footer justify-content-between">
                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
@@ -320,12 +329,20 @@
                       <label id="fechaDeInicioElim" style="opacity: 0.7;"> </label><br>
                       <label>Fecha De Fin:</label>
                       <label id="fechDeFinElim" style="opacity: 0.7;"> </label><br>
+                      <label>Costo del Evento:</label>
+                      <label id="costoEventoElim" style="opacity: 0.7;"> </label><br>
+                      <label>Cantidad de Horas:</label>
+                      <label id="horasEventoElim" style="opacity: 0.7;"> </label><br>
                       <label>Categoría:</label>
                       <label id="categoriaElim" style="opacity: 0.7;"> </label><br>
                       <label>Tipo de Evento:</label>
                       <label id="tipoDeEventoElim" style="opacity: 0.7;"> </label><br>
+                      <label>Origen de los Ponentes:</label>
+                      <label id="origenPonentesElim" style="opacity: 0.7;"> </label><br>
                       <label>Público:</label>
-                      <label id="publicoElim" style="opacity: 0.7;"> </label>
+                      <label id="publicoElim" style="opacity: 0.7;"> </label><br>
+                      <label>¿Se considera para la memoria institucional?:</label>
+                      <label id="memInstElim" style="opacity: 0.7;"> </label><br>
                      </div> 
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -354,7 +371,8 @@
                         <div class="form-group">
                           <label>Descripcion</label><br>
                           <textarea class="form-control" placeholder="Descripcion..." id="descripcionEdit"></textarea>
-                        </div> 
+                        </div>
+
                          <div class="form-group">
                           <label class="lblFechaHoraAgregar">Fecha y Hora:</label>
                                <div class="input-group">
@@ -364,16 +382,49 @@
                                 <input type="text" class="form-control float-right" id="edit_reservationtime">
                               </div>
                          </div>
+
                           <div class="form-group">
-                                <label>Categoría</label>
-                                <select class="form-control select2" style="width: 100%;" id="categoriaEdit">
-                                </select>
-                          </div>
+                            <label>Costo del Evento</label>
+                             <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                </div>
+                                <input type="number" placeholder="Ingrese el costo..." min="0" class="form-control float-right" id="costoEventoEdit"> 
+                            </div> 
+                           </div>
+  
+                           <div class="form-group">
+                            <label>Cantidad de Horas</label>
+                             <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-hourglass-end"></i></span>
+                                </div>
+                                <input type="number" placeholder="Ingrese la cantidad..." min="0" class="form-control float-right" id="cantidadHorasEdit"> 
+                            </div> 
+                           </div>
+
+                           <div class="form-group">
+                            <label>Categoría</label>
+                            <select class="form-control select2" style="width: 100%;" id="categoriaEdit">
+                            </select>
+                           </div>
+
                           <div class="form-group">
                                <label>Tipo de evento</label>
                                <select class="form-control select2" style="width: 100%;" id="tipoDeEventoEdit">
                                </select>
                          </div>
+
+                         <div class="form-group">
+                            <label>Origen de los Ponentes</label>
+                            <select class="form-control select2" style="width: 100%;" id="origenPonentesEditar">
+                              <option selected="selected" value="1">Interno</option>
+                              <option value="2">Externo</option>
+                              <option value="3">Ambos</option>
+                              <option value="4">No aplica</option>
+                            </select>
+                         </div>
+
                           <div class="form-group">
                             <label>Público objetivo</label>
                                <select class="form-control select2" style="width: 100%;" id="tipoPublicoEdit">
@@ -381,6 +432,15 @@
                                   <option>Externo</option>
                                </select>
                          </div> 
+
+                         <div class="form-group">
+                            <label>¿Se considera para la Memoria Institucional?</label>
+                            <select class="form-control select2" style="width: 100%;" id="memInstitucionalEditar">
+                              <option selected="selected">Si</option>
+                              <option>No</option>
+                            </select>
+                         </div>
+
                     </div>
                     <div class="modal-footer justify-content-between">
                       <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cancelar</button>
@@ -603,8 +663,8 @@
 <!-- date-range-picker -->
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-<script src="js/agregarNuevoEvento.js"></script>
-<script src="js/login_Eventos.js"></script>
+<script src="js/agregarNuevoEventos.js"></script>
+<script src="js/login_Evento.js"></script>
 <script>
   
 $(document).ready(function () {

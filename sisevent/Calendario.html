@@ -186,7 +186,7 @@
                 <table width="100%">
                     <tr>
                         <th width="50$">Tipo de Evento</th>
-                        <th>Publico Objetivo</th>
+                        <th >Publico Objetivo</th>
                     </tr>
                     <tr>
                       <td><p id="tipo_evento">Curso</p></td>
@@ -199,6 +199,14 @@
                     <tr>
                         <td width="50%"><p id="fecha_in"></p></td>
                         <td><p id="fecha_fin"></p></td>
+                    </tr>
+                    <tr>
+                      <th>Costo</th>
+                      <th>Cantidad de Horas</th>
+                    </tr>
+                    <tr>
+                        <td width="50%"><p id="costoEvCal"></p></td>
+                        <td><p id="horasEvCal"></p></td>
                     </tr>
                 </table>
             </div>
@@ -236,6 +244,20 @@
                 </tr>
               </table>
             </div>
+
+            <div>
+              <table width="100%">
+                <tr>
+                  <th style="text-align: center;">Costo</th>
+                  <th style="text-align: center;">Cantidad de Horas</th>
+                </tr>
+                <tr>
+                  <td id="costoEvid" width="33%" style="text-align: center;"></td>
+                  <td id="horasEvid" width="33%" style="text-align: center;"></td>
+                </tr>
+              </table>
+            </div>
+
             <span><b>Pormenores:</b></span>
             <div id="descripcionEv" class="muestra"></div>
 
@@ -243,7 +265,7 @@
               <div style="width: 50%;">
                 <table  class="table">
                   <tr>
-                    <th width="50%">Foto 1</th>
+                    <th width="50%" >Foto 1</th>
                   </tr>
                   <tr>
                     <td style="display: inline-block;">
@@ -343,7 +365,7 @@
 <script src="js/calendarioEvidencias.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
-<script src="js/login_Eventos.js"></script>
+<script src="js/login_Evento.js"></script>
 <!-- Page specific script -->
 <script>
 
@@ -402,22 +424,31 @@
         center: 'title',
         right : 'dayGridMonth,timeGridWeek,timeGridDay'
       },
-      
       //EVENTOS OBTENIDOS DE BD
       events: {
           url: 'php/eventos.php',
           color: '#682444',
           textColor: '#FFFFFF'
       },
+      eventDidMount: function(info) {
+      var tooltip = new Tooltip(info.el, {
+        title: info.event.extendedProps.description,
+        placement: 'top',
+        trigger: 'hover',
+        container: 'body'
+      });
+    },
       eventClick: function(info) {
         aidi = info.event.extendedProps.idEvento;
 
         consultaEV(aidi);
         
               $('#tituloEvento').html('Evento: '+info.event.title);
-              $('#descripcionEvento').html(info.event.extendedProps.descripcion);
+              $('#descripcionEvento').html(info.event.extendedProps.description);
               $('#tipo_evento').text(info.event.extendedProps.tipoEv);
               $('#publico').text(info.event.extendedProps.publico);
+              $('#costoEvCal').text("$"+info.event.extendedProps.costo);
+              $('#horasEvCal').text(info.event.extendedProps.horas);
         
               var titulo = info.event.title;
               $('#tituloEv').html('Evidencias Evento: '+titulo);

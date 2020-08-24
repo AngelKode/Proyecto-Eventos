@@ -14,7 +14,9 @@
 		$arr['title']		= 	$renglon['titulo'];
 		$arr['tipoEv']		= 	$renglon['tipoEv'];
 		$arr['publico']		= 	$renglon['publico'];
-		$arr['descripcion']	= 	$renglon['descripcion'];
+		$arr['description']	= 	$renglon['descripcion'];
+		$arr['costo']		=   $renglon['costoEvento'];
+		$arr['horas']		=   $renglon['cantidadHoras'];
 		$arr['idEvento']	= 	$renglon['idEvento'];
 
 		array_push($todo, $arr);

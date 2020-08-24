@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-08-2020 a las 00:48:54
+-- Tiempo de generación: 24-08-2020 a las 05:23:39
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.2
 
@@ -34,6 +34,13 @@ CREATE TABLE `administrador` (
   `contraseña` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `administrador`
+--
+
+INSERT INTO `administrador` (`idadmin`, `usuario`, `contraseña`) VALUES
+(1, 'upiiz_isc@gmail.com', '123456');
+
 -- --------------------------------------------------------
 
 --
@@ -59,41 +66,34 @@ INSERT INTO `categoria` (`id`, `Nombre`, `Observaciones`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `crearevento`
---
-
-CREATE TABLE `crearevento` (
-  `idCreado` int(11) NOT NULL,
-  `idAdministrador` int(11) DEFAULT NULL,
-  `idUsuarioIn` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `eventos`
 --
 
 CREATE TABLE `eventos` (
   `idEvento` int(11) NOT NULL,
+  `usuarioCreador` int(255) DEFAULT NULL,
   `titulo` varchar(100) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `inicio` datetime DEFAULT NULL,
   `final` datetime DEFAULT NULL,
   `tipoEv` varchar(100) DEFAULT NULL,
   `categoria` varchar(500) DEFAULT NULL,
-  `publico` varchar(50) DEFAULT NULL
+  `publico` varchar(50) DEFAULT NULL,
+  `origenPonentes` varchar(20) DEFAULT NULL,
+  `costoEvento` varchar(30) DEFAULT NULL,
+  `cantidadHoras` varchar(10) DEFAULT NULL,
+  `MemoriaInstitucional` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `eventos`
 --
 
-INSERT INTO `eventos` (`idEvento`, `titulo`, `descripcion`, `inicio`, `final`, `tipoEv`, `categoria`, `publico`) VALUES
-(2, 'Programacion Orientada a Objetos', 'Evento de programación', '2020-06-01 12:00:00', '2020-06-05 11:00:00', 'Curso', 'Tecnologica', 'Externo'),
-(3, 'Semana mecatrónica', 'Evento mecatronicas', '2020-06-01 08:00:00', '2020-06-19 16:00:00', 'Taller', 'Innovación', 'Interno'),
-(4, 'Semana de salud', 'Evento de salud sobre como cuidar tu cuerpo y asi poder tener una vida mas plena', '2020-05-20 10:30:00', '2020-06-24 15:20:00', 'Curso', 'Académico', 'Externo'),
-(5, 'Cualtia', 'Evento de alimentos', '2020-06-08 22:58:00', '2020-06-08 22:58:00', 'Capacitacion', 'Académico', 'Interno');
+INSERT INTO `eventos` (`idEvento`, `usuarioCreador`, `titulo`, `descripcion`, `inicio`, `final`, `tipoEv`, `categoria`, `publico`, `origenPonentes`, `costoEvento`, `cantidadHoras`, `MemoriaInstitucional`) VALUES
+(2, 12, 'Programacion Orientada a Objetos', 'Evento de programación', '2020-06-01 12:00:00', '2020-06-05 11:00:00', 'Curso', 'Tecnologica', 'Externo', 'Externo', '1650', '14', 'Si'),
+(3, 12, 'Semana mecatrónica', 'Evento mecatronicas', '2020-06-01 08:00:00', '2020-06-19 16:00:00', 'Taller', 'Innovación', 'Interno', 'Interno', '5500', '20', 'No'),
+(4, 19, 'Semana de salud', 'Evento de salud sobre como cuidar tu cuerpo y asi poder tener una vida mas plena', '2020-05-20 10:30:00', '2020-06-24 15:20:00', 'Curso', 'Académico', 'Externo', 'No aplica', '2500', '8', 'Si'),
+(5, 12, 'Cualtia', 'Evento de alimentos', '2020-06-08 22:58:00', '2020-06-08 22:58:00', 'Capacitacion', 'Académico', 'Interno', 'Ambos', '850', '5', 'Si');
 
 -- --------------------------------------------------------
 
@@ -116,7 +116,7 @@ CREATE TABLE `evidencias` (
 --
 
 INSERT INTO `evidencias` (`id`, `numHombres`, `numMujeres`, `numExpositores`, `pormenores`, `evidencia1`, `evidencia2`) VALUES
-(2, 10, 20, 10, 'Nada.', '5ee019452328b-1466774399567_8.jpg', '5ee01945232d5-unnamed.jpg'),
+(2, 10, 20, 10, 'Nada', '5f39d6b6b62a0-4500486-new-york-city-wallpapers.jpg', '5f39d6b6c5576-7039328-brooklyn-bridge-manhattan.jpg'),
 (5, 2, 10, 4, 'Nada', '5ee01756cbbc9-5ee0154ac7f92-444734.jpg-c_300_300_x-f_jpg-q_x-xxyxx.jpg', '5ee01756cce52-imagen2.png');
 
 -- --------------------------------------------------------
@@ -144,33 +144,28 @@ INSERT INTO `tipo_evento` (`ID`, `Nombre`, `Observaciones`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarioex`
+-- Estructura de tabla para la tabla `usuarioeditor`
 --
 
-CREATE TABLE `usuarioex` (
-  `idusuarioEx` int(11) NOT NULL,
-  `usuario` varchar(45) DEFAULT NULL,
-  `contraseña` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuarioin`
---
-
-CREATE TABLE `usuarioin` (
-  `idusuarioIn` int(11) NOT NULL,
-  `usuario` varchar(45) DEFAULT NULL,
-  `contraseña` varchar(45) DEFAULT NULL
+CREATE TABLE `usuarioeditor` (
+  `id` int(100) NOT NULL,
+  `Nombre_Editor` varchar(250) NOT NULL,
+  `Correo_Editor` varchar(250) NOT NULL,
+  `Celular_Editor` varchar(30) NOT NULL,
+  `Nombre_Usuario` varchar(250) NOT NULL,
+  `Contraseña_Usuario` varchar(250) NOT NULL,
+  `Editor_MemInstitucional` varchar(10) NOT NULL,
+  `estado` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `usuarioin`
+-- Volcado de datos para la tabla `usuarioeditor`
 --
 
-INSERT INTO `usuarioin` (`idusuarioIn`, `usuario`, `contraseña`) VALUES
-(1, 'upiiz_isc@gmail.com', '123456');
+INSERT INTO `usuarioeditor` (`id`, `Nombre_Editor`, `Correo_Editor`, `Celular_Editor`, `Nombre_Usuario`, `Contraseña_Usuario`, `Editor_MemInstitucional`, `estado`) VALUES
+(12, 'Pedro', 'pedro@live.com', '(451) 513-5313', 'Pedro01', '1234', 'Si', 'Activo'),
+(19, 'Angel', 'angel@live.com', '(492) 218-9243', 'Assesin', '1234', 'Si', 'Activo'),
+(23, 'Ejemplo', 'ejemplo@live.com', '(125) 125-1859', 'Pedrito', '1234', 'Si', 'Activo');
 
 --
 -- Índices para tablas volcadas
@@ -187,14 +182,6 @@ ALTER TABLE `administrador`
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `crearevento`
---
-ALTER TABLE `crearevento`
-  ADD KEY `idCreado` (`idCreado`),
-  ADD KEY `idAdministrador` (`idAdministrador`),
-  ADD KEY `idUsuarioIn` (`idUsuarioIn`);
 
 --
 -- Indices de la tabla `eventos`
@@ -215,16 +202,10 @@ ALTER TABLE `tipo_evento`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `usuarioex`
+-- Indices de la tabla `usuarioeditor`
 --
-ALTER TABLE `usuarioex`
-  ADD PRIMARY KEY (`idusuarioEx`);
-
---
--- Indices de la tabla `usuarioin`
---
-ALTER TABLE `usuarioin`
-  ADD PRIMARY KEY (`idusuarioIn`);
+ALTER TABLE `usuarioeditor`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -237,16 +218,10 @@ ALTER TABLE `evidencias`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- Restricciones para tablas volcadas
+-- AUTO_INCREMENT de la tabla `usuarioeditor`
 --
-
---
--- Filtros para la tabla `crearevento`
---
-ALTER TABLE `crearevento`
-  ADD CONSTRAINT `crearevento_ibfk_1` FOREIGN KEY (`idCreado`) REFERENCES `eventos` (`idEvento`),
-  ADD CONSTRAINT `crearevento_ibfk_2` FOREIGN KEY (`idAdministrador`) REFERENCES `administrador` (`idadmin`),
-  ADD CONSTRAINT `crearevento_ibfk_3` FOREIGN KEY (`idUsuarioIn`) REFERENCES `usuarioin` (`idusuarioIn`);
+ALTER TABLE `usuarioeditor`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

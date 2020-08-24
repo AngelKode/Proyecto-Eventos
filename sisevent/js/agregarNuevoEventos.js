@@ -8,7 +8,7 @@ let cambiarFecha = 1;
 function actionRead(){
 
   //Checar sesion
-    var nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
+    let nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
     if(nombreUsuario != null){
       if(sessionStorage.getItem("admin") == "Si"){
         $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
@@ -30,20 +30,20 @@ function actionRead(){
         url: "php/agregarEventoFecha.php",
         data: {
           action : "read",
-          creator : sessionStorage.getItem("data")
+          creadorNombre : sessionStorage.getItem("data"),
+          creadorId : sessionStorage.getItem("idUsuario")
         },
         success: function( result ) {
-            var resultJSON = JSON.parse(result);//Convertimos el dato JSON
+            let resultJSON = JSON.parse(result);//Convertimos el dato JSON
 
             if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien
-                  var tabla= $('#example1').DataTable();//Tipo datatable
+                let tabla= $('#example1').DataTable();//Tipo datatable
   
                 resultJSON.eventos.forEach(function(datoEvento){//Recorremos cada valor obtenido
                     let fechaInicio = datoEvento.fechaInicio.substring(0,datoEvento.fechaInicio.length-8);
                     let fechaFinal = datoEvento.fechaFinal.substring(0,datoEvento.fechaFinal.length-8);
                     Botones = '<button style = "background : rgb(255,193,7);" type="button" class="btn btn-default" onclick="identificarIdEvidencias('+datoEvento.id+');" id = "botonEvidencia'+datoEvento.id+'">Evidencias</button> | <button type="button" class="btn btn-info"  onclick = "identificarEditar('+datoEvento.id+');" id="botonEditar'+datoEvento.id+'">Actualizar</button> | <button type="button" class="btn btn-danger" onclick = "identificarEliminar('+datoEvento.id+');" id="botonEliminar'+datoEvento.id+'">Eliminar</button>';
-                    tabla.row.add([
-                        
+                    tabla.row.add([                      
                         datoEvento.titulo,//Agregamos el nombre a la tabla
                         fechaInicio,//Las observaciones
                         fechaFinal,Botones
@@ -119,11 +119,17 @@ function actionUpdate(){
   let tipoEvento = document.getElementById("tipoDeEventoEdit").value;
   let publico = document.getElementById("tipoPublicoEdit").value;
   categoriaEditar = document.getElementById('categoriaEdit').value;
+  let costoEditar = document.getElementById("costoEventoEdit").value;
+  let horasEventoEditar = document.getElementById("cantidadHorasEdit").value;
+  let origenPonenteEditar = document.getElementById("origenPonentesEditar").value;
+  let memInstEditar = document.getElementById("memInstitucionalEditar").value;
 
-   update(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,publico,idActualizar);  
+   update(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,publico,idActualizar,costoEditar,horasEventoEditar
+          ,origenPonenteEditar,memInstEditar);  
 }
 
-function update(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,publico,idActualizar){
+function update(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,publico,idActualizar,costoEditar,
+                horasEditar,origPonentesEdit,memInstEditar){
    $.ajax({
         method : "post",
         url: "php/agregarEventoFecha.php",
@@ -136,10 +142,14 @@ function update(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,p
           tipoEventoUp : tipoEvento,
           tipoPublicoUp : publico,
           categoriaUp : categoriaEditar,
+          costoEdit : costoEditar,
+          horasEdit : horasEditar,
+          origPonentesEditar : origPonentesEdit,
+          boolMemInstEdit : memInstEditar,
           idEdit : idActualizar
         },
         success: function( result ) {
-            var resultJSON = JSON.parse(result);//Convertimos el dato JSON
+            let resultJSON = JSON.parse(result);//Convertimos el dato JSON
             if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien
 
                 let tabla = $("#example1").DataTable();
@@ -188,7 +198,7 @@ function actionDelete(){
         },
         success: function( result ) {
 
-        var resultJSON = JSON.parse(result);//Convertimos el dato JSON
+        let resultJSON = JSON.parse(result);//Convertimos el dato JSON
             if(resultJSON.estatus == 1){//Si la variable en su posicion estado vale 1, todo salió bien  
                 let tabla = $("#example1").DataTable();
                 tabla.row("#row_"+idEliminar).remove().draw();
@@ -230,7 +240,7 @@ function leerTipoDeEvento(){//Leemos los datos de la tabla d tipo de evento para
         },
         success: function( result ) {
 
-        var resultJSON = JSON.parse(result);//Convertimos el dato JSON
+        let resultJSON = JSON.parse(result);//Convertimos el dato JSON
 
             if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien  
                 resultJSON.tipos_eventos.forEach(function(tipo_evento){//Recorremos cada valor obtenido
@@ -276,6 +286,12 @@ function actionCreate(){
   let nombreEvento = document.getElementById("eventoNuevo").value;
   let categoria = document.getElementById("tipoCategoria").value;
   let descripcionEvento = document.getElementById("descripcionEvento").value;
+  let costo = document.getElementById("costoEventoAgregar").value;
+  let horaEvento = document.getElementById("cantidadHorasAgregar").value;
+  let origenPonentes = document.getElementById("origenPonentesAgregar").value;
+  let boolMemoriaInstitucional = document.getElementById("memInstitucionalAgregar").value;
+  let tipoEvento = document.getElementById("tipoDeEvento").value;
+  let publico = document.getElementById("tipoPublico").value;
   let fechaInicio = "";
   let fechaFin = "";
 
@@ -330,20 +346,19 @@ function actionCreate(){
             fechaInicio = $("#reservationtime").data("daterangepicker").startDate.format("YYYY-MM-DD "+horaInicio+":mm");
             fechaFin = $("#reservationtime").data("daterangepicker").endDate.format("YYYY-MM-DD "+horaFin+":mm");
          }
-  let tipoEvento = document.getElementById("tipoDeEvento").value;
-  let publico = document.getElementById("tipoPublico").value;
+  
 
   if(nombreEvento == "" || descripcionEvento == "" || tipoEvento == "" || publico == ""){
      toastr.error('Faltan campos! Verifiquelos');
      toastr.info('No se pudo guardar el evento');
   }else{
         
-        agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,publico,categoria);
+        agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,publico,categoria,costo,horaEvento,origenPonentes,boolMemoriaInstitucional);
       
     }
 } 
 function agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento
-  ,publico,categoria){
+  ,publico,categoria,costo,horaEvento,origenPonentes,boolMemoriaInstitucional){
   $.ajax({
         method : "post",
         url: "php/agregarEventoFecha.php",
@@ -356,7 +371,11 @@ function agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento
           tipoEvento : tipoEvento,
           publico : publico,
           categ : categoria,
-          creator : sessionStorage.getItem("data")
+          costoEv : costo,
+          tiempoHora : horaEvento,
+          origPonentes : origenPonentes,
+          memoriaInstitucional : boolMemoriaInstitucional,
+          idCreador : sessionStorage.getItem("idUsuario")
         },
         success: function( result ) {
             var resultJSON = JSON.parse(result);//Convertimos el dato JSON
@@ -548,10 +567,15 @@ function leerDatosEvento(){
 
         success: function( result ) {
         var resultJSON = JSON.parse(result);//Convertimos el dato JSON
+
             if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien  
               $("#descripcionEdit").val(resultJSON.descripcion);
                let fechaInicio = resultJSON.fechaInicio.toString().substring(0,resultJSON.fechaInicio.length-3);
                let fechaFin = resultJSON.fechaFin.toString().substring(0,resultJSON.fechaFin.length-3);
+               let costo = document.getElementById("costoEventoEdit");
+                  costo.value = resultJSON.costo;
+              let cantidadHoras = document.getElementById("cantidadHorasEdit");
+                  cantidadHoras.value = resultJSON.cantidadHoras;
                $("#edit_reservationtime").data("daterangepicker").setStartDate("'"+fechaInicio+"'");
                $('#edit_reservationtime').data('daterangepicker').setEndDate("'"+fechaFin+"'");
                eventoEditar = resultJSON.tipoEvento;
@@ -575,6 +599,53 @@ function leerDatosEvento(){
                select.appendChild(option2);
                leerTipoDeEventoEdit(); 
                leerCategoriaEdit();
+
+             //Pongo en el select de el origen de ponentes el que está en la BD
+              $("#origenPonentesEditar option").remove();
+              let selectPonentes = document.getElementById("origenPonentesEditar");
+              let optionInterno = document.createElement("option");
+              let optionExterno = document.createElement("option");
+              let optionAmbos = document.createElement("option");
+              let optionNA = document.createElement("option");
+
+              optionInterno.text = "Interno";
+              optionExterno.text = "Externo";
+              optionAmbos.text = "Ambos";
+              optionNA.text = "No aplica";
+
+              if(resultJSON.origenPonentes == "Interno"){
+                 optionInterno.selected = true;
+              }else if(resultJSON.origenPonentes == "Externo"){
+                optionExterno.selected = true;
+              }else if(resultJSON.origenPonentes == "Ambos"){
+                optionAmbos.selected = true;
+              }else{ 
+                optionNA.selected = true;
+              }
+
+              selectPonentes.appendChild(optionInterno);
+              selectPonentes.appendChild(optionExterno);
+              selectPonentes.appendChild(optionAmbos);
+              selectPonentes.appendChild(optionNA);
+
+              //Pongo en el select de la memoria institucional el que está en la BD
+              $("#memInstitucionalEditar option").remove();
+              let selectMemInst = document.getElementById("memInstitucionalEditar");
+              let optionSi = document.createElement("option");
+              let optionNo = document.createElement("option");
+
+              optionSi.text = "Si";
+              optionNo.text = "No";
+
+              if(resultJSON.memInst == "Si"){
+                 optionSi.selected = true;
+              }else{
+                 optionNo.selected = true;
+              }
+
+              selectMemInst.appendChild(optionSi);
+              selectMemInst.appendChild(optionNo);
+              
             }else{
               alert(resultJSON.mensaje);//Si hubo un error, mandamos un mensaje
             }
@@ -670,6 +741,10 @@ function leerDatosEventoDelete(){
                document.getElementById('categoriaElim').innerHTML = resultJSON.categoria;
                document.getElementById('tipoDeEventoElim').innerHTML = resultJSON.tipoEvento;
                document.getElementById('publicoElim').innerHTML = resultJSON.publico;
+               document.getElementById("costoEventoElim").innerHTML = "$"+resultJSON.costo+".00";
+               document.getElementById("horasEventoElim").innerHTML = resultJSON.cantidadHoras;
+               document.getElementById("origenPonentesElim").innerHTML = resultJSON.origenPonentes;
+               document.getElementById("memInstElim").innerHTML = resultJSON.memInst;
                $('#modal-danger').modal('show');
                let boton = document.getElementById('botonEliminar'+idEliminar);
                boton.innerHTML = "Eliminar";

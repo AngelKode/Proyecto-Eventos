@@ -107,12 +107,17 @@ function actionCreate(){
 }
 function actionRead(){
   //Checamos la sesion
-    var nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
-    if(nombreUsuario != null){
+    let nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
+    if(nombreUsuario != null && nombreUsuario == "Admin"){
       $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
     }else{
-      alert("Su sesión ha expirado, inicie de nuevo su sesion!");
-      window.location.replace("login.html");
+      if(nombreUsuario == null){
+        alert("Su sesión ha expirado, inicie de nuevo su sesion!");
+        window.location.replace("login.html");
+      }else{
+        alert("No tiene permiso para ingresar!. Será redireccionado");
+        window.location.replace("Calendario.html");
+      }  
     }
   //Checamos la sesion
     $.ajax({

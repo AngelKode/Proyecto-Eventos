@@ -54,6 +54,7 @@
                     $Respuesta['estado'] = $renglon["estado"];
                     $Respuesta["estatus"] = 1;
                     $Respuesta['admin'] = "No";
+                    $Respuesta['obtenido'] = $renglon['id'];
                 }else{
                     $Respuesta["estatus"] = -1;
                     $Respuesta["mensaje"] = "Acceso denegado!";

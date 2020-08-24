@@ -22,6 +22,9 @@ if(isset($_POST['action'])){
 		case 'descripcion':
 		    $id = $_POST['id'];
 			ActionObtenerDescripcion($conexion,$id);
+			break;
+		case 'obtenerCostoHoras':
+			ActionObtenerHorasCosto($conexion);
 			break;		
 		default:
 			$Respuesta["estado"]=0;
@@ -37,10 +40,11 @@ if(isset($_POST['action'])){
 }
 
 function ActionReadPHP($conexion){
-	$creador = $_POST['creator'];
+	$creadorNom = $_POST['creadorNombre'];	
+	$creadorId = $_POST['creadorId'];
 
-	   if($creador != "Admin"){//Si no es el administrador, checamos cuales eventos ha dado de alta
-		 $Query = "SELECT * FROM eventos WHERE usuarioCreador ='".$creador."'";//Query a realizar
+	   if($creadorNom != "Admin"){//Si no es el administrador, checamos cuales eventos ha dado de alta
+		 $Query = "SELECT * FROM eventos WHERE usuarioCreador =".$creadorId;//Query a realizar
 	   }else{
 		 $Query = "SELECT * FROM eventos";//Query a realizar
 	   }
@@ -111,12 +115,16 @@ function ActionUpdatePHP($conexion){
 	$tipoEvento = $_POST["tipoEventoUp"];
 	$tipoPublico = $_POST["tipoPublicoUp"];
 	$categoria = $_POST['categoriaUp'];
+	$costoEditar = $_POST['costoEdit'];
+	$horasEditar = $_POST['horasEdit'];
+	$origPonentesEditar = $_POST['origPonentesEditar'];
+	$memInstEditar = $_POST['boolMemInstEdit'];
 	$idEdit = $_POST["idEdit"];
 
 	$Respuesta['estado'] = 1;
 	$Respuesta['mensaje'] = "Datos correctos";
 
-	$query = "UPDATE eventos SET titulo='".$nombreEvento."', descripcion='".$descripcion."',inicio = '".$fechaInicio."', final = '".$fechaFin."', tipoEv = '".$tipoEvento."', categoria = '".$categoria."', publico = '".$tipoPublico."'WHERE idEvento=".$idEdit;       
+	$query = "UPDATE eventos SET titulo='".$nombreEvento."', descripcion='".$descripcion."',inicio = '".$fechaInicio."', final = '".$fechaFin."', tipoEv = '".$tipoEvento."', categoria = '".$categoria."', publico = '".$tipoPublico."', origenPonentes = '".$origPonentesEditar."', costoEvento = '".$costoEditar."', cantidadHoras = '".$horasEditar."', MemoriaInstitucional = '".$memInstEditar."' WHERE idEvento=".$idEdit;       
 	$res = mysqli_query($conexion,$query);
 
 	if(mysqli_affected_rows($conexion)>0){
@@ -148,9 +156,18 @@ function ActionCreatePHP($conexion){
 	$tipoEvento = $_POST["tipoEvento"];
 	$publico = $_POST["publico"];
 	$categoria = $_POST['categ'];
-	$creador = $_POST['creator'];
+	$costo = $_POST['costoEv'];
+	$horasEvento = $_POST['tiempoHora'];
+	$origenDePonentes = $_POST['origPonentes'];
+	$boolMemoriaInstitucional = $_POST['memoriaInstitucional'];
+	$creador = $_POST['idCreador'];
 
-	$query = "INSERT INTO eventos (`idEvento`,`usuarioCreador`, `titulo`, `descripcion`,`inicio`, `final`, `tipoEv`,`categoria`,`publico`) VALUES ($ultimoId,'$creador','$eventoCrear','$descripcionCrear','$fechaInicio','$fechaFin','$tipoEvento','$categoria','$publico')";
+	$query = "INSERT INTO eventos (`idEvento`,`usuarioCreador`, `titulo`, `descripcion`,`inicio`, `final`, 
+								   `tipoEv`,`categoria`,`publico`,`origenPonentes`,`costoEvento`, `cantidadHoras`, 
+								   `MemoriaInstitucional`) 
+			  VALUES ($ultimoId,$creador,'$eventoCrear','$descripcionCrear','$fechaInicio',
+					  '$fechaFin','$tipoEvento','$categoria','$publico','$origenDePonentes','$costo',
+					 '$horasEvento','$boolMemoriaInstitucional')";
 	$respuesta = mysqli_query($conexion,$query);
 	$Respuesta = array();
 	if(mysqli_affected_rows($conexion)>0){
@@ -178,7 +195,25 @@ function ActionObtenerDescripcion($conexion,$id){
 	$Respuesta["tipoEvento"] = $Renglon["tipoEv"];
 	$Respuesta["descripcion"] = $Renglon["descripcion"];
 	$Respuesta['categoria'] = $Renglon['categoria'];
+	$Respuesta['costo'] = $Renglon['costoEvento'];
+	$Respuesta['origenPonentes'] = $Renglon['origenPonentes'];
+	$Respuesta['cantidadHoras'] = $Renglon['cantidadHoras'];
+	$Respuesta['memInst'] = $Renglon['MemoriaInstitucional'];
 
 	echo json_encode($Respuesta);//Mandamos los datos obtenidos
+}
+
+function ActionObtenerHorasCosto($conexion){
+
+	$id = $_POST['id'];
+
+	$Query = "SELECT * FROM eventos WHERE idEvento =".$id;
+	$Resultado = mysqli_query($conexion,$Query);
+	$Renglon = mysqli_fetch_array($Resultado);
+	$Respuesta = array();
+	$Respuesta['horasEvento'] = $Renglon['cantidadHoras'];
+	$Respuesta['costoEvento'] = $Renglon['costoEvento'];
+	
+	echo json_encode($Respuesta);
 }
 ?>

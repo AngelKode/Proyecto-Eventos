@@ -52,7 +52,23 @@ function leerEvidencias(id){
               if(respuesta.imagen2 == ""){
                  ev2.setAttribute("src","");
               }
-              $('#conEvidencias').modal();
+                $.ajax({
+                     url: 'php/agregarEventoFecha.php',
+                     type: 'post',
+                     data:{
+                       id : idEvidencias,
+                       action : 'obtenerCostoHoras'
+                     },
+                      success: function(response) {
+                        
+                        let resultJSON = JSON.parse(response);
+                        $("#costoEvid").html(resultJSON.costoEvento);
+                        $("#horasEvid").html(resultJSON.horasEvento);
+                        
+                        $('#conEvidencias').modal();
+                      }
+                });
+              
             }else{
               document.getElementById('cantidadHombres').value = "";
               document.getElementById('cantidadMujeres').value = "";

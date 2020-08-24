@@ -159,11 +159,16 @@ function actionCreate(){
 function actionRead(){
   //Checar sesion
     var nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
-    if(nombreUsuario != null){
+    if(nombreUsuario != null && nombreUsuario == "Admin"){
       $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
     }else{
-      alert("Su sesión ha expirado, inicie de nuevo su sesion!");
-      window.location.replace("login.html");
+      if(nombreUsuario == null){
+        alert("Su sesión ha expirado, inicie de nuevo su sesion!");
+        window.location.replace("login.html");
+      }else{
+        alert("No tiene permiso para ingresar!. Será redireccionado");
+        window.location.replace("Calendario.html");
+      }  
     }
   //Checar sesion
     $.ajax({
@@ -218,127 +223,151 @@ function actionUpdate(){
   let editorMemInstEdit = document.getElementById("editorUsuarioEdit").value;
 //Obtenemos los datos del usuario
 
-  $("#btnActualizar").attr("data-dismiss","");
+$("#btnActualizar").attr("data-dismiss","");
 
-  //A través de ajax mandamos actualizar la BD
-  $.ajax({
-      method : "post",
-      url: "php/agregarUsuario.php",
-      data: {
-          action : "update",
-          id : idActualizar,
-          nombre : nombreRealUsuarioEdit,
-          correo : correoUsuarioEdit,
-          telefono : numeroTelefonoEdit,
-          usuario : nombreUsuarioEdit,
-          passwrd : contraseniaEdit,
-          boolEditor : editorMemInstEdit
-      },
-      success: function( result ) {
-         let resultJSON = JSON.parse(result);
-         if(resultJSON.estado == 1){
+if(nombreRealUsuarioEdit != "" && correoUsuarioEdit != "" && numeroTelefonoEdit != ""
+   && nombreUsuarioEdit != "" && contraseniaEdit != ""){//Checamos si el usuario no dejó campos vacíos
 
-          //Actualizamos la tabla
-          let tabla = $("#example1").DataTable();
-          let renglon = tabla.row("#row_"+idActualizar).data();
-          renglon[0] = nombreRealUsuarioEdit;
-          renglon[1] = correoUsuarioEdit;
-          renglon[2] = numeroTelefonoEdit;
-          renglon[3] = nombreUsuarioEdit;
-          renglon[4] = contraseniaEdit;
-          renglon[5] = editorMemInstEdit;
+      //A través de ajax mandamos actualizar la BD
+      $.ajax({
+          method : "post",
+          url: "php/agregarUsuario.php",
+          data: {
+              action : "update",
+              id : idActualizar,
+              nombre : nombreRealUsuarioEdit,
+              correo : correoUsuarioEdit,
+              telefono : numeroTelefonoEdit,
+              usuario : nombreUsuarioEdit,
+              passwrd : contraseniaEdit,
+              boolEditor : editorMemInstEdit
+          },
+          success: function( result ) {
+            let resultJSON = JSON.parse(result);
+            if(resultJSON.estado == 1){
 
-          tabla.row("#row_"+idActualizar).data(renglon);
-          
-          //Mandamos un Toast para decirle al usuario que los cambios se hicieron
-              $(function() {
-                  const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
+              //Actualizamos la tabla
+              let tabla = $("#example1").DataTable();
+              let renglon = tabla.row("#row_"+idActualizar).data();
+              renglon[0] = nombreRealUsuarioEdit;
+              renglon[1] = correoUsuarioEdit;
+              renglon[2] = numeroTelefonoEdit;
+              renglon[3] = nombreUsuarioEdit;
+              renglon[4] = contraseniaEdit;
+              renglon[5] = editorMemInstEdit;
+
+              tabla.row("#row_"+idActualizar).data(renglon);
+              
+              //Mandamos un Toast para decirle al usuario que los cambios se hicieron
+                  $(function() {
+                      const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+
+                        Toast.fire({
+                            type: 'success',
+                            title: 'El usuario ha sido actualizado exitósamente!'
+                        })
+
+                  });
+                  $("#btnActualizar").attr("data-dismiss","modal");
+                  $("#correoUsuarioEdit").attr("class","form-control");
+                  $("#nombreUsuarioEdit").attr("class","form-control");
+                  $("#modal-info").modal('hide');
+
+                  if($("#labelCE").length > 0){
+                    $("#labelCE").remove();
+                  }
+                  if($("#labelUE").length > 0){
+                    $("#labelUE").remove();
+                  }
+                  
+            }else if(resultJSON.estado == 0){
+
+                  $(function() {
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000
+                    });
+
+                      Toast.fire({
+                          type: 'info',
+                          title: 'No se hicieron modificaciones al usuario!'
+                      })
+
                   });
 
-                    Toast.fire({
-                        type: 'success',
-                        title: 'El usuario ha sido actualizado exitósamente!'
-                    })
+                  $("#btnActualizar").attr("data-dismiss","modal");
+                  $("#correoUsuarioEdit").attr("class","form-control");
+                  $("#nombreUsuarioEdit").attr("class","form-control");
+                  $("#modal-info").modal('hide');
+                  
+                  if($("#labelCE").length > 0){
+                    $("#labelCE").remove();
+                  }
+                  if($("#labelUE").length > 0){
+                    $("#labelUE").remove();
+                  }
 
-              });
-              $("#btnActualizar").attr("data-dismiss","modal");
-              $("#correoUsuarioEdit").attr("class","form-control");
-              $("#nombreUsuarioEdit").attr("class","form-control");
-              $("#modal-info").modal('hide');
-              if($("#labelCE").length > 0){
-                $("labelCE").remove();
-              }
-              if($("#labelUE").length > 0){
-                $("#labelUE").remove();
-              }
-              
-         }else if(resultJSON.estado == 0){
+            }else{
+                let boolCorreoRepetido = resultJSON.correoRepetido;
+                let boolUsuarioRepetido = resultJSON.usuarioRepetido;
+                let errorCorreo ='<p style="color:#dc3545; opacity:0.8;" id="labelCE">Correo existente</p>';
+                let errorUsuario = '<p style="color:#dc3545; opacity:0.8;" id ="labelUE">Usuario existente</p>';
 
-              $(function() {
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000
-                });
+                if(boolCorreoRepetido == "Si" && boolUsuarioRepetido == "No"){
+                  $("#correoUsuarioEdit").attr("class","form-control is-invalid");
+                  $("#correoUsuarioEdit").val("");
+                    if($("#labelCE").length == 0){
+                      $("#correoUsuarioEdit").after(errorCorreo);
+                    }
+                }else if(boolCorreoRepetido == "No" && boolUsuarioRepetido == "Si"){
+                  $("#nombreUsuarioEdit").attr("class","form-control is-invalid");
+                  $("#nombreUsuarioEdit").val("");
+                    if($("#labelUE").length == 0){
+                      $("#nombreUsuarioEdit").after(errorUsuario);
+                    }
+                }else if(boolCorreoRepetido == "Si" && boolUsuarioRepetido == "Si"){
+                  $("#correoUsuarioEdit").attr("class","form-control is-invalid");
+                  $("#nombreUsuarioEdit").attr("class","form-control is-invalid");
+                  $("#nombreUsuarioEdit").val("");
+                  $("#correoUsuarioEdit").val("");
 
-                  Toast.fire({
-                      type: 'info',
-                      title: 'No se hicieron modificaciones al usuario!'
-                  })
-
-              });
-
-              $("#btnActualizar").attr("data-dismiss","modal");
-              $("#correoUsuarioEdit").attr("class","form-control");
-              $("#nombreUsuarioEdit").attr("class","form-control");
-              $("#modal-info").modal('hide');
-              
-              if($("#labelCE").length > 0){
-                $("labelCE").remove();
-              }
-              if($("#labelUE").length > 0){
-                $("#labelUE").remove();
-              }
-
-         }else{
-            let boolCorreoRepetido = resultJSON.correoRepetido;
-            let boolUsuarioRepetido = resultJSON.usuarioRepetido;
-            let errorCorreo ='<p style="color:#dc3545; opacity:0.8;" id="labelCE">Correo existente</p>';
-            let errorUsuario = '<p style="color:#dc3545; opacity:0.8;" id ="labelUE">Usuario existente</p>';
-
-            if(boolCorreoRepetido == "Si" && boolUsuarioRepetido == "No"){
-              $("#correoUsuarioEdit").attr("class","form-control is-invalid");
-              $("#correoUsuarioEdit").val("");
-                if($("#labelCE").length == 0){
-                  $("#correoUsuarioEdit").after(errorCorreo);
+                  if($("#labelCE").length == 0){
+                    $("#correoUsuarioEdit").after(errorCorreo);
+                  }
+                  if($("#labelUE").length == 0){
+                    $("#nombreUsuarioEdit").after(errorUsuario);
+                  }
                 }
-            }else if(boolCorreoRepetido == "No" && boolUsuarioRepetido == "Si"){
-              $("#nombreUsuarioEdit").attr("class","form-control is-invalid");
-              $("#nombreUsuarioEdit").val("");
-                if($("#labelUE").length == 0){
-                  $("#nombreUsuarioEdit").after(errorUsuario);
-                }
-            }else if(boolCorreoRepetido == "Si" && boolUsuarioRepetido == "Si"){
-              $("#correoUsuarioEdit").attr("class","form-control is-invalid");
-              $("#nombreUsuarioEdit").attr("class","form-control is-invalid");
-              $("#nombreUsuarioEdit").val("");
-              $("#correoUsuarioEdit").val("");
-              if($("#labelCE").length == 0){
-                $("#correoUsuarioEdit").after(errorCorreo);
-              }
-              if($("#labelUE").length == 0){
-                $("#nombreUsuarioEdit").after(errorUsuario);
-              }
+
             }
+          }
+        });
 
-         }
-      }
-    });
+   }else{//Si dejó algún campo vacío, le notificamos
+
+    $(function() {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 3000
+      });
+
+        Toast.fire({
+            type: 'warning',
+            title: 'Faltan campos!'
+        })
+
+  });
+      
+   } 
 
 }
 function actionDelete(){
