@@ -62,7 +62,7 @@ function leerEvidencias(id){
                       success: function(response) {
                         
                         let resultJSON = JSON.parse(response);
-                        $("#costoEvid").html(resultJSON.costoEvento);
+                        $("#costoEvid").html("$"+resultJSON.costoEvento);
                         $("#horasEvid").html(resultJSON.horasEvento);
                         
                         $('#conEvidencias').modal();
