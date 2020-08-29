@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-08-2020 a las 05:23:39
+-- Tiempo de generación: 29-08-2020 a las 03:20:53
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.2
 
@@ -74,6 +74,7 @@ CREATE TABLE `eventos` (
   `usuarioCreador` int(255) DEFAULT NULL,
   `titulo` varchar(100) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
+  `modalidad` varchar(20) DEFAULT NULL,
   `inicio` datetime DEFAULT NULL,
   `final` datetime DEFAULT NULL,
   `tipoEv` varchar(100) DEFAULT NULL,
@@ -89,11 +90,10 @@ CREATE TABLE `eventos` (
 -- Volcado de datos para la tabla `eventos`
 --
 
-INSERT INTO `eventos` (`idEvento`, `usuarioCreador`, `titulo`, `descripcion`, `inicio`, `final`, `tipoEv`, `categoria`, `publico`, `origenPonentes`, `costoEvento`, `cantidadHoras`, `MemoriaInstitucional`) VALUES
-(2, 12, 'Programacion Orientada a Objetos', 'Evento de programación', '2020-06-01 12:00:00', '2020-06-05 11:00:00', 'Curso', 'Tecnologica', 'Externo', 'Externo', '1650', '14', 'Si'),
-(3, 12, 'Semana mecatrónica', 'Evento mecatronicas', '2020-06-01 08:00:00', '2020-06-19 16:00:00', 'Taller', 'Innovación', 'Interno', 'Interno', '5500', '20', 'No'),
-(4, 19, 'Semana de salud', 'Evento de salud sobre como cuidar tu cuerpo y asi poder tener una vida mas plena', '2020-05-20 10:30:00', '2020-06-24 15:20:00', 'Curso', 'Académico', 'Externo', 'No aplica', '2500', '8', 'Si'),
-(5, 12, 'Cualtia', 'Evento de alimentos', '2020-06-08 22:58:00', '2020-06-08 22:58:00', 'Capacitacion', 'Académico', 'Interno', 'Ambos', '850', '5', 'Si');
+INSERT INTO `eventos` (`idEvento`, `usuarioCreador`, `titulo`, `descripcion`, `modalidad`, `inicio`, `final`, `tipoEv`, `categoria`, `publico`, `origenPonentes`, `costoEvento`, `cantidadHoras`, `MemoriaInstitucional`) VALUES
+(2, 12, 'Programacion Orientada a Objetos', 'Evento de programación', 'Virtual', '2020-06-01 12:00:00', '2020-06-05 11:00:00', 'Curso', 'Tecnologica', 'Externo', 'Externo', '1650', '14', 'Si'),
+(3, 12, 'Semana mecatrónica', 'Evento mecatronicas', 'Mixta', '2020-06-01 08:00:00', '2020-06-19 16:00:00', 'Taller', 'Innovación', 'Interno', 'Interno', '5500', '20', 'No'),
+(4, 19, 'Semana de salud', 'Evento de salud sobre como cuidar tu cuerpo y asi poder tener una vida mas plena', 'Presencial', '2020-05-20 10:30:00', '2020-06-24 15:20:00', 'Curso', 'Académico', 'Externo', 'No aplica', '2500', '8', 'Si');
 
 -- --------------------------------------------------------
 
@@ -116,8 +116,7 @@ CREATE TABLE `evidencias` (
 --
 
 INSERT INTO `evidencias` (`id`, `numHombres`, `numMujeres`, `numExpositores`, `pormenores`, `evidencia1`, `evidencia2`) VALUES
-(2, 10, 20, 10, 'Nada', '5f39d6b6b62a0-4500486-new-york-city-wallpapers.jpg', '5f39d6b6c5576-7039328-brooklyn-bridge-manhattan.jpg'),
-(5, 2, 10, 4, 'Nada', '5ee01756cbbc9-5ee0154ac7f92-444734.jpg-c_300_300_x-f_jpg-q_x-xxyxx.jpg', '5ee01756cce52-imagen2.png');
+(2, 10, 20, 10, 'Nada', '5f39d6b6b62a0-4500486-new-york-city-wallpapers.jpg', '5f39d6b6c5576-7039328-brooklyn-bridge-manhattan.jpg');
 
 -- --------------------------------------------------------
 
