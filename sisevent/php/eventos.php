@@ -15,6 +15,7 @@
 		$arr['tipoEv']		= 	$renglon['tipoEv'];
 		$arr['publico']		= 	$renglon['publico'];
 		$arr['description']	= 	$renglon['descripcion'];
+		$arr['modalidad']   = 	$renglon['modalidad'];
 		$arr['costo']		=   $renglon['costoEvento'];
 		$arr['horas']		=   $renglon['cantidadHoras'];
 		$arr['idEvento']	= 	$renglon['idEvento'];

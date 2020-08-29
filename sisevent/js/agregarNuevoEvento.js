@@ -117,6 +117,7 @@ function actionUpdate(){
 
          }
   let tipoEvento = document.getElementById("tipoDeEventoEdit").value;
+  let modalidadAct = document.getElementById("modalidadEditar").value;
   let publico = document.getElementById("tipoPublicoEdit").value;
   categoriaEditar = document.getElementById('categoriaEdit').value;
   let costoEditar = document.getElementById("costoEventoEdit").value;
@@ -124,11 +125,11 @@ function actionUpdate(){
   let origenPonenteEditar = document.getElementById("origenPonentesEditar").value;
   let memInstEditar = document.getElementById("memInstitucionalEditar").value;
 
-   update(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,publico,idActualizar,costoEditar,horasEventoEditar
+   update(nombreEvento,descripcionEvento,modalidadAct,fechaInicio,fechaFin,tipoEvento,publico,idActualizar,costoEditar,horasEventoEditar
           ,origenPonenteEditar,memInstEditar);  
 }
 
-function update(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,publico,idActualizar,costoEditar,
+function update(nombreEvento,descripcionEvento,modalidadUp,fechaInicio,fechaFin,tipoEvento,publico,idActualizar,costoEditar,
                 horasEditar,origPonentesEdit,memInstEditar){
    $.ajax({
         method : "post",
@@ -137,6 +138,7 @@ function update(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,p
           action : "update",
           nombreUp : nombreEvento,
           descripcionUp : descripcionEvento,
+          modalidadUpdt : modalidadUp,
           fechaInicioUp : fechaInicio,
           fechaFinUp : fechaFin,
           tipoEventoUp : tipoEvento,
@@ -286,6 +288,7 @@ function actionCreate(){
   let nombreEvento = document.getElementById("eventoNuevo").value;
   let categoria = document.getElementById("tipoCategoria").value;
   let descripcionEvento = document.getElementById("descripcionEvento").value;
+  let modalidadEvento = document.getElementById("modalidadAgregar").value;
   let costo = document.getElementById("costoEventoAgregar").value;
   let horaEvento = document.getElementById("cantidadHorasAgregar").value;
   let origenPonentes = document.getElementById("origenPonentesAgregar").value;
@@ -353,11 +356,12 @@ function actionCreate(){
      toastr.info('No se pudo guardar el evento');
   }else{
         
-        agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento,publico,categoria,costo,horaEvento,origenPonentes,boolMemoriaInstitucional);
+        agregar(nombreEvento,descripcionEvento,modalidadEvento,fechaInicio,fechaFin,tipoEvento,
+                publico,categoria,costo,horaEvento,origenPonentes,boolMemoriaInstitucional);
       
     }
 } 
-function agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento
+function agregar(nombreEvento,descripcionEvento,modalidad,fechaInicio,fechaFin,tipoEvento
   ,publico,categoria,costo,horaEvento,origenPonentes,boolMemoriaInstitucional){
   $.ajax({
         method : "post",
@@ -366,6 +370,7 @@ function agregar(nombreEvento,descripcionEvento,fechaInicio,fechaFin,tipoEvento
           action : "create",
           nombre : nombreEvento,
           descripcion : descripcionEvento,
+          modalidadEvento : modalidad,
           fechaInicio : fechaInicio,
           fechaFin : fechaFin,
           tipoEvento : tipoEvento,
@@ -580,7 +585,29 @@ function leerDatosEvento(){
                $('#edit_reservationtime').data('daterangepicker').setEndDate("'"+fechaFin+"'");
                eventoEditar = resultJSON.tipoEvento;
                categoriaEditar = resultJSON.categoria;
+               
+               //Quito las opciones para agregar la que esta en la BD creando nuevos objetos option
+               $('#modalidadEditar option').remove();
 
+               let selectModalidad = document.getElementById('modalidadEditar');
+               let optionPresencial = document.createElement('option');
+               let optionVirtual = document.createElement('option');
+               let optionMixta = document.createElement('option');
+
+               optionPresencial.text = "Presencial";
+               optionVirtual.text = "Virtual";
+               optionMixta.text = "Mixta";
+
+                       if(resultJSON.modalidad == "Presencial"){
+                            optionPresencial.selected = true;
+                        }else if(resultJSON.modalidad == "Virtual"){
+                            optionVirtual.selected = true;
+                        }else{
+                            optionMixta.selected = true;
+                        }
+               selectModalidad.appendChild(optionPresencial);
+               selectModalidad.appendChild(optionVirtual);
+               selectModalidad.appendChild(optionMixta);
 
                //Creo los elementos en el select y dependiendo de la bd en el tipo de publico pongo
                //en selected a Externo o Interno
@@ -697,6 +724,7 @@ function leerCategoriaEdit(){
     var resultJSON = JSON.parse(result);//Convertimos el dato JSON
     $('#categoriaEdit option').remove();
         if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien  
+
             resultJSON.categorias.forEach(function(categoria){//Recorremos cada valor obtenido
                 let select = document.getElementById('categoriaEdit');   
                 let option = document.createElement('option');
@@ -736,6 +764,7 @@ function leerDatosEventoDelete(){
         var resultJSON = JSON.parse(result);//Convertimos el dato JSON
             if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien 
                document.getElementById('descripcionElim').value = resultJSON.descripcion;
+               document.getElementById('modalidadElim').innerHTML = resultJSON.modalidad;
                document.getElementById('fechaDeInicioElim').innerHTML =  resultJSON.fechaInicio.substring(0,resultJSON.fechaInicio.length-3);
                document.getElementById('fechDeFinElim').innerHTML = resultJSON.fechaFin.substring(0,resultJSON.fechaFin.length-3);
                document.getElementById('categoriaElim').innerHTML = resultJSON.categoria;

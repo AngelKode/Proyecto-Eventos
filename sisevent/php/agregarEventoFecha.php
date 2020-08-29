@@ -110,6 +110,7 @@ function ActionUpdatePHP($conexion){
 
 	$nombreEvento = $_POST["nombreUp"];
 	$descripcion = $_POST["descripcionUp"];
+	$modalidad = $_POST['modalidadUpdt'];  
 	$fechaInicio = $_POST["fechaInicioUp"];
 	$fechaFin = $_POST["fechaFinUp"];
 	$tipoEvento = $_POST["tipoEventoUp"];
@@ -124,7 +125,7 @@ function ActionUpdatePHP($conexion){
 	$Respuesta['estado'] = 1;
 	$Respuesta['mensaje'] = "Datos correctos";
 
-	$query = "UPDATE eventos SET titulo='".$nombreEvento."', descripcion='".$descripcion."',inicio = '".$fechaInicio."', final = '".$fechaFin."', tipoEv = '".$tipoEvento."', categoria = '".$categoria."', publico = '".$tipoPublico."', origenPonentes = '".$origPonentesEditar."', costoEvento = '".$costoEditar."', cantidadHoras = '".$horasEditar."', MemoriaInstitucional = '".$memInstEditar."' WHERE idEvento=".$idEdit;       
+	$query = "UPDATE eventos SET titulo='".$nombreEvento."', descripcion='".$descripcion."', modalidad = '".$modalidad."',inicio = '".$fechaInicio."', final = '".$fechaFin."', tipoEv = '".$tipoEvento."', categoria = '".$categoria."', publico = '".$tipoPublico."', origenPonentes = '".$origPonentesEditar."', costoEvento = '".$costoEditar."', cantidadHoras = '".$horasEditar."', MemoriaInstitucional = '".$memInstEditar."' WHERE idEvento=".$idEdit;       
 	$res = mysqli_query($conexion,$query);
 
 	if(mysqli_affected_rows($conexion)>0){
@@ -151,6 +152,7 @@ function ActionCreatePHP($conexion){
 	//Ahora si, con el valor del ultimo ID, insertaremos el nuevo evento
 	$eventoCrear = $_POST["nombre"];
 	$descripcionCrear = $_POST["descripcion"];
+	$modalidad = $_POST['modalidadEvento'];
 	$fechaInicio = $_POST["fechaInicio"];
 	$fechaFin = $_POST["fechaFin"];
 	$tipoEvento = $_POST["tipoEvento"];
@@ -162,10 +164,10 @@ function ActionCreatePHP($conexion){
 	$boolMemoriaInstitucional = $_POST['memoriaInstitucional'];
 	$creador = $_POST['idCreador'];
 
-	$query = "INSERT INTO eventos (`idEvento`,`usuarioCreador`, `titulo`, `descripcion`,`inicio`, `final`, 
+	$query = "INSERT INTO eventos (`idEvento`,`usuarioCreador`, `titulo`, `descripcion`,`modalidad`,`inicio`, `final`, 
 								   `tipoEv`,`categoria`,`publico`,`origenPonentes`,`costoEvento`, `cantidadHoras`, 
 								   `MemoriaInstitucional`) 
-			  VALUES ($ultimoId,$creador,'$eventoCrear','$descripcionCrear','$fechaInicio',
+			  VALUES ($ultimoId,$creador,'$eventoCrear','$descripcionCrear','$modalidad','$fechaInicio',
 					  '$fechaFin','$tipoEvento','$categoria','$publico','$origenDePonentes','$costo',
 					 '$horasEvento','$boolMemoriaInstitucional')";
 	$respuesta = mysqli_query($conexion,$query);
@@ -194,6 +196,7 @@ function ActionObtenerDescripcion($conexion,$id){
 	$Respuesta["publico"] = $Renglon["publico"];
 	$Respuesta["tipoEvento"] = $Renglon["tipoEv"];
 	$Respuesta["descripcion"] = $Renglon["descripcion"];
+	$Respuesta['modalidad'] = $Renglon['modalidad'];
 	$Respuesta['categoria'] = $Renglon['categoria'];
 	$Respuesta['costo'] = $Renglon['costoEvento'];
 	$Respuesta['origenPonentes'] = $Renglon['origenPonentes'];

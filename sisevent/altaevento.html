@@ -24,9 +24,10 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="stylesheet" type="text/css" href="plugins/sweetalert2/sweetalert2.min.css">
-  <link rel="stylesheet" type="text/css" href="css/estilosEvento.css">
+  <link rel="stylesheet" type="text/css" href="css/estiloEventos.css">
 </head>
 <body class="hold-transition sidebar-mini" onload="actionRead();">
 <div class="wrapper">
@@ -138,69 +139,70 @@
       </div><!-- /.container-fluid --> 
     </section>
            
-    <div class="modal fade" id="modal-lg">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="tituloEvidencias">Agregar Evidencias</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="hombres form-group">
-                 <label>Hombres</label><br>
-                 <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadHombres">
-              </div>
-              <div class="mujeres form-group">
-                 <label>Mujeres</label><br>
-                 <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadMujeres">
-              </div> 
-              <div class="expositor form-group" >
-                 <label>Expositores</label><br>
-                 <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadExpo">
-              </div>
-               <div class="form-group" >
-                 <label>Pormenores del evento</label><br>
-                 <textarea type="text" placeholder="Ingrese los pormenores..." rows="6" class="form-control" id="pormenores"></textarea>
-              </div>
-              <div class="evidencia1 form-group">
-                <label for="exampleInputFile">Evidencia 1</label>
-                <div class="img responsive">
-                  <img class="img1" id="img1" src="" alt="Responsive image">
-                </div>
-                 <div class="subir1 input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="image">
-                        <label class="custom-file-label" for="exampleInputFile" id="source1">Elegir archivo</label>
+          <!--MODAL AGREGAR Evidencias-->
+            <div class="modal fade" id="modal-lg">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="tituloEvidencias">Agregar Evidencias</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="hombres form-group">
+                      <label>Hombres</label><br>
+                      <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadHombres">
+                    </div>
+                    <div class="mujeres form-group">
+                      <label>Mujeres</label><br>
+                      <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadMujeres">
+                    </div> 
+                    <div class="expositor form-group" >
+                      <label>Expositores</label><br>
+                      <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadExpo">
+                    </div>
+                    <div class="form-group" >
+                      <label>Pormenores del evento</label><br>
+                      <textarea type="text" placeholder="Ingrese los pormenores..." rows="6" class="form-control" id="pormenores"></textarea>
+                    </div>
+                    <div class="evidencia1 form-group">
+                      <label for="exampleInputFile">Evidencia 1</label>
+                      <div class="img responsive">
+                        <img class="img1" id="img1" src="" alt="Responsive image">
                       </div>
-                 </div>
-              </div>
-               <div class="evidencia2 form-group">
-                <label for="exampleInputFile">Evidencia 2</label>
-                <div class="img2">
-                  <img class="img2 img-fluid" id="img2" src="" alt="Responsive image">
-                </div>
-                
-                 <div class="subir2 input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile1">
-                        <label class="custom-file-label" for="exampleInputFile" id="source2">Elegir archivo</label>
+                      <div class="subir1 input-group">
+                            <div class="custom-file">
+                              <input type="file" class="custom-file-input" id="exampleInputFile" name="image">
+                              <label class="custom-file-label" for="exampleInputFile" id="source1">Elegir archivo</label>
+                            </div>
                       </div>
-                 </div>
-              </div>
+                    </div>
+                    <div class="evidencia2 form-group">
+                      <label for="exampleInputFile">Evidencia 2</label>
+                      <div class="img2">
+                        <img class="img2 img-fluid" id="img2" src="" alt="Responsive image">
+                      </div>
+                      
+                      <div class="subir2 input-group">
+                            <div class="custom-file">
+                              <input type="file" class="custom-file-input" id="exampleInputFile1">
+                              <label class="custom-file-label" for="exampleInputFile" id="source2">Elegir archivo</label>
+                            </div>
+                      </div>
+                    </div>
 
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarEvidencias();" data-dismiss="modal">Guardar</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
             </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" onclick="agregarEvidencias();" data-dismiss="modal">Guardar</button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div>
-      <!-- /.modal -->   
+            <!-- /MODAL AGREGAR Evidencias -->   
           
 
             <div class="modal fade" id="modal-success">
@@ -227,6 +229,16 @@
                           <label>Descripcion</label><br>
                           <textarea class="form-control" placeholder="Descripcion..." id="descripcionEvento"></textarea>
                         </div> 
+
+                        <div class="form-group">
+                           <label>Modalidad:</label>
+
+                              <select class="form-control select2" style="width: 100%;" id="modalidadAgregar">
+                                    <option value="Presencial">Presencial</option>
+                                    <option value="Virtual">Virtual</option>
+                                    <option value="Mixta">Mixta</option>
+                              </select>
+                        </div>
 
                          <div class="form-group">
                           <label class="lblFechaHoraAgregar">Fecha y Hora:</label>
@@ -258,10 +270,10 @@
                           </div> 
                          </div>
 
-                         <div class="form-group">
-                            <label>Categoría</label>
-                               <select class="form-control select2" style="width: 100%;" id="tipoCategoria"></select>
-                         </div>
+                           <div class="form-group">
+                                  <div><label>Categoría</label><button class='btn btn-lg float-right' data-toggle="modal" data-target="#modalaboutCategorias" style='background-color:transparent; padding: 0 0;'><i class="far fa-question-circle" style="color:white"></i></button></div>
+                              <select class="form-control select2" style="width: 100%;" id="tipoCategoria"></select>
+                           </div>
 
                          <div class="form-group">
                                <label>Tipo de evento</label>
@@ -298,7 +310,7 @@
                   </div>
                    <div class="modal-footer justify-content-between">
                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-outline-light"  data-dismiss="modal" onclick="actionCreate();">Agregar</button>
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal" onclick="actionCreate();">Agregar</button>
                   </div>
                  </div>
                  <!-- /.modal-content -->
@@ -306,6 +318,7 @@
                 <!-- /.modal-dialog -->
               </div>
               <!-- /.modal -->
+
 
               <div class="modal fade" id="modal-danger">
                 <div class="modal-dialog">
@@ -325,6 +338,8 @@
                        <div class="form-group">
                           <textarea class="form-control" readonly="true" style="resize: none;" placeholder="Descripcion..." id="descripcionElim"></textarea>
                        </div>
+                      <label>Modalidad:</label>
+                      <label id="modalidadElim" style="opacity: 0.7;"> </label><br>
                       <label>Fecha de Inicio:</label>
                       <label id="fechaDeInicioElim" style="opacity: 0.7;"> </label><br>
                       <label>Fecha De Fin:</label>
@@ -354,6 +369,7 @@
                 </div>
                 <!-- /.modal-dialog -->
               </div>
+
               <div class="modal fade" id="modal-info">
                 <div class="modal-dialog">
                   <div class="modal-content bg-info">
@@ -364,14 +380,26 @@
                       </button>
                     </div>
                     <div class="modal-body">
+
                        <div class="form-group">
                            <label>Nombre del evento:</label><br>
                           <input type="text" placeholder="Ingrese un nombre..." class="form-control" id="eventoEdit">
                         </div> 
+
                         <div class="form-group">
                           <label>Descripcion</label><br>
                           <textarea class="form-control" placeholder="Descripcion..." id="descripcionEdit"></textarea>
                         </div>
+
+                        <div class="form-group">
+                          <label>Modalidad:</label>
+
+                             <select class="form-control select2" style="width: 100%;" id="modalidadEditar">
+                                   <option value="Presencial">Presencial</option>
+                                   <option value="Virtual">Virtual</option>
+                                   <option value="Mixta">Mixta</option>
+                             </select>
+                       </div>
 
                          <div class="form-group">
                           <label class="lblFechaHoraAgregar">Fecha y Hora:</label>
@@ -452,6 +480,129 @@
                 <!-- /.modal-dialog -->
               </div>
 
+              <!--Modal info categorias-->
+
+              <div class="modal fade" id="modalaboutCategorias">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content bg-gradient-light">
+                    <div class="modal-header">
+                      <strong><h3 class="modal-title">Información</h3></strong>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="informacion">
+                            <div class="callout callout-info">
+                              <p style="text-align:justify; color: black; font-size: 17px;">Las actividades con sus eventos relacionados deberán de integrarse según la relación que a 
+                              continuación se describe.</p>
+                            </div>
+                          <dl style="text-align: justify;" id="lista">
+                            <dt>Actividades académicas:</dt>
+                                    <dd>Son aquellas enfocadas en el proceso de enseñanza aprendizaje, encaminadas a reforzar 
+                                    los conocimientos adquiridos, desarrollar nuevas habilidades y vincular al alumno con 
+                                    su campo de trabajo y el entorno social.</dd> 
+                            <dt>Actividades culturales:</dt>
+                                    <dd>Son todas las acciones que se desarrollan para crear, difundir o desarrollar la 
+                                    cultura y el arte.</dd>
+                            <dt>Actividades deportivas:</dt>
+                                    <dd>Son aquellas que suponen la práctica de alguna disciplina física, así como los torneos 
+                                    que de ellas derivan.</dd>
+                            <dt>Actividades de integración social:</dt>
+                                    <dd>Aquellas actividades del Instituto, que generan interacción con la sociedad.</dd>
+                            <dt>Actividades de infraestructura:</dt>
+                                    <dd>Las acciones que sirven para beneficio, fortalecimiento y desarrollo del Instituto, 
+                                    en las que se requieren recursos o servicios para construcción, equipamiento o 
+                                    mejora.</dd>
+                            <dt>Actividades jurídicas y de normatividad institucional:</dt>
+                                    <dd>Son aquellas que requieren fundamentarse en las disposiciones legales y 
+                                    reglamentarias aplicables para llevar a cabo el correcto funcionamiento del Instituto.
+                                    </dd>
+                            <dt>Actividades de seguridad:</dt>
+                                    <dd>Son aquellas que generan estabilidad, gobernabilidad, así como prevención del delito en 
+                                    el instituto y sus alrededores, además de las acciones de protección civil.</dd>
+                            <dt>Actividades de sustentabilidad:</dt>
+                                    <dd>Son las acciones que buscan la eficiencia en el uso de los recursos dentro de las 
+                                    actividades propias del instituto.</dd> 
+                            <dt>Actividades de género:</dt>
+                                    <dd>Son aquellas actividades que buscan lograr la igualdad, erradicar la discriminación, 
+                                    la violencia y la sensibilización en género del personal del Instituto.</dd>
+                            <dt>Actividades laborales y prestaciones institucionales:</dt>
+                                    <dd>Son las actividades concernientes a las funciones de trabajo, así como sus derechos en 
+                                    cuanto a los beneficios institucionales otorgados.</dd>
+                            <dt>Actividades de gestión de la calidad:</dt>
+                                    <dd>Son las actividades que se integran a los procedimientos técnicos y administrativos, 
+                                    la cuales pretenden asegurar la calidad, productividad y eficiencia en los productos 
+                                    y servicios otorgados a la comunidad politécnica.</dd>
+                            <dt>Actividades de emprendimiento:</dt>
+                                    <dd>Aquellas actividades relacionadas con la creación de una nueva empresa y/o aquellas, 
+                                    que una persona lleva a cabo para que su idea se convierta en un proyecto concreto.</dd> 
+                            <dt>Actividades de investigación e innovación:</dt>
+                                    <dd>Se definen como aquellas encaminadas a generar nuevos conocimientos, impulsar el 
+                                    desarrollo e innovación tecnológica del país.</dd>
+                            <dt>Actividades de difusión y divulgación:</dt>
+                                    <dd>Aunque la difusión y la divulgación están muy vinculadas, tienen diferencias 
+                                    sustanciales:
+                                    <ul>
+                                          <li style="text-align: justify;">La difusión de la ciencia es una actividad cuyo 
+                                                                       mensaje apunta a un público especializado en un 
+                                                                       determinado tema, se preocupa porque el mensaje 
+                                                                       llegue a conocedores del tema, principalmente 
+                                                                       científicos, investigadores y especialistas. 
+                                                                       <i>(Consejo de Ciencia, Tecnología e Innovación de 
+                                                                       Hidalgo, 2015)</i>.
+                                          </li>
+                                          <li style="text-align: justify;">La divulgación, por el contrario, busca que el 
+                                                                           mensaje sea asequible para todo tipo de 
+                                                                           personas. Se propone expandir esos conocimientos 
+                                                                           a todas las personas interesadas y, para 
+                                                                           lograrlo, busca que el mensaje sea atractivo. 
+                                                                           <i>(Consejo de Ciencia, Tecnología e Innovación de 
+                                                                           Hidalgo, 2015)</i>.
+                                          </li>
+                                    </ul>
+                                   </dd>
+                            <dt>Actividades de vinculación:</dt>
+                                    <dd>Se definen como aquellas que nos permiten sostener una relación entre las instituciones 
+                                    educativas con industrias u otras empresas del sector productivo de la sociedad para 
+                                    contribuir con sus medios al desarrollo nacional.</dd>
+                            <dt>Actividades de Tecnologías de la Información y la Comunicación (TIC):</dt>
+                                    <dd>Son aquellas que tienen que ver con la planificación, gestión y crecimiento de la 
+                                    infraestructura de las TIC y que pueden contribuir al ejercicio de la enseñanza, el 
+                                    aprendizaje y desarrollo profesional, así como a la gestión, dirección y administración 
+                                    más eficientes del sistema educativo.</dd>
+                            <dt>Actividades de formación, actualización y capacitación:</dt>
+                                    <dd>Son las actividades que se realizan con el objetivo de impulsar el desarrollo profesional
+                                    del personal directivo, docente y de apoyo y asistencia a la educación del Instituto 
+                                    Politécnico Nacional, así como las prácticas de formación continua y actualización.</dd> 
+                            <dt>Atención a alumnos:</dt>
+                                    <dd>Son todas las acciones relacionadas con los servicios y trámites administrativos y/o de 
+                                    apoyo que se otorgan a los alumnos de todos los niveles, con la intención de bridar una 
+                                    atención eficiente y de calidad.</dd>
+                            <dt>Actividades de acervo histórico:</dt>
+                                    <dd>Se consideran todas las actividades que realizan las Dependencias Politécnicas con la 
+                                    finalidad de difundir las acciones de conservación, custodia, reproducción y guarda de 
+                                    los documentos legales, académicos, científicos, culturales y/o deportivos que se 
+                                    considera deben atesorarse por su origen y contenido ya que forman parte de la identidad 
+                                    de la Institución.</dd> 
+                            <dt>Actividades de rendición de cuentas:</dt>
+                                    <dd>Son las acciones realizadas con responsabilidad para el adecuado cumplimiento de sus 
+                                    funciones, como obligación de una persona o dependencia de presentar informes respecto 
+                                    a los movimientos económicos o financieros para que queden debidamente justificados y 
+                                    probados.</dd>
+                        </dl>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-light float-right bg-info" data-dismiss="modal">Entendido!</button>
+                    </div>
+                  </div>
+                  <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+              </div>
+
+
+              <!--Modal info categorias-->
+
       <section class="content">        
       <div class="row">      
         <div class="col-12">    
@@ -487,7 +638,7 @@
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 3.0.2
     </div>
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+    <dt>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</dt> All rights
     reserved.
   </footer>
 
@@ -558,7 +709,6 @@
   $(function () {
     //Initialize Select2 Elements
     $('.select2').select2()
-
     //Initialize Select2 Elements
     $('.select2bs4').select2({
       theme: 'bootstrap4'
@@ -663,12 +813,18 @@
 <!-- date-range-picker -->
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-<script src="js/agregarNuevoEventos.js"></script>
+<script src="js/agregarNuevoEvento.js"></script>
 <script src="js/login_Evento.js"></script>
 <script>
   
 $(document).ready(function () {
   bsCustomFileInput.init();
+
+    //Para evitar que al cerrar el modal de la info, se desactive el modal
+    $(document).on('hidden.bs.modal', '#modalaboutCategorias', function () { 
+        $(document.body).addClass('modal-open');
+    });
+
 });
 document.getElementById("exampleInputFile").onchange = function(e) {
   let lector = new FileReader();

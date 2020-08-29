@@ -65,5 +65,12 @@
     top: 10px;
     width: 106%;
 }
-
-
+label{
+    word-wrap: break-word;
+}
+#lista > dt{
+    font-size: 16px;
+}
+#lista > dd{
+    font-size: 16px;
+}

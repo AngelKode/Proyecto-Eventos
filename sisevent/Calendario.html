@@ -173,6 +173,7 @@
     </section>
     
 
+      
     <!-- DIV SIN EVIDENCIAS -->
     <div class="modal fade" id="sinEvidencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -189,11 +190,11 @@
                 <table width="100%">
                     <tr>
                         <th width="50$">Tipo de Evento</th>
-                        <th >Publico Objetivo</th>
+                        <th>Publico Objetivo</th>
                     </tr>
                     <tr>
-                      <td><p id="tipo_evento">Curso</p></td>
-                      <td><p id="publico">Interno</p></td>
+                      <td><p id="tipo_evento"></p></td>
+                      <td><p id="publico"></p></td>
                     </tr>
                     <tr>
                       <th>Fecha de Inicio</th>
@@ -211,6 +212,12 @@
                         <td width="50%"><p id="costoEvCal"></p></td>
                         <td><p id="horasEvCal"></p></td>
                     </tr>
+                    <tr>
+                      <th colspan="2">Modalidad</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" id="modalidadSinEvid"></td>
+                    </tr>
                 </table>
             </div>
           </div>
@@ -222,97 +229,83 @@
     </div>
     <!-- FIN DIV SIN EVIDENCIAS -->
 
-    <!-- DIV CON EVIDENCIAS -->
-    <div class="modal fade" id="conEvidencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="tituloEv"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" style="word-break: break-all">
-            <div>
-              <table width="100%">
-                <tr>
-                  <th style="text-align: center;">Hombres</th>
-                  <th style="text-align: center;">Mujeres</th>
-                  <th style="text-align: center;">Expositores</th>
-                </tr>
-                <tr>
-                  <td id="onvre" width="33%" style="text-align: center;"></td>
-                  <td id="muhere" width="33%" style="text-align: center;"></td>
-                  <td id="patos" width="33%" style="text-align: center;"></td>
-                </tr>
-              </table>
+       <!-- DIV CON EVIDENCIAS -->
+       <div class="modal fade" id="conEvidencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="tituloEv"></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-
-            <div>
-              <table width="100%">
-                <tr>
-                  <th style="text-align: center;">Costo</th>
-                  <th style="text-align: center;">Cantidad de Horas</th>
-                </tr>
-                <tr>
-                  <td id="costoEvid" width="33%" style="text-align: center;"></td>
-                  <td id="horasEvid" width="33%" style="text-align: center;"></td>
-                </tr>
-              </table>
-            </div>
-
-            <span><b>Pormenores:</b></span>
-            <div id="descripcionEv" class="muestra"></div>
-
-            <div class="d-inline-flex">
-              <div style="width: 50%;">
-                <table  class="table">
+            <div class="modal-body" style="word-break: break-all">
+              <div>
+                <table width="100%">
                   <tr>
-                    <th width="50%" >Foto 1</th>
+                    <th style="text-align: center;">Hombres</th>
+                    <th style="text-align: center;">Mujeres</th>
+                    <th style="text-align: center;">Expositores</th>
                   </tr>
                   <tr>
-                    <td style="display: inline-block;">
-                      <div class="img1" style="width: 100%;">
-                        <img id="ev1" class="img-responsive" src="" style="width: 100%;">
-
-                      </div>
-                    </td>
+                    <td id="onvre" width="33%" style="text-align: center;"></td>
+                    <td id="muhere" width="33%" style="text-align: center;"></td>
+                    <td id="patos" width="33%" style="text-align: center;"></td>
                   </tr>
-              </table>
+                  <tr>
+                    <th style="text-align: center;">Costo</th>
+                    <th style="text-align: center;">Cantidad de Horas</th>
+                    <th style="text-align: center;"><p>Modalidad</p></th>
+                  </tr>
+                  <tr>
+                    <td id="costoEvid" width="33%" style="text-align: center;"></td>
+                    <td id="horasEvid" width="33%" style="text-align: center;"></td>
+                    <td id="modalidadEvid" width="33%" style="text-align: center;"></td>
+                  </tr>
+                </table>
               </div>
-              <div style="width: 50%;">
-                <table class="table">
-                  <tr>
-                    <th width="100%">Foto 2</th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="img2" style="width: 100%;">
-                        <img id="ev2" class="img-responsive" src="" style="width: 100%;">
-                      </div>
-                    </td>
-                  </tr>
-              </table>
+              <span><b>Pormenores:</b></span>
+              <div id="descripcionEv" class="muestra"></div>
+  
+              <div class="d-inline-flex">
+                <div style="width: 50%;">
+                  <table  class="table">
+                    <tr>
+                      <th width="50%" >Foto 1</th>
+                    </tr>
+                    <tr>
+                      <td style="display: inline-block;">
+                        <div class="img1" style="width: 100%;">
+                          <img id="ev1" class="img-responsive" src="" style="width: 100%;">
+  
+                        </div>
+                      </td>
+                    </tr>
+                </table>
+                </div>
+                <div style="width: 50%;">
+                  <table class="table">
+                    <tr>
+                      <th width="100%">Foto 2</th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="img2" style="width: 100%;">
+                          <img id="ev2" class="img-responsive" src="" style="width: 100%;">
+                        </div>
+                      </td>
+                    </tr>
+                </table>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-azulito" data-dismiss="modal">Cerrar</button>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-azulito" data-dismiss="modal">Cerrar</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- FIN DIV CON EVIDENCIAS -->
-
-    <!--TOOLTIP CUSTOM-->
-      <div data-tippy-root style="display: none;">
-        <div class="tippy-box" data-placement="top">
-          <div class="tippy-arrow"></div> <!-- arrow: true -->
-          <div class="tippy-content">
-          </div>
-        </div>
-      </div>
-    <!--TOOLTIP CUSTOM-->
+      <!-- FIN DIV CON EVIDENCIAS -->
 
     <!-- /.content -->
   </div>
@@ -482,6 +475,8 @@
               $('#publico').text(info.event.extendedProps.publico);
               $('#costoEvCal').text("$"+info.event.extendedProps.costo);
               $('#horasEvCal').text(info.event.extendedProps.horas);
+              $("#modalidadSinEvid").text(info.event.extendedProps.modalidad);
+              $("#modalidadEvid").text(info.event.extendedProps.modalidad);
         
               var titulo = info.event.title;
               $('#tituloEv').html('Evidencias Evento: '+titulo);
