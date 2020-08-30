@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="stylesheet" type="text/css" href="plugins/sweetalert2/sweetalert2.min.css">
-  <link rel="stylesheet" type="text/css" href="css/estiloEventos.css">
+  <link rel="stylesheet" type="text/css" href="css/estiloEvento.css">
 </head>
 <body class="hold-transition sidebar-mini" onload="actionRead();">
 <div class="wrapper">
@@ -169,11 +169,11 @@
                     <div class="evidencia1 form-group">
                       <label for="exampleInputFile">Evidencia 1</label>
                       <div class="img responsive">
-                        <img class="img1" id="img1" src="" alt="Responsive image">
+                        <img class="img1" id="img1" src="" alt="NINGUNA IMAGEN. SELECCIONE UNA">
                       </div>
                       <div class="subir1 input-group">
                             <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="exampleInputFile" name="image">
+                              <input type="file" class="custom-file-input" id="exampleInputFile" name="image" lang="es">
                               <label class="custom-file-label" for="exampleInputFile" id="source1">Elegir archivo</label>
                             </div>
                       </div>
@@ -181,12 +181,12 @@
                     <div class="evidencia2 form-group">
                       <label for="exampleInputFile">Evidencia 2</label>
                       <div class="img2">
-                        <img class="img2 img-fluid" id="img2" src="" alt="Responsive image">
+                        <img class="img2 img-fluid" id="img2" src="" alt="NINGUNA IMAGEN.SELECCIONE UNA" style="word-wrap: break-word;">
                       </div>
                       
                       <div class="subir2 input-group">
                             <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="exampleInputFile1">
+                              <input type="file" class="custom-file-input" id="exampleInputFile1" lang="es">
                               <label class="custom-file-label" for="exampleInputFile" id="source2">Elegir archivo</label>
                             </div>
                       </div>
@@ -764,6 +764,7 @@
          "customRangeLabel": "Personalizar",
       }
     });
+
      $('#edit_reservationtime').daterangepicker({
       timePicker: true,
       timePickerIncrement: 1,
@@ -813,7 +814,7 @@
 <!-- date-range-picker -->
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-<script src="js/agregarNuevoEvento.js"></script>
+<script src="js/agregarNuevosEventos.js"></script>
 <script src="js/login_Evento.js"></script>
 <script>
   

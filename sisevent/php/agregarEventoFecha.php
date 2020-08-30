@@ -23,6 +23,10 @@ if(isset($_POST['action'])){
 		    $id = $_POST['id'];
 			ActionObtenerDescripcion($conexion,$id);
 			break;
+		case 'descripcionEliminar':
+			$idElim = $_POST['id'];
+			ActionObtenerDescripcionYTablas($conexion,$idElim);
+			break;
 		case 'obtenerCostoHoras':
 			ActionObtenerHorasCosto($conexion);
 			break;		
@@ -218,5 +222,41 @@ function ActionObtenerHorasCosto($conexion){
 	$Respuesta['costoEvento'] = $Renglon['costoEvento'];
 	
 	echo json_encode($Respuesta);
+}
+
+function ActionObtenerDescripcionYTablas($conexion,$id){
+	
+	$Query = "SELECT * FROM eventos WHERE idEvento =".$id;//Query a realizar
+
+	$Resultado 	= mysqli_query($conexion,$Query);//Guardamos el query obtenido
+	$Renglon = mysqli_fetch_array($Resultado);
+	$Respuesta = array();
+	$Respuesta["estado"] = 1;
+	$Respuesta["mensaje"] = "Consulta exitosa";
+	$Respuesta["fechaInicio"] = $Renglon["inicio"];
+	$Respuesta["fechaFin"] = $Renglon["final"];
+	$Respuesta["publico"] = $Renglon["publico"];
+	$Respuesta["descripcion"] = $Renglon["descripcion"];
+	$Respuesta['modalidad'] = $Renglon['modalidad'];
+	$Respuesta['costo'] = $Renglon['costoEvento'];
+	$Respuesta['origenPonentes'] = $Renglon['origenPonentes'];
+	$Respuesta['cantidadHoras'] = $Renglon['cantidadHoras'];
+	$Respuesta['memInst'] = $Renglon['MemoriaInstitucional'];
+
+	//Con las ID's obtenidas, buscamos en cada tabla el dato
+		//Primero el tipo de evento
+		$idTipoEvento = $Renglon['tipoEv'];
+		$Query = "SELECT * FROM tipo_evento WHERE ID =".$idTipoEvento;
+		$Resultado 	= mysqli_query($conexion,$Query);//Guardamos el query obtenido
+		$RenglonTipoEv = mysqli_fetch_array($Resultado);
+		$Respuesta["tipoEvento"] = $RenglonTipoEv["Nombre"];
+
+		//Ahora la categoria
+		$idCategoria = $Renglon['categoria'];
+		$Query = "SELECT * FROM categoria WHERE id =".$idCategoria;
+		$Resultado 	= mysqli_query($conexion,$Query);//Guardamos el query obtenido
+		$RenglonCategoria = mysqli_fetch_array($Resultado);
+		$Respuesta['categoria'] = $RenglonCategoria['Nombre'];
+	echo json_encode($Respuesta);//Mandamos los datos obtenidos
 }
 ?>

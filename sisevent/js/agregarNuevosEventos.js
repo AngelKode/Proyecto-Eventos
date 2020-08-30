@@ -116,10 +116,10 @@ function actionUpdate(){
             fechaFin = $("#edit_reservationtime").data("daterangepicker").endDate.format("YYYY-MM-DD "+horaFin+":mm");
 
          }
-  let tipoEvento = document.getElementById("tipoDeEventoEdit").value;
+  let tipoEvento = $("#tipoDeEventoEdit").val();
   let modalidadAct = document.getElementById("modalidadEditar").value;
   let publico = document.getElementById("tipoPublicoEdit").value;
-  categoriaEditar = document.getElementById('categoriaEdit').value;
+  categoriaEditar = $("#categoriaEdit").val();
   let costoEditar = document.getElementById("costoEventoEdit").value;
   let horasEventoEditar = document.getElementById("cantidadHorasEdit").value;
   let origenPonenteEditar = document.getElementById("origenPonentesEditar").value;
@@ -249,6 +249,10 @@ function leerTipoDeEvento(){//Leemos los datos de la tabla d tipo de evento para
                     let select = document.getElementById('tipoDeEvento');   
                     let option = document.createElement('option');
                     option.text = tipo_evento.nombre;
+                    //Agregamos el id del evento en la tabla de los tipos de evento, para cuando el usuario cree o edite
+                    //un evento, obtengamos el ID, lo guardamos en la tabla de eventos, y despues con el ID obtenemos
+                    //que tipo de evento
+                    option.value = tipo_evento.idEvento;
                     select.appendChild(option);
                 });
                 
@@ -274,6 +278,9 @@ function leerCategorias(){//Obtenemos las categorias que se han dado de alta
                 let select = document.getElementById('tipoCategoria');   
                 let option = document.createElement('option');
                 option.text = categoria.nombre;
+                //Obtenemos el ID de la tabla 'categoria' para guardarlo despues en la tabla eventos, y asi obtener despues
+                //que categoria es usando esa ID
+                option.value = categoria.idCategoria;
                 select.appendChild(option);
             });
             
@@ -286,14 +293,14 @@ function leerCategorias(){//Obtenemos las categorias que se han dado de alta
 function actionCreate(){
 
   let nombreEvento = document.getElementById("eventoNuevo").value;
-  let categoria = document.getElementById("tipoCategoria").value;
+  let categoria = $("#tipoCategoria").val();
   let descripcionEvento = document.getElementById("descripcionEvento").value;
   let modalidadEvento = document.getElementById("modalidadAgregar").value;
   let costo = document.getElementById("costoEventoAgregar").value;
   let horaEvento = document.getElementById("cantidadHorasAgregar").value;
   let origenPonentes = document.getElementById("origenPonentesAgregar").value;
   let boolMemoriaInstitucional = document.getElementById("memInstitucionalAgregar").value;
-  let tipoEvento = document.getElementById("tipoDeEvento").value;
+  let tipoEvento = $("#tipoDeEvento").val();
   let publico = document.getElementById("tipoPublico").value;
   let fechaInicio = "";
   let fechaFin = "";
@@ -583,8 +590,8 @@ function leerDatosEvento(){
                   cantidadHoras.value = resultJSON.cantidadHoras;
                $("#edit_reservationtime").data("daterangepicker").setStartDate("'"+fechaInicio+"'");
                $('#edit_reservationtime').data('daterangepicker').setEndDate("'"+fechaFin+"'");
-               eventoEditar = resultJSON.tipoEvento;
-               categoriaEditar = resultJSON.categoria;
+               eventoEditar = resultJSON.tipoEvento;//ID
+               categoriaEditar = resultJSON.categoria;//ID
                
                //Quito las opciones para agregar la que esta en la BD creando nuevos objetos option
                $('#modalidadEditar option').remove();
@@ -694,9 +701,9 @@ function leerTipoDeEventoEdit(){//Leemos los datos de la tabla de tipo de evento
                     let select = document.getElementById('tipoDeEventoEdit');   
                     let option = document.createElement('option');
                     option.text = tipo_evento.nombre;
-                    option.value = tipo_evento.nombre;
+                    option.value = tipo_evento.idEvento;
 
-                    if(option.text == eventoEditar){
+                    if(option.value == eventoEditar){
                         option.selected = true;
                     }else{
                       option.selected = false;
@@ -729,9 +736,9 @@ function leerCategoriaEdit(){
                 let select = document.getElementById('categoriaEdit');   
                 let option = document.createElement('option');
                 option.text = categoria.nombre;
-                option.value = categoria.nombre;
+                option.value = categoria.idCategoria;
 
-                if(option.text == categoriaEditar){
+                if(option.value == categoriaEditar){
                   option.selected = true;
                 }else{
                   option.selected = false;
@@ -756,12 +763,11 @@ function leerDatosEventoDelete(){
         method : "post",
         url: "php/agregarEventoFecha.php",
         data: {
-          action : "descripcion",
+          action : "descripcionEliminar",
           id : idEliminar
         },
         success: function( result ) {
-
-        var resultJSON = JSON.parse(result);//Convertimos el dato JSON
+          let resultJSON = JSON.parse(result);//Convertimos el dato JSON
             if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien 
                document.getElementById('descripcionElim').value = resultJSON.descripcion;
                document.getElementById('modalidadElim').innerHTML = resultJSON.modalidad;

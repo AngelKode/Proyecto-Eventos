@@ -17,6 +17,7 @@ function ActionReadPHP($conexion){
 
 		$Tipo_Evento = array();
 		$Tipo_Evento["nombre"] = $Renglon["Nombre"];
+		$Tipo_Evento['idEvento'] = $Renglon['ID'];
 
 		array_push($Respuesta["tipos_eventos"], $Tipo_Evento);//Guardamos el dato de la BD en la posicion "tipos_eventos"
 	}

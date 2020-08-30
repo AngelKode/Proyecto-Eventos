@@ -74,3 +74,9 @@ label{
 #lista > dd{
     font-size: 16px;
 }
+.img2 img[src=""] {
+    display:none;
+}
+.img.responsive img[src=""] {
+    display: none;
+}

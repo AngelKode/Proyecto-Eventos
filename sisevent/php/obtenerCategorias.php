@@ -15,7 +15,8 @@ function ActionReadPHP($conexion){
 	while($Renglon = mysqli_fetch_array($Resultado)){//Mientras haya un renglón, seguimos guardando los datos en $Resultado
 
 		$Categorias = array();
-		$Categorias["nombre"] = $Renglon["Nombre"];
+		$Categorias["nombre"] 		= $Renglon["Nombre"];
+		$Categorias['idCategoria']	= $Renglon['id'];
 
 		array_push($Respuesta["categorias"], $Categorias);//Guardamos el dato de la BD en la posicion "categorias"
 	}

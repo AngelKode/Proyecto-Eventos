@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-08-2020 a las 03:20:53
+-- Tiempo de generación: 30-08-2020 a las 06:05:20
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.2
 
@@ -77,8 +77,8 @@ CREATE TABLE `eventos` (
   `modalidad` varchar(20) DEFAULT NULL,
   `inicio` datetime DEFAULT NULL,
   `final` datetime DEFAULT NULL,
-  `tipoEv` varchar(100) DEFAULT NULL,
-  `categoria` varchar(500) DEFAULT NULL,
+  `tipoEv` int(255) DEFAULT NULL,
+  `categoria` int(255) DEFAULT NULL,
   `publico` varchar(50) DEFAULT NULL,
   `origenPonentes` varchar(20) DEFAULT NULL,
   `costoEvento` varchar(30) DEFAULT NULL,
@@ -91,9 +91,9 @@ CREATE TABLE `eventos` (
 --
 
 INSERT INTO `eventos` (`idEvento`, `usuarioCreador`, `titulo`, `descripcion`, `modalidad`, `inicio`, `final`, `tipoEv`, `categoria`, `publico`, `origenPonentes`, `costoEvento`, `cantidadHoras`, `MemoriaInstitucional`) VALUES
-(2, 12, 'Programacion Orientada a Objetos', 'Evento de programación', 'Virtual', '2020-06-01 12:00:00', '2020-06-05 11:00:00', 'Curso', 'Tecnologica', 'Externo', 'Externo', '1650', '14', 'Si'),
-(3, 12, 'Semana mecatrónica', 'Evento mecatronicas', 'Mixta', '2020-06-01 08:00:00', '2020-06-19 16:00:00', 'Taller', 'Innovación', 'Interno', 'Interno', '5500', '20', 'No'),
-(4, 19, 'Semana de salud', 'Evento de salud sobre como cuidar tu cuerpo y asi poder tener una vida mas plena', 'Presencial', '2020-05-20 10:30:00', '2020-06-24 15:20:00', 'Curso', 'Académico', 'Externo', 'No aplica', '2500', '8', 'Si');
+(2, 12, 'Programacion Orientada a Objetos', 'Evento de programación', 'Virtual', '2020-06-01 12:00:00', '2020-06-05 11:00:00', 1, 4, 'Externo', 'Externo', '1650', '14', 'Si'),
+(3, 12, 'Semana mecatrónica', 'Evento mecatronicas', 'Mixta', '2020-06-01 08:00:00', '2020-06-19 16:00:00', 1, 3, 'Interno', 'Interno', '5500', '20', 'No'),
+(4, 19, 'Semana de salud', 'Evento de salud sobre como cuidar tu cuerpo y asi poder tener una vida mas plena', 'Presencial', '2020-05-20 10:30:00', '2020-06-24 15:20:00', 5, 2, 'Externo', 'No aplica', '2500', '8', 'Si');
 
 -- --------------------------------------------------------
 
@@ -138,7 +138,8 @@ INSERT INTO `tipo_evento` (`ID`, `Nombre`, `Observaciones`) VALUES
 (1, 'Simposium', 'Nada'),
 (2, 'Taller', 'Nada'),
 (3, 'Curso', 'Nada'),
-(4, 'Capacitacion', 'Nada');
+(4, 'Capacitacion', 'Nada'),
+(5, 'Bootcamp', 'Nada');
 
 -- --------------------------------------------------------
 
