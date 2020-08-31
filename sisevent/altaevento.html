@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="stylesheet" type="text/css" href="plugins/sweetalert2/sweetalert2.min.css">
-  <link rel="stylesheet" type="text/css" href="css/estiloEvento.css">
+  <link rel="stylesheet" type="text/css" href="css/altaEvento.css">
 </head>
 <body class="hold-transition sidebar-mini" onload="actionRead();">
 <div class="wrapper">
@@ -150,49 +150,74 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <div class="hombres form-group">
-                      <label>Hombres</label><br>
-                      <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadHombres">
-                    </div>
-                    <div class="mujeres form-group">
-                      <label>Mujeres</label><br>
-                      <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadMujeres">
-                    </div> 
-                    <div class="expositor form-group" >
-                      <label>Expositores</label><br>
-                      <input type="text" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadExpo">
-                    </div>
-                    <div class="form-group" >
-                      <label>Pormenores del evento</label><br>
-                      <textarea type="text" placeholder="Ingrese los pormenores..." rows="6" class="form-control" id="pormenores"></textarea>
-                    </div>
-                    <div class="evidencia1 form-group">
-                      <label for="exampleInputFile">Evidencia 1</label>
-                      <div class="img responsive">
-                        <img class="img1" id="img1" src="" alt="NINGUNA IMAGEN. SELECCIONE UNA">
-                      </div>
-                      <div class="subir1 input-group">
-                            <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="exampleInputFile" name="image" lang="es">
-                              <label class="custom-file-label" for="exampleInputFile" id="source1">Elegir archivo</label>
-                            </div>
-                      </div>
-                    </div>
-                    <div class="evidencia2 form-group">
-                      <label for="exampleInputFile">Evidencia 2</label>
-                      <div class="img2">
-                        <img class="img2 img-fluid" id="img2" src="" alt="NINGUNA IMAGEN.SELECCIONE UNA" style="word-wrap: break-word;">
-                      </div>
-                      
-                      <div class="subir2 input-group">
-                            <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="exampleInputFile1" lang="es">
-                              <label class="custom-file-label" for="exampleInputFile" id="source2">Elegir archivo</label>
-                            </div>
-                      </div>
-                    </div>
 
+                   <div class="d-flex flex-column">
+
+                     <div class="p-2">
+                        <div class="d-flex flex-row justify-content-center">
+                          <div class="p-2">
+                              <label>Hombres</label><br>
+                              <input type="number" min="0" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadHombres">
+                          </div>
+                          <div class="p-2">
+                            <label>Mujeres</label><br>
+                            <input type="number" min="0" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadMujeres">
+                          </div>
+                          <div class="p-2">
+                            <label>Expositores</label><br>
+                            <input type="number" min="0" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadExpo">
+                          </div>
+                        </div>
+                     </div>
+
+                     <div class="p-2">
+                        <div class="form-group" >
+                            <label>Pormenores del evento</label><br>
+                            <textarea type="text" placeholder="Ingrese los pormenores..." rows="6" class="form-control" id="pormenores"></textarea>
+                        </div>
+                     </div>
+
+                     <div class="p-2">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                        <div class="p-2">
+                                          <label>Evidencia 1</label>
+                                          <img id="img1" class="img-responsive" src="" alt="NINGUNA IMAGEN. SELECCIONE UNA" width="100%">
+                                        </div>
+
+                                        <div class="p-2">
+                                          <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="exampleInputFile" name="image" lang="es">
+                                            <label class="custom-file-label" for="exampleInputFile" id="source1" style="overflow: hidden;">Elegir archivo</label>
+                                          </div>
+                                        </div>
+
+                                </div>
+                                <div class="col-md-6">
+
+                                        <div class="p-2">
+                                          <label>Evidencia 2</label>
+                                          <img id="img2" class="img-responsive" src="" alt="NINGUNA IMAGEN.SELECCIONE UNA" width="100%">
+                                        </div>
+
+                                        <div class="p-2">
+                                          <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="exampleInputFile1" lang="es">
+                                            <label class="custom-file-label" for="exampleInputFile" id="source2" style="overflow: hidden;">Elegir archivo</label>
+                                          </div>
+                                        </div>
+  
+                                </div>
+                            </div>
+                          </div>
+                     </div>
+
+                    </div>
+                   <!--Flex-->
                   </div>
+                  <!--body-->
                   <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" onclick="agregarEvidencias();" data-dismiss="modal">Guardar</button>
@@ -300,7 +325,7 @@
                          </div>
 
                          <div class="form-group">
-                          <label>¿Se considera para la Memoria Institucional?</label>
+                          <div><label>¿Se considera para la Memoria Institucional?</label><button class='btn btn-lg float-right' data-toggle="modal" data-target="#modalaboutMemInst" style='background-color:transparent; padding: 0 0;'><i class="far fa-question-circle" style="color:white"></i></button></div>
                           <select class="form-control select2" style="width: 100%;" id="memInstitucionalAgregar">
                              <option selected="selected">Si</option>
                              <option>No</option>
@@ -486,7 +511,7 @@
                 <div class="modal-dialog modal-lg">
                   <div class="modal-content bg-gradient-light">
                     <div class="modal-header">
-                      <strong><h3 class="modal-title">Información</h3></strong>
+                      <strong><h3 class="modal-title">Acerca de: Categoría</h3></strong>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -592,7 +617,7 @@
                         </dl>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-outline-light float-right bg-info" data-dismiss="modal">Entendido!</button>
+                      <button type="button" class="btn btn-outline-light float-right bg-info" data-dismiss="modal">Entendido</button>
                     </div>
                   </div>
                   <!-- /.modal-content -->
@@ -602,6 +627,36 @@
 
 
               <!--Modal info categorias-->
+
+              <!--Modal info memoria inst-->
+              <div class="modal fade" id="modalaboutMemInst">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content bg-gradient-light">
+                    <div class="modal-header">
+                      <strong><h3 class="modal-title">Memoria Anual de Actividades</h3></strong>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body overflow-auto">
+
+                      <p style="text-align: justify;">
+                        El <strong>Departamento de Análisis Documental y Memorias</strong>, fue creado para llevar a cabo el <i>Registro de la Memoria Anual de Actividades</i>, de esta manera a través de su difusión, dejamos testimonio de las actividades relevantes que contribuyen al desarrollo tecnológico e innovador que engrandecen la calidad y prestigio del <strong>Instituto Politécnico Nacional</strong>.<br><br>
+                        La difusión de la Memoria está abierta a la comunidad politécnica y al público en general, por lo cual se muestran actividades de importancia, englobadas en un ambiente de relevancia y en los ámbitos que el Instituto contribuye al desarrollo económico y social de la nación, a través de la formación integral de personas competentes; de la investigación, el desarrollo tecnológico y la innovación, tomando en cuenta por nombrar algunos ejemplos de su contenido, los esfuerzos por conseguir la equidad de género, sustentabilidad, seguridad y muchos otros valores que forman parte de los estándares de calidad que guían al Instituto.<br><br>
+                        En el <a href="https://www.ipn.mx/assets/files/secgeneral/docs/Memorias/Memoria2018/ns/upiiz.pdf">siguiente link</a> se encuentra un ejemplo de una Memoria Anual de Actividades.
+                      </p>
+                      
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-light float-right bg-info" data-dismiss="modal">Entendido</button>
+                    </div>
+                  </div>
+                  <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+              </div>
+
+              <!--Modal info memoria inst-->
 
       <section class="content">        
       <div class="row">      
@@ -814,10 +869,10 @@
 <!-- date-range-picker -->
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-<script src="js/agregarNuevosEventos.js"></script>
+<script src="js/agregarNuevo_Eventos.js"></script>
 <script src="js/login_Evento.js"></script>
 <script>
-  
+    
 $(document).ready(function () {
   bsCustomFileInput.init();
 
@@ -825,7 +880,9 @@ $(document).ready(function () {
     $(document).on('hidden.bs.modal', '#modalaboutCategorias', function () { 
         $(document.body).addClass('modal-open');
     });
-
+    $(document).on('hidden.bs.modal', '#modalaboutMemInst', function () { 
+        $(document.body).addClass('modal-open');
+    });
 });
 document.getElementById("exampleInputFile").onchange = function(e) {
   let lector = new FileReader();

@@ -484,6 +484,7 @@ function identificarEditar(id){
 }
 
 function identificarIdEvidencias(id){
+
    //Creando la imagen de carga en el boton mientras se cargan los datos 
     let boton = document.getElementById('botonEvidencia'+id);
     boton.innerHTML = "";
@@ -527,7 +528,6 @@ function identificarIdEvidencias(id){
               numMujeres = document.getElementById('cantidadMujeres').value = respuesta.numMujeres;
               numExpositores = document.getElementById('cantidadExpo').value = respuesta.numExpositores;
               porMenores = document.getElementById('pormenores').value = respuesta.pormenores;
-
               if(respuesta.imagen1 != ""){
                 let imagen1 = "img/"+respuesta.imagen1;
                 ev1.setAttribute("src",imagen1);
@@ -539,11 +539,11 @@ function identificarIdEvidencias(id){
                  document.getElementById('source2').innerHTML = "Evidencia 2";
               }
               if(respuesta.imagen1 == ""){
-                ev1.setAttribute("src","");
+                ev1.setAttribute("src","img/sinImagen.png");
                 document.getElementById('source1').innerHTML = "Elegir archivo";
               }
               if(respuesta.imagen2 == ""){
-                 ev2.setAttribute("src","");
+                 ev2.setAttribute("src","img/sinImagen.png");
                  document.getElementById('source2').innerHTML = "Elegir archivo";
               }
                  
@@ -556,8 +556,8 @@ function identificarIdEvidencias(id){
               numMujeres = document.getElementById('cantidadMujeres').value = "";
               numExpositores = document.getElementById('cantidadExpo').value = "";
               porMenores = document.getElementById('pormenores').value = "";
-              ev1.setAttribute("src","");
-              ev2.setAttribute("src","");
+              ev1.setAttribute("src","img/sinImagen.png");
+              ev2.setAttribute("src","img/sinImagen.png");
               document.getElementById('source1').innerHTML = "Elegir archivo";
               document.getElementById('source2').innerHTML = "Elegir archivo";
               
