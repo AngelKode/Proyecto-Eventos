@@ -12,7 +12,12 @@
 		$arr['start']		= 	$renglon['inicio'];
 		$arr['end']			= 	$renglon['final'];
 		$arr['title']		= 	$renglon['titulo'];
-		$arr['tipoEv']		= 	$renglon['tipoEv'];
+		//Obtenemos el id, y lo buscamos en la tabla
+			$idTipoEvento 		= 	$renglon['tipoEv'];
+			$query 				= 	"SELECT * FROM tipo_evento WHERE ID = ".$idTipoEvento;
+			$respuesta 			= 	mysqli_query($conexion,$query);
+			$tipoEventoObtenido = 	mysqli_fetch_array($respuesta);
+		$arr['tipoEv']		=	$tipoEventoObtenido['Nombre'];
 		$arr['publico']		= 	$renglon['publico'];
 		$arr['description']	= 	$renglon['descripcion'];
 		$arr['modalidad']   = 	$renglon['modalidad'];

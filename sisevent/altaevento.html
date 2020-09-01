@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="stylesheet" type="text/css" href="plugins/sweetalert2/sweetalert2.min.css">
-  <link rel="stylesheet" type="text/css" href="css/altaEvento.css">
+  <link rel="stylesheet" type="text/css" href="css/altaEventos.css">
 </head>
 <body class="hold-transition sidebar-mini" onload="actionRead();">
 <div class="wrapper">
@@ -180,34 +180,26 @@
                      <div class="p-2">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 align-self-end">
 
-                                        <div class="p-2">
-                                          <label>Evidencia 1</label>
-                                          <img id="img1" class="img-responsive" src="" alt="NINGUNA IMAGEN. SELECCIONE UNA" width="100%">
-                                        </div>
+                                    <label for="img1" class="labelEvidencias">Evidencia 1</label>
+                                    <img id="img1" class="img-fluid mb-3" src="" alt="NINGUNA IMAGEN. SELECCIONE UNA" width="100%">
 
-                                        <div class="p-2">
-                                          <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="exampleInputFile" name="image" lang="es">
-                                            <label class="custom-file-label" for="exampleInputFile" id="source1" style="overflow: hidden;">Elegir archivo</label>
-                                          </div>
-                                        </div>
+                                    <div class="custom-file">
+                                      <input type="file" class="custom-file-input" id="exampleInputFile" name="image" lang="es">
+                                      <label class="custom-file-label" for="exampleInputFile" id="source1" style="overflow:hidden;">Elegir archivo</label>
+                                    </div>
 
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 align-self-end mt-2">
 
-                                        <div class="p-2">
-                                          <label>Evidencia 2</label>
-                                          <img id="img2" class="img-responsive" src="" alt="NINGUNA IMAGEN.SELECCIONE UNA" width="100%">
-                                        </div>
+                                    <label for="img2" class="labelEvidencias">Evidencia 2</label>
+                                    <img id="img2" class="img-fluid mb-3" src="" alt="NINGUNA IMAGEN.SELECCIONE UNA" width="100%">
 
-                                        <div class="p-2">
-                                          <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="exampleInputFile1" lang="es">
-                                            <label class="custom-file-label" for="exampleInputFile" id="source2" style="overflow: hidden;">Elegir archivo</label>
-                                          </div>
-                                        </div>
+                                    <div class="custom-file">
+                                      <input type="file" class="custom-file-input" id="exampleInputFile1" lang="es">
+                                       <label class="custom-file-label" for="exampleInputFile" id="source2" style="overflow:hidden;">Elegir archivo</label>
+                                    </div>
   
                                 </div>
                             </div>
@@ -256,9 +248,30 @@
                         </div> 
 
                         <div class="form-group">
+                          <label># de Registro (Si aplica)</label><br>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                              </div>
+                              <input type="text" placeholder="Ingrese el registro..." class="form-control float-right" id="noRegistroAgregar">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Rama</label><br>
+                          <select class="form-control select2" id="ramaAgregar">
+                              <option value="Ciencias Sociales y Administrativas">Ciencias Sociales y Administrativas</option>
+                              <option value="Ingeniería y Ciencias Físico Matemáticas">Ingeniería y Ciencias Físico Matemáticas</option>
+                              <option value="Ciencias Médico Biológicas">Ciencias Médico Biológicas</option>
+                              <option value="Otros">Otros</option>
+                              <option value="No Aplica">No Aplica</option>
+                          </select>
+                        </div>
+
+                        <div class="form-group">
                            <label>Modalidad:</label>
 
-                              <select class="form-control select2" style="width: 100%;" id="modalidadAgregar">
+                              <select class="form-control select2"id="modalidadAgregar">
                                     <option value="Presencial">Presencial</option>
                                     <option value="Virtual">Virtual</option>
                                     <option value="Mixta">Mixta</option>
@@ -286,6 +299,18 @@
                          </div>
 
                          <div class="form-group">
+                            <label>Forma de Pago</label>
+                            <select class="form-control select2" id="formaPagoAgregar">
+                                <option value="Oferta Libre de Cuota">Oferta Libre de Cuota</option>
+                                <option value="Cat. Cuotas Institucionales">Cat. Cuotas Institucionales</option>
+                                <option value="Convenio">Convenio</option>
+                                <option value="Donación">Donación</option>
+                                <option value="Sin Información">Sin Información</option>
+                                <option value="No Aplica">No Aplica</option>
+                            </select>
+                         </div>
+
+                         <div class="form-group">
                           <label>Cantidad de Horas</label>
                            <div class="input-group">
                               <div class="input-group-prepend">
@@ -297,36 +322,41 @@
 
                            <div class="form-group">
                                   <div><label>Categoría</label><button class='btn btn-lg float-right' data-toggle="modal" data-target="#modalaboutCategorias" style='background-color:transparent; padding: 0 0;'><i class="far fa-question-circle" style="color:white"></i></button></div>
-                              <select class="form-control select2" style="width: 100%;" id="tipoCategoria"></select>
+                              <select class="form-control select2" id="tipoCategoria"></select>
                            </div>
 
                          <div class="form-group">
                                <label>Tipo de evento</label>
-                               <select class="form-control select2" style="width: 100%;" id="tipoDeEvento">
+                               <select class="form-control select2" id="tipoDeEvento">
                                </select>
                          </div>
 
                          <div class="form-group">
                           <label>Origen de los Ponentes</label>
-                          <select class="form-control select2" style="width: 100%;" id="origenPonentesAgregar">
-                             <option selected="selected">Interno</option>
-                             <option>Externo</option>
-                             <option>Ambos</option>
-                             <option>No aplica</option>
+                          <select class="form-control select2" id="origenPonentesAgregar">
+                              <option value="IPN">IPN</option>
+                              <option value="Institución Pública">Institución Pública</option>
+                              <option value="Institución Privada">Institución Privada</option>
+                              <option value="No Aplica">No Aplica</option>
                           </select>
                          </div>
 
                           <div class="form-group">
                             <label>Público objetivo</label>
-                               <select class="form-control select2" style="width: 100%;" id="tipoPublico">
-                                  <option selected="selected">Interno</option>
-                                  <option>Externo</option>
+                               <select class="form-control select2" id="tipoPublico">
+                                  <option value="Gobierno">Gobierno</option>
+                                  <option value="Sector Privado">Sector Privado</option>
+                                  <option value="Comunidad IPN">Comunidad IPN</option>
+                                  <option value="Sector Educativo">Sector Educativo</option>
+                                  <option value="Atención a Sectores Sociales">Atención a Sectores Sociales</option>
+                                  <option value="Público General">Público General</option>
+                                  <option value="Otros">Otros</option>
                                </select>
                          </div>
 
                          <div class="form-group">
                           <div><label>¿Se considera para la Memoria Institucional?</label><button class='btn btn-lg float-right' data-toggle="modal" data-target="#modalaboutMemInst" style='background-color:transparent; padding: 0 0;'><i class="far fa-question-circle" style="color:white"></i></button></div>
-                          <select class="form-control select2" style="width: 100%;" id="memInstitucionalAgregar">
+                          <select class="form-control select2" id="memInstitucionalAgregar">
                              <option selected="selected">Si</option>
                              <option>No</option>
                           </select>
@@ -335,7 +365,7 @@
                   </div>
                    <div class="modal-footer justify-content-between">
                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-outline-light" data-dismiss="modal" onclick="actionCreate();">Agregar</button>
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal" onclick="actionCreate();" id="btnAgregarEvento">Agregar</button>
                   </div>
                  </div>
                  <!-- /.modal-content -->
@@ -363,6 +393,10 @@
                        <div class="form-group">
                           <textarea class="form-control" readonly="true" style="resize: none;" placeholder="Descripcion..." id="descripcionElim"></textarea>
                        </div>
+                      <label># de Registro:</label>
+                      <label id="numRegistroElim" style="opacity: 0.7;"></label><br>
+                      <label>Rama:</label>
+                      <label id="ramaElim" style="opacity: 0.7;"></label><br>
                       <label>Modalidad:</label>
                       <label id="modalidadElim" style="opacity: 0.7;"> </label><br>
                       <label>Fecha de Inicio:</label>
@@ -371,6 +405,8 @@
                       <label id="fechDeFinElim" style="opacity: 0.7;"> </label><br>
                       <label>Costo del Evento:</label>
                       <label id="costoEventoElim" style="opacity: 0.7;"> </label><br>
+                      <label>Forma de Pago:</label>
+                      <label id="formaPagoElim" style="opacity: 0.7;"> </label><br>
                       <label>Cantidad de Horas:</label>
                       <label id="horasEventoElim" style="opacity: 0.7;"> </label><br>
                       <label>Categoría:</label>
@@ -417,6 +453,27 @@
                         </div>
 
                         <div class="form-group">
+                          <label># de Registro (Si aplica)</label><br>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                              </div>
+                              <input type="text" placeholder="Ingrese el registro..." class="form-control float-right" id="noRegistroEditar">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Rama</label><br>
+                          <select class="form-control select2" id="ramaEditar">
+                              <option value="Ciencias Sociales y Administrativas">Ciencias Sociales y Administrativas</option>
+                              <option value="Ingeniería y Ciencias Físico Matemáticas">Ingeniería y Ciencias Físico Matemáticas</option>
+                              <option value="Ciencias Médico Biológicas">Ciencias Médico Biológicas</option>
+                              <option value="Otros">Otros</option>
+                              <option value="No Aplica">No Aplica</option>
+                          </select>
+                        </div>
+
+                        <div class="form-group">
                           <label>Modalidad:</label>
 
                              <select class="form-control select2" style="width: 100%;" id="modalidadEditar">
@@ -444,6 +501,18 @@
                                 </div>
                                 <input type="number" placeholder="Ingrese el costo..." min="0" class="form-control float-right" id="costoEventoEdit"> 
                             </div> 
+                           </div>
+
+                           <div class="form-group">
+                              <label>Forma de Pago</label>
+                              <select class="form-control select2" id="formaPagoEditar">
+                                  <option value="Oferta Libre de Cuota">Oferta Libre de Cuota</option>
+                                  <option value="Cat. Cuotas Institucionales">Cat. Cuotas Institucionales</option>
+                                  <option value="Convenio">Convenio</option>
+                                  <option value="Donación">Donación</option>
+                                  <option value="Sin Información">Sin Información</option>
+                                  <option value="No Aplica">No Aplica</option>
+                              </select>
                            </div>
   
                            <div class="form-group">
@@ -481,8 +550,6 @@
                           <div class="form-group">
                             <label>Público objetivo</label>
                                <select class="form-control select2" style="width: 100%;" id="tipoPublicoEdit">
-                                  <option>Interno</option>
-                                  <option>Externo</option>
                                </select>
                          </div> 
 
@@ -497,7 +564,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                       <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cancelar</button>
-                      <button type="button" class="btn btn-outline-light" onclick="actionUpdate();" data-dismiss="modal">Actualizar</button>
+                      <button type="button" class="btn btn-outline-light" onclick="actionUpdate();" data-dismiss="modal" id="btnActEvento">Actualizar</button>
                     </div>
                   </div>
                   <!-- /.modal-content -->
@@ -869,7 +936,7 @@
 <!-- date-range-picker -->
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-<script src="js/agregarNuevo_Eventos.js"></script>
+<script src="js/agregarNuevo_Evento.js"></script>
 <script src="js/login_Evento.js"></script>
 <script>
     

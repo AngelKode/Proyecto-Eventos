@@ -6,6 +6,7 @@ function actionCreate(){
 
     let nombreCategoria = document.getElementById("categoriaAgregar").value;
     let observacionCategoria = document.getElementById("observacionAgregar").value;
+    $("#btnAgregarCateg").attr("data-dismiss","");
     
     if(nombreCategoria == "" && observacionCategoria != ""){
         $(function() {
@@ -48,6 +49,8 @@ function actionCreate(){
         });
     }else{
 
+      $("#btnAgregarCateg").attr("data-dismiss","modal");//Cerramos el modal
+      
       $.ajax({
         method : "post",
         url: "php/agregarCategoria.php",
@@ -153,71 +156,88 @@ function actionRead(){
 function actionUpdate(){
 
   //Obtenemos los datos a modificar
+  $("#btnActCateg").attr("data-dismiss","");
   let nombreActualizar = document.getElementById("categoriaAct").value;
   let observacionActualizar = document.getElementById("observacionesAct").value;
+  if(nombreActualizar == "" || observacionActualizar == ""){
+    $(function() {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      });
 
+        Toast.fire({
+            type: 'warning',
+            title: 'Faltan datos. Verifíquelos!'
+        })
+
+  });
+  }else{
+   $("#btnActCateg").attr("data-dismiss","modal");
   //A través de ajax mandamos actualizar la BD
-  $.ajax({
-      method : "post",
-      url: "php/agregarCategoria.php",
-      data: {
-          action : "update",
-          id : idActualizar,
-          nombre : nombreActualizar,
-          observaciones : observacionActualizar
-      },
-      success: function( result ) {
+      $.ajax({
+          method : "post",
+          url: "php/agregarCategoria.php",
+          data: {
+              action : "update",
+              id : idActualizar,
+              nombre : nombreActualizar,
+              observaciones : observacionActualizar
+          },
+          success: function( result ) {
 
-         let resultJSON = JSON.parse(result);
-         let nombreNuevo = document.getElementById("categoriaAct").value;
-         let observacionNueva = document.getElementById("observacionesAct").value;
+            let resultJSON = JSON.parse(result);
+            let nombreNuevo = document.getElementById("categoriaAct").value;
+            let observacionNueva = document.getElementById("observacionesAct").value;
 
-         if(resultJSON.estado == 1){
+            if(resultJSON.estado == 1){
 
-          //Actualizamos la tabla
-          let tabla = $("#example1").DataTable();
-          let renglon = tabla.row("#row_"+idActualizar).data();
-          renglon[0] = nombreNuevo;
-          renglon[1] = observacionNueva;
+              //Actualizamos la tabla
+              let tabla = $("#example1").DataTable();
+              let renglon = tabla.row("#row_"+idActualizar).data();
+              renglon[0] = nombreNuevo;
+              renglon[1] = observacionNueva;
 
-          tabla.row("#row_"+idActualizar).data(renglon);
-          
-          //Mandamos un Toast para decirle al usuario que los cambios se hicieron
-              $(function() {
-                  const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
+              tabla.row("#row_"+idActualizar).data(renglon);
+              
+              //Mandamos un Toast para decirle al usuario que los cambios se hicieron
+                  $(function() {
+                      const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+
+                        Toast.fire({
+                            type: 'success',
+                            title: 'La categoría ha sido actualizada exitósamente!'
+                        })
+
+                  });
+            }else{
+
+                  $(function() {
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000
+                    });
+
+                      Toast.fire({
+                          type: 'info',
+                          title: 'No se hicieron modificaciones a la categoría!'
+                      })
+
                   });
 
-                    Toast.fire({
-                        type: 'success',
-                        title: 'La categoría ha sido actualizada exitósamente!'
-                    })
-
-              });
-         }else{
-
-              $(function() {
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000
-                });
-
-                  Toast.fire({
-                      type: 'info',
-                      title: 'No se hicieron modificaciones a la categoría!'
-                  })
-
-              });
-
-         }
-      }
-    });
-
+            }
+          }
+        });
+  }
 }
 function actionDelete(){
      

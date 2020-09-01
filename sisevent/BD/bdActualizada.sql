@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-08-2020 a las 06:05:20
+-- Tiempo de generación: 01-09-2020 a las 04:55:16
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.2
 
@@ -60,7 +60,7 @@ CREATE TABLE `categoria` (
 INSERT INTO `categoria` (`id`, `Nombre`, `Observaciones`) VALUES
 (1, 'Deportiva', 'Ninguna'),
 (2, 'Tecnologica', 'Ninguna'),
-(3, 'Académico', 'Ninguna'),
+(3, 'Académico', 'Nada'),
 (4, 'Innovación', 'Ninguna');
 
 -- --------------------------------------------------------
@@ -74,6 +74,8 @@ CREATE TABLE `eventos` (
   `usuarioCreador` int(255) DEFAULT NULL,
   `titulo` varchar(100) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
+  `NoRegistro` varchar(100) NOT NULL DEFAULT 'Nada',
+  `Rama` varchar(100) DEFAULT NULL,
   `modalidad` varchar(20) DEFAULT NULL,
   `inicio` datetime DEFAULT NULL,
   `final` datetime DEFAULT NULL,
@@ -82,6 +84,7 @@ CREATE TABLE `eventos` (
   `publico` varchar(50) DEFAULT NULL,
   `origenPonentes` varchar(20) DEFAULT NULL,
   `costoEvento` varchar(30) DEFAULT NULL,
+  `FormaDePago` varchar(100) DEFAULT NULL,
   `cantidadHoras` varchar(10) DEFAULT NULL,
   `MemoriaInstitucional` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -90,10 +93,10 @@ CREATE TABLE `eventos` (
 -- Volcado de datos para la tabla `eventos`
 --
 
-INSERT INTO `eventos` (`idEvento`, `usuarioCreador`, `titulo`, `descripcion`, `modalidad`, `inicio`, `final`, `tipoEv`, `categoria`, `publico`, `origenPonentes`, `costoEvento`, `cantidadHoras`, `MemoriaInstitucional`) VALUES
-(2, 12, 'Programacion Orientada a Objetos', 'Evento de programación', 'Virtual', '2020-06-01 12:00:00', '2020-06-05 11:00:00', 1, 4, 'Externo', 'Externo', '1650', '14', 'Si'),
-(3, 12, 'Semana mecatrónica', 'Evento mecatronicas', 'Mixta', '2020-06-01 08:00:00', '2020-06-19 16:00:00', 1, 3, 'Interno', 'Interno', '5500', '20', 'No'),
-(4, 19, 'Semana de salud', 'Evento de salud sobre como cuidar tu cuerpo y asi poder tener una vida mas plena', 'Presencial', '2020-05-20 10:30:00', '2020-06-24 15:20:00', 5, 2, 'Externo', 'No aplica', '2500', '8', 'Si');
+INSERT INTO `eventos` (`idEvento`, `usuarioCreador`, `titulo`, `descripcion`, `NoRegistro`, `Rama`, `modalidad`, `inicio`, `final`, `tipoEv`, `categoria`, `publico`, `origenPonentes`, `costoEvento`, `FormaDePago`, `cantidadHoras`, `MemoriaInstitucional`) VALUES
+(2, 12, 'Programacion Orientada a Objetos', 'Nada', '', 'Ingeniería y Ciencias Físico Matemáticas', 'Virtual', '2020-06-01 12:00:00', '2020-06-05 11:00:00', 1, 4, 'Gobierno', 'IPN', '10', 'Oferta Libre de Cuota', '14', 'Si'),
+(3, 12, 'Semana mecatrónica', 'Evento mecatronicas', '1728421', 'Ciencias Sociales y Administrativas', 'Mixta', '2020-06-01 08:00:00', '2020-06-19 16:00:00', 1, 3, 'Público General', 'Institución Privada', '5500', 'Convenio', '20', 'No'),
+(4, 19, 'Semana de salud', 'Evento de salud sobre como cuidar tu cuerpo y asi poder tener una vida mas plena', '1248219', 'Ciencias Médico Biológicas', 'Presencial', '2020-05-20 10:30:00', '2020-06-24 15:20:00', 5, 2, 'Atención a Sectores Sociales', 'No Aplica', '2500', 'Cat. Cuotas Institucionales', '8', 'Si');
 
 -- --------------------------------------------------------
 
@@ -116,7 +119,7 @@ CREATE TABLE `evidencias` (
 --
 
 INSERT INTO `evidencias` (`id`, `numHombres`, `numMujeres`, `numExpositores`, `pormenores`, `evidencia1`, `evidencia2`) VALUES
-(2, 10, 20, 10, 'Nada', '5f39d6b6b62a0-4500486-new-york-city-wallpapers.jpg', '5f39d6b6c5576-7039328-brooklyn-bridge-manhattan.jpg');
+(2, 10, 20, 10, 'Nada', '5f4d62bc3dec2-101219.jpg', '5f4d62bc441ff-Images of Landscapes of colorful spring _22 Wallpaper Full HD.jpg');
 
 -- --------------------------------------------------------
 

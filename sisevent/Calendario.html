@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- Estilo Evidencias -->
   <link rel="stylesheet" type="text/css" href="css/css.css">
-  <link rel="stylesheet" type="text/css" href="css/estilosEventoCalendar.css">
+  <link rel="stylesheet" type="text/css" href="css/estilosEventoCalendario.css">
   <!--ToolTip-->
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css"/>
   <link rel="stylesheet" href="css/tooltip.css">
@@ -267,35 +267,16 @@
               <span><b>Pormenores:</b></span>
               <div id="descripcionEv" class="muestra"></div>
   
-              <div class="d-inline-flex">
-                <div style="width: 50%;">
-                  <table  class="table">
-                    <tr>
-                      <th width="50%" >Foto 1</th>
-                    </tr>
-                    <tr>
-                      <td style="display: inline-block;">
-                        <div class="img1" style="width: 100%;">
-                          <img id="ev1" class="img-responsive" src="" style="width: 100%;">
-  
-                        </div>
-                      </td>
-                    </tr>
-                </table>
-                </div>
-                <div style="width: 50%;">
-                  <table class="table">
-                    <tr>
-                      <th width="100%">Foto 2</th>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="img2" style="width: 100%;">
-                          <img id="ev2" class="img-responsive" src="" style="width: 100%;">
-                        </div>
-                      </td>
-                    </tr>
-                </table>
+              <div class="col-12">
+                <div class="row">
+                    <div class="col-md-6 align-self-center">
+                          <label for="ev1" class="tituloEvidencias">Evidencia 1</label>
+                          <img class="img-fluid mb-3" id="ev1" src="" width="100%">
+                    </div>
+                    <div class="col-md-6 align-self-center">
+                      <label for="ev2" class="tituloEvidencias">Evidencia 2</label>
+                        <img class="img-fluid mb-3" id="ev2" src="" width="100%">
+                    </div>
                 </div>
               </div>
             </div>

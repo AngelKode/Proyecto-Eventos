@@ -59,10 +59,24 @@ function actionRead(){
 }
 
 function actionUpdate(){
+  //Datos a editar
+  $("#btnActEvento").attr("data-dismiss","");
+
   let nombreEvento = document.getElementById("eventoEdit").value;
   let descripcionEvento = document.getElementById("descripcionEdit").value;
+  let noRegistroEdit = document.getElementById("noRegistroEditar").value;
+  let ramaEdit = document.getElementById('ramaEditar').value;
   let fechaInicio = "";
   let fechaFin = "";
+  let tipoEvento = $("#tipoDeEventoEdit").val();
+  let modalidadAct = document.getElementById("modalidadEditar").value;
+  let publico = document.getElementById("tipoPublicoEdit").value;
+  categoriaEditar = $("#categoriaEdit").val();
+  let costoEditar = document.getElementById("costoEventoEdit").value;
+  let formaPago = document.getElementById('formaPagoEditar').value;
+  let horasEventoEditar = document.getElementById("cantidadHorasEdit").value;
+  let origenPonenteEditar = document.getElementById("origenPonentesEditar").value;
+  let memInstEditar = document.getElementById("memInstitucionalEditar").value;
 
          if($("#edit_reservationtime").data("daterangepicker").startDate.format("A") == "AM" && $("#edit_reservationtime").data("daterangepicker").endDate.format("A") == "AM"){
             let horaInicio = parseInt($("#edit_reservationtime").data("daterangepicker").startDate.format("hh"));
@@ -116,21 +130,17 @@ function actionUpdate(){
             fechaFin = $("#edit_reservationtime").data("daterangepicker").endDate.format("YYYY-MM-DD "+horaFin+":mm");
 
          }
-  let tipoEvento = $("#tipoDeEventoEdit").val();
-  let modalidadAct = document.getElementById("modalidadEditar").value;
-  let publico = document.getElementById("tipoPublicoEdit").value;
-  categoriaEditar = $("#categoriaEdit").val();
-  let costoEditar = document.getElementById("costoEventoEdit").value;
-  let horasEventoEditar = document.getElementById("cantidadHorasEdit").value;
-  let origenPonenteEditar = document.getElementById("origenPonentesEditar").value;
-  let memInstEditar = document.getElementById("memInstitucionalEditar").value;
-
-   update(nombreEvento,descripcionEvento,modalidadAct,fechaInicio,fechaFin,tipoEvento,publico,idActualizar,costoEditar,horasEventoEditar
-          ,origenPonenteEditar,memInstEditar);  
+  if(nombreEvento == "" || descripcionEvento == "" || costoEditar == "" || horasEventoEditar == ""){
+      toastrWarning("Faltan datos. Verifíquelos!");
+  }else{
+    $("#btnActEvento").attr("data-dismiss","modal");
+    update(nombreEvento,descripcionEvento,noRegistroEdit,ramaEdit,modalidadAct,fechaInicio,fechaFin,tipoEvento,publico,
+      idActualizar,costoEditar,formaPago,horasEventoEditar,origenPonenteEditar,memInstEditar);  
+  }
 }
 
-function update(nombreEvento,descripcionEvento,modalidadUp,fechaInicio,fechaFin,tipoEvento,publico,idActualizar,costoEditar,
-                horasEditar,origPonentesEdit,memInstEditar){
+function update(nombreEvento,descripcionEvento,registro,rama,modalidadUp,fechaInicio,fechaFin,tipoEvento,publico,idActualizar,
+                costoEditar,formaPago,horasEditar,origPonentesEdit,memInstEditar){
    $.ajax({
         method : "post",
         url: "php/agregarEventoFecha.php",
@@ -138,6 +148,8 @@ function update(nombreEvento,descripcionEvento,modalidadUp,fechaInicio,fechaFin,
           action : "update",
           nombreUp : nombreEvento,
           descripcionUp : descripcionEvento,
+          registroEdit : registro,
+          ramaEdit : rama,
           modalidadUpdt : modalidadUp,
           fechaInicioUp : fechaInicio,
           fechaFinUp : fechaFin,
@@ -145,6 +157,7 @@ function update(nombreEvento,descripcionEvento,modalidadUp,fechaInicio,fechaFin,
           tipoPublicoUp : publico,
           categoriaUp : categoriaEditar,
           costoEdit : costoEditar,
+          formaPagoEdit : formaPago,
           horasEdit : horasEditar,
           origPonentesEditar : origPonentesEdit,
           boolMemInstEdit : memInstEditar,
@@ -161,18 +174,7 @@ function update(nombreEvento,descripcionEvento,modalidadUp,fechaInicio,fechaFin,
                 renglon[2] = fechaFin.substring(0,fechaFin.length-5);
 
                 tabla.row("#row_"+idActualizar).data(renglon);
-                $(function() {
-                     const Toast = Swal.mixin({
-                       toast: true,
-                       position: 'top-end',
-                       showConfirmButton: false,
-                       timer: 3000
-                     });
-                    Toast.fire({
-                        type: 'success',
-                        title: 'El evento ha sido actualizado exitósamente!'
-                      })
-                   });
+                toastrSuccess('El evento ha sido actualizado exitósamente!');
             }else{
               $(function() {
                      const Toast = Swal.mixin({
@@ -204,18 +206,7 @@ function actionDelete(){
             if(resultJSON.estatus == 1){//Si la variable en su posicion estado vale 1, todo salió bien  
                 let tabla = $("#example1").DataTable();
                 tabla.row("#row_"+idEliminar).remove().draw();
-                $(function() {
-                     const Toast = Swal.mixin({
-                       toast: true,
-                       position: 'top-end',
-                       showConfirmButton: false,
-                       timer: 3000
-                     });
-                    Toast.fire({
-                        type: 'success',
-                        title: 'El evento ha sido eliminado exitósamente!'
-                      })
-                   });
+                toastrSuccess('El evento ha sido eliminado exitósamente!');
              }else{
                 $(function() {
                      const Toast = Swal.mixin({
@@ -292,12 +283,17 @@ function leerCategorias(){//Obtenemos las categorias que se han dado de alta
 }
 function actionCreate(){
 
-  let nombreEvento = document.getElementById("eventoNuevo").value;
+  $("#btnAgregarEvento").attr("data-dismiss","");
+
+  let nombreEvento = document.getElementById("eventoNuevo");
   let categoria = $("#tipoCategoria").val();
-  let descripcionEvento = document.getElementById("descripcionEvento").value;
+  let descripcionEvento = document.getElementById("descripcionEvento");
+  let numeroRegistro = document.getElementById("noRegistroAgregar");
+  let rama = document.getElementById("ramaAgregar").value;
   let modalidadEvento = document.getElementById("modalidadAgregar").value;
-  let costo = document.getElementById("costoEventoAgregar").value;
-  let horaEvento = document.getElementById("cantidadHorasAgregar").value;
+  let costo = document.getElementById("costoEventoAgregar");
+  let formaDePago = document.getElementById("formaPagoAgregar").value;
+  let horaEvento = document.getElementById("cantidadHorasAgregar");
   let origenPonentes = document.getElementById("origenPonentesAgregar").value;
   let boolMemoriaInstitucional = document.getElementById("memInstitucionalAgregar").value;
   let tipoEvento = $("#tipoDeEvento").val();
@@ -358,36 +354,45 @@ function actionCreate(){
          }
   
 
-  if(nombreEvento == "" || descripcionEvento == "" || tipoEvento == "" || publico == ""){
-     toastr.error('Faltan campos! Verifiquelos');
-     toastr.info('No se pudo guardar el evento');
+  if(nombreEvento.value == "" || descripcionEvento.value == "" || costo.value == ""|| horaEvento.value == ""){
+    toastrWarning("Faltan campos. Verifíquelos!");
   }else{
+        $("#btnAgregarEvento").attr("data-dismiss","modal");
         
-        agregar(nombreEvento,descripcionEvento,modalidadEvento,fechaInicio,fechaFin,tipoEvento,
-                publico,categoria,costo,horaEvento,origenPonentes,boolMemoriaInstitucional);
+        agregar(nombreEvento.value,descripcionEvento.value,numeroRegistro.value,rama,modalidadEvento,fechaInicio,fechaFin,
+                tipoEvento,publico,categoria,costo.value,formaDePago,horaEvento.value,origenPonentes,
+                boolMemoriaInstitucional);
+        //Despues de agregar, limpiamos los campos
+        let inputsLimpiarAgregar = [nombreEvento,descripcionEvento,numeroRegistro,costo,horaEvento];
+            inputsLimpiarAgregar.map(function(elemento){
+                elemento.value = "";
+        });
       
     }
 } 
-function agregar(nombreEvento,descripcionEvento,modalidad,fechaInicio,fechaFin,tipoEvento
-  ,publico,categoria,costo,horaEvento,origenPonentes,boolMemoriaInstitucional){
+function agregar(nombreEvento,descripcionEvento,numRegistro,rama,modalidad,fechaInicio,fechaFin,tipoEvento
+  ,publico,categoria,costo,formaPago,horaEvento,origenPonentes,boolMemoriaInstitucional){
   $.ajax({
         method : "post",
         url: "php/agregarEventoFecha.php",
         data: {
-          action : "create",
-          nombre : nombreEvento,
-          descripcion : descripcionEvento,
-          modalidadEvento : modalidad,
-          fechaInicio : fechaInicio,
-          fechaFin : fechaFin,
-          tipoEvento : tipoEvento,
-          publico : publico,
-          categ : categoria,
-          costoEv : costo,
-          tiempoHora : horaEvento,
-          origPonentes : origenPonentes,
+          action               : "create",
+          nombre               : nombreEvento,
+          descripcion          : descripcionEvento,
+          numeroRegistro       : numRegistro,
+          ramaEvento           : rama,
+          modalidadEvento      : modalidad,
+          fechaInicio          : fechaInicio,
+          fechaFin             : fechaFin,
+          tipoEvento           : tipoEvento,
+          publico              : publico,
+          categ                : categoria,
+          costoEv              : costo,
+          formaDePago          : formaPago,
+          tiempoHora           : horaEvento,
+          origPonentes         : origenPonentes,
           memoriaInstitucional : boolMemoriaInstitucional,
-          idCreador : sessionStorage.getItem("idUsuario")
+          idCreador            : sessionStorage.getItem("idUsuario")
         },
         success: function( result ) {
             var resultJSON = JSON.parse(result);//Convertimos el dato JSON
@@ -404,18 +409,8 @@ function agregar(nombreEvento,descripcionEvento,modalidad,fechaInicio,fechaFin,t
                         nuevaFechaIn,
                         nuevaFechaFin,
                         Botones]).draw().node().id= "row_"+resultJSON.ultimoId;//Le asignamos el ID al renglón
-                    $(function() {
-                     const Toast = Swal.mixin({
-                       toast: true,
-                       position: 'top-end',
-                       showConfirmButton: false,
-                       timer: 3000
-                     });
-                    Toast.fire({
-                        type: 'success',
-                        title: 'El evento ha sido guardado exitósamente!'
-                      });
-                   });
+
+                toastrSuccess('El evento ha sido guardado exitósamente!');
                 document.getElementById('eventoNuevo').value = "";
                 document.getElementById('descripcionEvento').value = "";
             }else{
@@ -582,12 +577,11 @@ function leerDatosEvento(){
 
             if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien  
               $("#descripcionEdit").val(resultJSON.descripcion);
+               document.getElementById("noRegistroEditar").value = resultJSON.registro;
                let fechaInicio = resultJSON.fechaInicio.toString().substring(0,resultJSON.fechaInicio.length-3);
                let fechaFin = resultJSON.fechaFin.toString().substring(0,resultJSON.fechaFin.length-3);
-               let costo = document.getElementById("costoEventoEdit");
-                  costo.value = resultJSON.costo;
-              let cantidadHoras = document.getElementById("cantidadHorasEdit");
-                  cantidadHoras.value = resultJSON.cantidadHoras;
+               document.getElementById("costoEventoEdit"). value = resultJSON.costo;
+               document.getElementById("cantidadHorasEdit").value = resultJSON.cantidadHoras;
                $("#edit_reservationtime").data("daterangepicker").setStartDate("'"+fechaInicio+"'");
                $('#edit_reservationtime').data('daterangepicker').setEndDate("'"+fechaFin+"'");
                eventoEditar = resultJSON.tipoEvento;//ID
@@ -612,55 +606,209 @@ function leerDatosEvento(){
                         }else{
                             optionMixta.selected = true;
                         }
+
                selectModalidad.appendChild(optionPresencial);
                selectModalidad.appendChild(optionVirtual);
                selectModalidad.appendChild(optionMixta);
 
+               //Editando el select de la Rama
+               $('#ramaEditar option').remove();
+               
+               let selectRama = document.getElementById('ramaEditar');
+               let optionCiencias = document.createElement('option');
+               let optionIngenieria = document.createElement('option');
+               let optionCienciasMedico = document.createElement('option');
+               let optionOtros = document.createElement('option');
+               let optionNoAplica = document.createElement('option');
+
+               //Le agrego texto a los options
+               optionCiencias.text = "Ciencias Sociales y Administrativas";
+               optionIngenieria.text = "Ingeniería y Ciencias Físico Matemáticas";
+               optionCienciasMedico.text = "Ciencias Médico Biológicas";
+               optionOtros.text = "Otros";
+               optionNoAplica.text = "No Aplica";
+                  
+                  //Checo el resultado en la BD, y asi, tener seleccionado la option de la BD
+                  switch(resultJSON.rama){
+
+                    case 'Ciencias Sociales y Administrativas':{
+                      optionCiencias.selected = true;
+                      break;
+                    }
+
+                    case 'Ingeniería y Ciencias Físico Matemáticas':{
+                      optionIngenieria.selected = true;
+                      break;
+                    }
+
+                    case 'Ciencias Médico Biológicas':{
+                      optionCienciasMedico.selected = true;
+                      break;
+                    }
+
+                    case 'Otros':{
+                      optionOtros.selected = true;
+                      break;
+                    }
+
+                    default:{
+                      optionNoAplica.selected = true;
+                      break;
+                    }
+                    
+                  }
+
+               //Le agrego los options al selected de las Ramas
+                selectRama.appendChild(optionCiencias);
+                selectRama.appendChild(optionIngenieria);
+                selectRama.appendChild(optionCienciasMedico);
+                selectRama.appendChild(optionOtros);
+                selectRama.appendChild(optionNoAplica);
+
+               
+               //Editando el select de la forma de pago
+               $("#formaPagoEditar option").remove();
+
+               let selectFormaPago = document.getElementById('formaPagoEditar');
+               let optionLibreCuota = document.createElement('option');
+               let optionCuotaInst = document.createElement('option');
+               let optionConvenio = document.createElement('option');
+               let optionDonacion = document.createElement('option');
+               let optionSinInf = document.createElement('option');
+               let optionNoAplicaPago = document.createElement('option');
+
+               //Agregando texto a los options
+               optionLibreCuota.text = "Oferta Libre de Cuota";
+               optionCuotaInst.text = "Cat. Cuotas Institucionales";
+               optionConvenio.text = "Convenio";
+               optionDonacion.text = "Donación";
+               optionSinInf.text = "Sin Información";
+               optionNoAplicaPago.text = "No Aplica";
+
+               switch(resultJSON.formaPago){
+                  case 'Oferta Libre de Cuota':{
+                    optionLibreCuota.selected = true;
+                    break;
+                  }
+                  case 'Cat. Cuotas Institucionales':{
+                    optionCuotaInst.selected = true;
+                    break;
+                  }
+                  case 'Convenio':{
+                    optionConvenio.selected = true;
+                    break;
+                  }
+                  case 'Donación':{
+                    optionDonacion.selected = true;
+                    break;
+                  }
+                  case 'Sin Información':{
+                    optionSinInf.selected = true;
+                    break;
+                  }
+                  default:{
+                    optionNoAplicaPago.selected = true;
+                    break;
+                  }
+
+               }
+
+               //Ahora agrego los options de la forma de pago al select
+                  selectFormaPago.appendChild(optionLibreCuota);
+                  selectFormaPago.appendChild(optionCuotaInst);
+                  selectFormaPago.appendChild(optionConvenio);
+                  selectFormaPago.appendChild(optionDonacion);
+                  selectFormaPago.appendChild(optionSinInf);
+                  selectFormaPago.appendChild(optionNoAplicaPago);
+
+
                //Creo los elementos en el select y dependiendo de la bd en el tipo de publico pongo
                //en selected a Externo o Interno
                $('#tipoPublicoEdit option').remove();
-               let select = document.getElementById('tipoPublicoEdit');   
-               let option = document.createElement('option');
-               let option2 = document.createElement('option');
-               option.text = "Interno";
-               option2.text = "Externo";
-                  if(option.text == resultJSON.publico){
-                    option.selected = true;
-                  }else{
-                    option2.selected = true;
+               let selectPublicoObjetivo = document.getElementById('tipoPublicoEdit');   
+               let optionGobierno = document.createElement('option');
+               let optionSectorPriv = document.createElement('option');
+               let optionComunidad = document.createElement('option');
+               let optionSectorEduc = document.createElement('option');
+               let optionSectoresSociales = document.createElement('option');
+               let optionPublicoGeneral = document.createElement('option');
+               let optionOtrosPublico = document.createElement('option');
+
+               optionGobierno.text = "Gobierno";
+               optionSectorPriv.text = "Sector Privado";
+               optionComunidad.text = "Comunidad IPN";
+               optionSectorEduc.text = "Sector Educativo";
+               optionSectoresSociales.text = "Atención a Sectores Sociales";
+               optionPublicoGeneral.text = "Público General";
+               optionOtrosPublico.text = "Otros";
+
+                  switch(resultJSON.publico){
+                    case 'Gobierno':{
+                      optionGobierno.selected = true;
+                      break;
+                    }
+                    case 'Sector Privado':{
+                      optionSectorPriv.selected = true;
+                      break;
+                    }
+                    case 'Comunidad IPN':{
+                      optionComunidad.selected = true;
+                      break;
+                    }
+                    case 'Sector Educativo':{
+                     optionSectorEduc.selected = true;
+                     break; 
+                    }
+                    case 'Atención a Sectores Sociales':{
+                      optionSectoresSociales.selected = true;
+                      break;
+                    }
+                    case 'Público General':{
+                      optionPublicoGeneral.selected = true;
+                      break;
+                    }
+                    default:{
+                      optionOtrosPublico.selected = true;
+                      break;
+                    }
                   }
-               select.appendChild(option);
-               select.appendChild(option2);
-               leerTipoDeEventoEdit(); 
-               leerCategoriaEdit();
+               //Ahora agregamos los options al selected del publico objetivo
+               selectPublicoObjetivo.appendChild(optionGobierno);
+               selectPublicoObjetivo.appendChild(optionSectorPriv);
+               selectPublicoObjetivo.appendChild(optionComunidad);
+               selectPublicoObjetivo.appendChild(optionSectorEduc);
+               selectPublicoObjetivo.appendChild(optionSectoresSociales);
+               selectPublicoObjetivo.appendChild(optionPublicoGeneral);
+               selectPublicoObjetivo.appendChild(optionOtrosPublico);
+
 
              //Pongo en el select de el origen de ponentes el que está en la BD
               $("#origenPonentesEditar option").remove();
               let selectPonentes = document.getElementById("origenPonentesEditar");
-              let optionInterno = document.createElement("option");
-              let optionExterno = document.createElement("option");
-              let optionAmbos = document.createElement("option");
-              let optionNA = document.createElement("option");
+              let optionIPN = document.createElement("option");
+              let optionPub = document.createElement("option");
+              let optionPriv = document.createElement("option");
+              let optionNAPonentes = document.createElement("option");
 
-              optionInterno.text = "Interno";
-              optionExterno.text = "Externo";
-              optionAmbos.text = "Ambos";
-              optionNA.text = "No aplica";
+              optionIPN.text = "IPN";
+              optionPub.text = "Institución Pública";
+              optionPriv.text = "Institución Privada";
+              optionNAPonentes.text = "No Aplica";
 
-              if(resultJSON.origenPonentes == "Interno"){
-                 optionInterno.selected = true;
-              }else if(resultJSON.origenPonentes == "Externo"){
-                optionExterno.selected = true;
-              }else if(resultJSON.origenPonentes == "Ambos"){
-                optionAmbos.selected = true;
+              if(resultJSON.origenPonentes == "IPN"){
+                 optionIPN.selected = true;
+              }else if(resultJSON.origenPonentes == "Institución Pública"){
+                optionPub.selected = true;
+              }else if(resultJSON.origenPonentes == "Institución Privada"){
+                optionPriv.selected = true;
               }else{ 
-                optionNA.selected = true;
+                optionNAPonentes.selected = true;
               }
 
-              selectPonentes.appendChild(optionInterno);
-              selectPonentes.appendChild(optionExterno);
-              selectPonentes.appendChild(optionAmbos);
-              selectPonentes.appendChild(optionNA);
+              selectPonentes.appendChild(optionIPN);
+              selectPonentes.appendChild(optionPub);
+              selectPonentes.appendChild(optionPriv);
+              selectPonentes.appendChild(optionNAPonentes);
 
               //Pongo en el select de la memoria institucional el que está en la BD
               $("#memInstitucionalEditar option").remove();
@@ -679,6 +827,10 @@ function leerDatosEvento(){
 
               selectMemInst.appendChild(optionSi);
               selectMemInst.appendChild(optionNo);
+
+              //Obtenemos los datos de las tablas
+               leerTipoDeEventoEdit(); 
+               leerCategoriaEdit();
               
             }else{
               alert(resultJSON.mensaje);//Si hubo un error, mandamos un mensaje
@@ -770,6 +922,12 @@ function leerDatosEventoDelete(){
           let resultJSON = JSON.parse(result);//Convertimos el dato JSON
             if(resultJSON.estado == 1){//Si la variable en su posicion estado vale 1, todo salió bien 
                document.getElementById('descripcionElim').value = resultJSON.descripcion;
+               if(resultJSON.numRegistro == ""){
+                document.getElementById('numRegistroElim').innerHTML = "Sin # de Registro";
+               }else{
+                document.getElementById('numRegistroElim').innerHTML = resultJSON.numRegistro;
+               }
+               document.getElementById('ramaElim').innerHTML = resultJSON.rama;
                document.getElementById('modalidadElim').innerHTML = resultJSON.modalidad;
                document.getElementById('fechaDeInicioElim').innerHTML =  resultJSON.fechaInicio.substring(0,resultJSON.fechaInicio.length-3);
                document.getElementById('fechDeFinElim').innerHTML = resultJSON.fechaFin.substring(0,resultJSON.fechaFin.length-3);
@@ -777,6 +935,7 @@ function leerDatosEventoDelete(){
                document.getElementById('tipoDeEventoElim').innerHTML = resultJSON.tipoEvento;
                document.getElementById('publicoElim').innerHTML = resultJSON.publico;
                document.getElementById("costoEventoElim").innerHTML = "$"+resultJSON.costo+".00";
+               document.getElementById('formaPagoElim').innerHTML = resultJSON.formaPago;
                document.getElementById("horasEventoElim").innerHTML = resultJSON.cantidadHoras;
                document.getElementById("origenPonentesElim").innerHTML = resultJSON.origenPonentes;
                document.getElementById("memInstElim").innerHTML = resultJSON.memInst;
@@ -905,4 +1064,36 @@ function agregarEvidencias(){
 
       }
 
+}
+
+function toastrWarning(texto){
+  $(function() {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+      Toast.fire({
+          type: 'warning',
+          title: texto
+      })
+  });
+}
+
+function toastrSuccess(texto){
+  $(function() {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+      Toast.fire({
+          type: 'success',
+          title: texto
+      })
+  });
 }

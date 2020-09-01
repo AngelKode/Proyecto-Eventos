@@ -114,6 +114,8 @@ function ActionUpdatePHP($conexion){
 
 	$nombreEvento = $_POST["nombreUp"];
 	$descripcion = $_POST["descripcionUp"];
+	$registroEdit = $_POST['registroEdit']; 
+	$ramaEdit = $_POST['ramaEdit'];
 	$modalidad = $_POST['modalidadUpdt'];  
 	$fechaInicio = $_POST["fechaInicioUp"];
 	$fechaFin = $_POST["fechaFinUp"];
@@ -121,6 +123,7 @@ function ActionUpdatePHP($conexion){
 	$tipoPublico = $_POST["tipoPublicoUp"];
 	$categoria = $_POST['categoriaUp'];
 	$costoEditar = $_POST['costoEdit'];
+	$fomaPagoEditar = $_POST['formaPagoEdit'];
 	$horasEditar = $_POST['horasEdit'];
 	$origPonentesEditar = $_POST['origPonentesEditar'];
 	$memInstEditar = $_POST['boolMemInstEdit'];
@@ -129,7 +132,7 @@ function ActionUpdatePHP($conexion){
 	$Respuesta['estado'] = 1;
 	$Respuesta['mensaje'] = "Datos correctos";
 
-	$query = "UPDATE eventos SET titulo='".$nombreEvento."', descripcion='".$descripcion."', modalidad = '".$modalidad."',inicio = '".$fechaInicio."', final = '".$fechaFin."', tipoEv = '".$tipoEvento."', categoria = '".$categoria."', publico = '".$tipoPublico."', origenPonentes = '".$origPonentesEditar."', costoEvento = '".$costoEditar."', cantidadHoras = '".$horasEditar."', MemoriaInstitucional = '".$memInstEditar."' WHERE idEvento=".$idEdit;       
+	$query = "UPDATE eventos SET titulo='".$nombreEvento."', descripcion='".$descripcion."', NoRegistro = '".$registroEdit."',Rama = '".$ramaEdit."',modalidad = '".$modalidad."',inicio = '".$fechaInicio."', final = '".$fechaFin."', tipoEv = '".$tipoEvento."', categoria = '".$categoria."', publico = '".$tipoPublico."', origenPonentes = '".$origPonentesEditar."', costoEvento = '".$costoEditar."',FormaDePago = '".$fomaPagoEditar."',cantidadHoras = '".$horasEditar."', MemoriaInstitucional = '".$memInstEditar."' WHERE idEvento=".$idEdit;       
 	$res = mysqli_query($conexion,$query);
 
 	if(mysqli_affected_rows($conexion)>0){
@@ -154,8 +157,11 @@ function ActionCreatePHP($conexion){
 	}
 	$ultimoId = $ultimoId + 1; //Asi lo insertaremos al ultimo en la tabla
 	//Ahora si, con el valor del ultimo ID, insertaremos el nuevo evento
+
 	$eventoCrear = $_POST["nombre"];
 	$descripcionCrear = $_POST["descripcion"];
+	$noRegistro = $_POST['numeroRegistro'];
+	$rama = $_POST['ramaEvento'];
 	$modalidad = $_POST['modalidadEvento'];
 	$fechaInicio = $_POST["fechaInicio"];
 	$fechaFin = $_POST["fechaFin"];
@@ -163,17 +169,18 @@ function ActionCreatePHP($conexion){
 	$publico = $_POST["publico"];
 	$categoria = $_POST['categ'];
 	$costo = $_POST['costoEv'];
+	$formaPago = $_POST['formaDePago'];
 	$horasEvento = $_POST['tiempoHora'];
 	$origenDePonentes = $_POST['origPonentes'];
 	$boolMemoriaInstitucional = $_POST['memoriaInstitucional'];
 	$creador = $_POST['idCreador'];
 
-	$query = "INSERT INTO eventos (`idEvento`,`usuarioCreador`, `titulo`, `descripcion`,`modalidad`,`inicio`, `final`, 
-								   `tipoEv`,`categoria`,`publico`,`origenPonentes`,`costoEvento`, `cantidadHoras`, 
-								   `MemoriaInstitucional`) 
-			  VALUES ($ultimoId,$creador,'$eventoCrear','$descripcionCrear','$modalidad','$fechaInicio',
-					  '$fechaFin','$tipoEvento','$categoria','$publico','$origenDePonentes','$costo',
-					 '$horasEvento','$boolMemoriaInstitucional')";
+	$query = "INSERT INTO eventos (`idEvento`,`usuarioCreador`, `titulo`, `descripcion`,`NoRegistro`,`Rama`,`modalidad`,
+									`inicio`, `final`,`tipoEv`,`categoria`,`publico`,`origenPonentes`,`costoEvento`, 
+									`FormaDePago`,`cantidadHoras`,`MemoriaInstitucional`) 
+			  VALUES ($ultimoId,$creador,'$eventoCrear','$descripcionCrear','$noRegistro','$rama','$modalidad',
+			  		 '$fechaInicio','$fechaFin','$tipoEvento','$categoria','$publico','$origenDePonentes','$costo',
+					 '$formaPago','$horasEvento','$boolMemoriaInstitucional')";
 	$respuesta = mysqli_query($conexion,$query);
 	$Respuesta = array();
 	if(mysqli_affected_rows($conexion)>0){
@@ -200,9 +207,12 @@ function ActionObtenerDescripcion($conexion,$id){
 	$Respuesta["publico"] = $Renglon["publico"];
 	$Respuesta["tipoEvento"] = $Renglon["tipoEv"];
 	$Respuesta["descripcion"] = $Renglon["descripcion"];
+	$Respuesta['registro'] = $Renglon['NoRegistro'];
+	$Respuesta['rama'] = $Renglon['Rama'];
 	$Respuesta['modalidad'] = $Renglon['modalidad'];
 	$Respuesta['categoria'] = $Renglon['categoria'];
 	$Respuesta['costo'] = $Renglon['costoEvento'];
+	$Respuesta['formaPago'] = $Renglon['FormaDePago'];
 	$Respuesta['origenPonentes'] = $Renglon['origenPonentes'];
 	$Respuesta['cantidadHoras'] = $Renglon['cantidadHoras'];
 	$Respuesta['memInst'] = $Renglon['MemoriaInstitucional'];
@@ -238,7 +248,10 @@ function ActionObtenerDescripcionYTablas($conexion,$id){
 	$Respuesta["publico"] = $Renglon["publico"];
 	$Respuesta["descripcion"] = $Renglon["descripcion"];
 	$Respuesta['modalidad'] = $Renglon['modalidad'];
+	$Respuesta['numRegistro'] = $Renglon['NoRegistro'];
+	$Respuesta['rama'] = $Renglon['Rama'];
 	$Respuesta['costo'] = $Renglon['costoEvento'];
+	$Respuesta['formaPago'] = $Renglon['FormaDePago'];
 	$Respuesta['origenPonentes'] = $Renglon['origenPonentes'];
 	$Respuesta['cantidadHoras'] = $Renglon['cantidadHoras'];
 	$Respuesta['memInst'] = $Renglon['MemoriaInstitucional'];

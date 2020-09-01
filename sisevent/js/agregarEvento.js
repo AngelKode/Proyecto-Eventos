@@ -89,47 +89,73 @@ function actionUpdate(){
 
     let nombreActualizar = document.getElementById("nombreAct").value;
     let observacionActualizar = document.getElementById("observacionesAct").value;
+    $("#btnActTipoEvento").attr("data-dismiss","");
+    if(nombreActualizar == "" || observacionActualizar == ""){
+      $(function() {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000
+        });
+        Toast.fire({
+            type: 'warning',
+            title: 'Faltan datos. Verifíquelos!'
+          })
+    }); 
+    }else{
+      $("#btnActTipoEvento").attr("data-dismiss","modal");
+      $.ajax({
+          method : "post",
+          url: "php/agregarEventos.php",
+          data: {
+              action : "update",
+              id : idActualizar,
+              nombre : nombreActualizar,
+              observaciones : observacionActualizar
+          },
+          success: function( result ) {
+            let resultJSON = JSON.parse(result);
+            let nombreNuevo = document.getElementById("nombreAct").value;
+            let observacionNueva = document.getElementById("observacionesAct").value;
 
-    $.ajax({
-        method : "post",
-        url: "php/agregarEventos.php",
-        data: {
-            action : "update",
-            id : idActualizar,
-            nombre : nombreActualizar,
-            observaciones : observacionActualizar
-        },
-        success: function( result ) {
-           let resultJSON = JSON.parse(result);
-           let nombreNuevo = document.getElementById("nombreAct").value;
-           let observacionNueva = document.getElementById("observacionesAct").value;
+            if(resultJSON.estado == 1){
 
-           if(resultJSON.estado == 1){
+                      let tabla = $("#example1").DataTable();
+                      let renglon = tabla.row("#row_"+idActualizar).data();
+                      renglon[0] = nombreNuevo;
+                      renglon[1] = observacionNueva;
 
-                    let tabla = $("#example1").DataTable();
-                    let renglon = tabla.row("#row_"+idActualizar).data();
-                    renglon[0] = nombreNuevo;
-                    renglon[1] = observacionNueva;
-
-                tabla.row("#row_"+idActualizar).data(renglon);
-                $(function() {
-                    const Toast = Swal.mixin({
-                      toast: true,
-                      position: 'top-end',
-                      showConfirmButton: false,
-                      timer: 3000
-                    });
-                    Toast.fire({
-                        type: 'success',
-                        title: 'El evento ha sido actualizado exitósamente!'
-                      })
+                  tabla.row("#row_"+idActualizar).data(renglon);
+                  $(function() {
+                      const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      Toast.fire({
+                          type: 'success',
+                          title: 'El evento ha sido actualizado exitósamente!'
+                        })
+                  });
+            }else{
+              $(function() {
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
                 });
-           }else{
-             alert(resultJSON.mensaje);
-           }
-        }
-      });
-
+                Toast.fire({
+                    type: 'info',
+                    title: resultJSON.mensaje+"!"
+                  })
+            });
+            }
+          }
+        });
+    }
 }
 
 function actionCreate(){
@@ -137,6 +163,7 @@ function actionCreate(){
 
     let nombreCrear = document.getElementById("eventoAgregar").value;
     let observacionCrear = document.getElementById("observacionAgregar").value;
+    $("#btnAgregarTipEv").attr("data-dismiss","");
 
     if(nombreCrear == "" && observacionCrear != ""){
         $(function() {
@@ -178,6 +205,8 @@ function actionCreate(){
               })
         });
     }else{
+
+      $("#btnAgregarTipEv").attr("data-dismiss","modal");//Cerramos el modal
 
     $.ajax({
         method : "post",
