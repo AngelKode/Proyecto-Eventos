@@ -10,7 +10,7 @@
 		$arr = array();
 
 		$arr['start']		= 	$renglon['inicio'];
-		$arr['end']			= 	$renglon['final'];
+		$arr['endDate']			= 	$renglon['final'];
 		$arr['title']		= 	$renglon['titulo'];
 		//Obtenemos el id, y lo buscamos en la tabla
 			$idTipoEvento 		= 	$renglon['tipoEv'];

@@ -419,7 +419,7 @@
           color     : '#FFFFFF',
           textColor : 'white',
           backgroundColor : '#642444' ,
-          rendering : 'background'
+          rendering : 'background',
       },
       buttonText : {//Cambiando el texto de los botones
         today : "Hoy",
@@ -429,7 +429,6 @@
       },
       allDayText : "Todo el día",//Asignamos al span allDayText el texto 'Todo el día',
       eventRender : function(info){
-
         $(info.el).mouseover(function(){//Obtenemos con jquery el elemento del calendario, que es info.el 
                                         //y con el método mouseover para saber que esta el mouse encima
             
@@ -439,7 +438,7 @@
                 animation : 'scale',
                 theme : 'lightBorderModified',
                 touch : 'hold',//Para telefonos
-                placement : 'auto',
+                placement : 'top',
                 inertia : true
             });
         });
@@ -463,15 +462,17 @@
               $('#tituloEv').html('Evidencias Evento: '+titulo);
               $('#pa').html(info.event.extendedProps.publico);
               var fechaIn = info.event.start;
-              var fechaFin = info.event.end;
+              let fechaFin = info.event.extendedProps.endDate;
               var dd    = fechaIn.getDate(),
                   mm    = fechaIn.getMonth() +1,
                   yy    = fechaIn.getFullYear()
               $('#fecha_in').html(dd+"/"+mm+"/"+yy);
               if (fechaFin != null) {
-                var dd    = fechaFin.getDate(),
-                    mm    = fechaFin.getMonth()+1,
-                    yy    = fechaFin.getFullYear()
+                  let yy = fechaFin.substr(0,4);
+                  fechaFin = fechaFin.substr(5);
+                  let mm = fechaFin.substr(0,2);
+                  fechaFin = fechaFin.substr(3);
+                  let dd = fechaFin.substr(0,2);
                     $('#fecha_fin').html(dd+"/"+mm+"/"+yy);
               }
               else{
@@ -481,7 +482,6 @@
       editable  : false,
       droppable : false
     });
-
     calendar.render();
     // $('#calendar').fullCalendar()
   })
