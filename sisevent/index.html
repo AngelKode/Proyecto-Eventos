@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- Estilo Evidencias -->
   <link rel="stylesheet" type="text/css" href="css/css.css">
-  <link rel="stylesheet" type="text/css" href="css/estilosEventoCalendar.css">
+  <link rel="stylesheet" type="text/css" href="css/estilosEvento-Calendarios.css">
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css"/>
   <link rel="stylesheet" href="css/tooltip.css">
   <!-- aver -->
@@ -32,21 +32,20 @@
 </head>
 <body class="hold-transition sidebar-mini">
 <div>
-
+  
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" style="margin: 0 0;">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header pb-0">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-6 float-left w-50 align-self-center">
             <h1>Calendario de Eventos</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
 
-    <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -172,38 +171,20 @@
             <span><b>Pormenores:</b></span>
             <div id="descripcionEv" class="muestra"></div>
 
-            <div class="d-inline-flex">
-              <div style="width: 50%;">
-                <table  class="table">
-                  <tr>
-                    <th width="50%" >Foto 1</th>
-                  </tr>
-                  <tr>
-                    <td style="display: inline-block;">
-                      <div class="img1" style="width: 100%;">
-                        <img id="ev1" class="img-responsive" src="" style="width: 100%;">
-
-                      </div>
-                    </td>
-                  </tr>
-              </table>
-              </div>
-              <div style="width: 50%;">
-                <table class="table">
-                  <tr>
-                    <th width="100%">Foto 2</th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="img2" style="width: 100%;">
-                        <img id="ev2" class="img-responsive" src="" style="width: 100%;">
-                      </div>
-                    </td>
-                  </tr>
-              </table>
+            <div class="col-12">
+              <div class="row">
+                  <div class="col-md-6 align-self-center">
+                        <label for="ev1" class="tituloEvidencias">Evidencia 1</label>
+                        <img class="img-fluid mb-3" id="ev1" src="" width="100%">
+                  </div>
+                  <div class="col-md-6 align-self-center">
+                    <label for="ev2" class="tituloEvidencias">Evidencia 2</label>
+                      <img class="img-fluid mb-3" id="ev2" src="" width="100%">
+                  </div>
               </div>
             </div>
           </div>
+
           <div class="modal-footer">
             <button type="button" class="btn btn-azulito" data-dismiss="modal">Cerrar</button>
           </div>
@@ -217,11 +198,14 @@
   <!-- /.content-wrapper -->
 
   <footer class="main-footer" style="margin: 0 0;">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.0.2
-    </div>
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
-    reserved.
+      <div class="d-flex flex-row">
+        <div class="w-50">
+          <strong>Sistema de Registro de Eventos</strong>
+        </div>
+        <div class="w-50">
+          <p style="text-align: right;"><strong>Versión</strong> 1.0.0</p>
+        </div>
+      </div>
   </footer>
 
   <!-- Control Sidebar -->
@@ -273,7 +257,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <!-- ORAAA -->
-<script src="js/calendarioEvidencia.js"></script>
+<script src="js/calendarioEvidencias.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <!-- Page specific script -->
@@ -283,50 +267,19 @@
 <script>
   $(function () {
 
-    /* initialize the external events
-     -----------------------------------------------------------------*/
-    function ini_events(ele) {
-      ele.each(function () {
-
-        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-        // it doesn't need to have a start or end
-        var eventObject = {
-          title: $.trim($(this).text()) // use the element's text as the event title
-        }
-
-        // store the Event Object in the DOM element so we can get to it later
-        $(this).data('eventObject', eventObject)
-
-        // make the event draggable using jQuery UI
-        $(this).draggable({
-          zIndex        : 1070,
-          revert        : true, // will cause the event to go back to its
-          revertDuration: 0  //  original position after the drag
-        })
-
-      })
-    }
-
-    ini_events($('#external-events div.external-event'))
-
     /* initialize the calendar
      -----------------------------------------------------------------*/
     //Date for the calendar events (dummy data)
-    var date = new Date()
-    var d    = date.getDate(),
-        m    = date.getMonth(),
-        y    = date.getFullYear()
+      var date = new Date()
+      var d    = date.getDate(),
+          m    = date.getMonth(),
+          y    = date.getFullYear()
 
-    var Calendar = FullCalendar.Calendar;
-
-    var containerEl = document.getElementById('external-events');
-    var checkbox = document.getElementById('drop-remove');
-    var calendarEl = document.getElementById('calendar');
+      var Calendar = FullCalendar.Calendar;
+      var calendarEl = document.getElementById('calendar');
 
     // initialize the external events
     // -----------------------------------------------------------------
-
-
 
     var calendar = new Calendar(calendarEl, {
       locale : 'es',
@@ -361,7 +314,7 @@
                   animation : 'scale',
                   theme : 'lightBorderModified',
                   touch : 'hold',//Para telefonos
-                  placement : 'auto',
+                  placement : 'top',
                   inertia : true
               });
           });
@@ -385,16 +338,19 @@
               $('#tituloEv').html('Evidencias Evento: '+titulo);
               $('#pa').html(info.event.extendedProps.publico);
               var fechaIn = info.event.start;
-              var fechaFin = info.event.end;
+              var fechaFin = info.event.extendedProps.endDate;
               var dd    = fechaIn.getDate(),
                   mm    = fechaIn.getMonth() +1,
                   yy    = fechaIn.getFullYear()
               $('#fecha_in').html(dd+"/"+mm+"/"+yy);
               if (fechaFin != null) {
-                var dd    = fechaFin.getDate(),
-                    mm    = fechaFin.getMonth()+1,
-                    yy    = fechaFin.getFullYear()
-                    $('#fecha_fin').html(dd+"/"+mm+"/"+yy);
+                  let yy = fechaFin.substr(0,4);
+                  fechaFin = fechaFin.substr(5);
+                  let mm = fechaFin.substr(0,2);
+                  fechaFin = fechaFin.substr(3);
+                  let dd = fechaFin.substr(0,2);
+
+                  $('#fecha_fin').html(dd+"/"+mm+"/"+yy);
               }
               else{
                   $('#fecha_fin').html();
@@ -412,8 +368,9 @@
     });
 
     calendar.render();
-    // $('#calendar').fullCalendar()
   })
+  
 </script>
+<script src="js/responsiveCalendar.js"></script>
 </body>
 </html>

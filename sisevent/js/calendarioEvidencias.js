@@ -47,10 +47,10 @@ function leerEvidencias(id){
                  ev2.setAttribute("src",imagen2);
               }
               if(respuesta.imagen1 == ""){
-                ev1.setAttribute("src","");
+                ev1.setAttribute("src","img/noImagen.jpeg");
               }
               if(respuesta.imagen2 == ""){
-                 ev2.setAttribute("src","");
+                 ev2.setAttribute("src","img/noImagen.jpeg");
               }
                 $.ajax({
                      url: 'php/agregarEventoFecha.php',
