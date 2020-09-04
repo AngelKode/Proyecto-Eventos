@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="stylesheet" type="text/css" href="plugins/sweetalert2/sweetalert2.min.css">
-  <link rel="stylesheet" type="text/css" href="css/altaEventos.css">
+  <link rel="stylesheet" type="text/css" href="css/altaDeEventos.css">
 </head>
 <body class="hold-transition sidebar-mini" onload="actionRead();">
 <div class="wrapper">
@@ -154,35 +154,69 @@
                    <div class="d-flex flex-column">
 
                      <div class="p-2">
-                        <div class="d-flex flex-row justify-content-center">
-                          <div class="p-2">
-                              <label>Hombres</label><br>
-                              <input type="number" min="0" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadHombres">
-                          </div>
-                          <div class="p-2">
-                            <label>Mujeres</label><br>
-                            <input type="number" min="0" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadMujeres">
-                          </div>
-                          <div class="p-2">
-                            <label>Expositores</label><br>
-                            <input type="number" min="0" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadExpo">
-                          </div>
+                        <div class="row">
+                              <div class="card col-sm-6">
+                                  <div class="card-header">
+                                      <div class="card-title">
+                                          <strong>Población Beneficiada</strong>
+                                      </div>
+                                  </div>
+                                  <div class="card-body">
+                                    <div class="container">
+                                      <div class="row">
+                                        <div class="col-sm-6 p-2">
+                                          <p style="margin-bottom: 0; text-align: center;"># Hombres</p>
+                                          <input style="margin-bottom: 0;text-align: center;" type="number" min="0" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadHombres">
+                                        </div>
+                                        <div class="col-sm-6 p-2">
+                                          <p style="margin-bottom: 0; text-align: center;"># Mujeres</p>
+                                          <input type="number" min="0" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadMujeres" style="text-align: center;">
+                                        </div>
+                                      </div>
+                                    </div>                               
+                                  </div>
+                              </div>
+                              <div class="card col-sm-6">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <strong>Expositor (Sí Aplica)</strong>
+                                    </div>
+                                </div>
+                                <div class="card-body" id="contenedorCardExpo">
+                                  <div class="container">
+                                    <div class="row">
+                                      <div class="col-sm-12 p-2" id="contenedorExpositores">
+                                        <span class="elementoExpo">
+                                          <p style="margin-bottom: 0; text-align: center;"># Expositores</p>
+                                          <input type="number" min="0" placeholder="Ingrese la cantidad..." class="form-control" id="cantidadExpo" style="text-align: center;">
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                         </div>
-                     </div>
+                      </div>
 
-                     <div class="p-2">
-                        <div class="form-group" >
-                            <label>Pormenores del evento</label><br>
+                     <div class="p-0">
+                       <div class="card">
+                          <div class="card-header">
+                              <div class="card-title">
+                                  <strong>Pormenores del evento</strong>
+                              </div>
+                          </div>
+                          <div class="card-body p-0">
                             <textarea type="text" placeholder="Ingrese los pormenores..." rows="6" class="form-control" id="pormenores"></textarea>
-                        </div>
+                          </div>
+                       </div>
                      </div>
 
-                     <div class="p-2">
+                     <div class="p-0">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-6 align-self-end">
-
                                     <label for="img1" class="labelEvidencias">Evidencia 1</label>
+                                    <label for="img1" class="labelEvidencias" id="leyendaEvid1">(.jpg, .png)</label>
                                     <img id="img1" class="img-fluid mb-3" src="" alt="NINGUNA IMAGEN. SELECCIONE UNA" width="100%">
 
                                     <div class="custom-file">
@@ -194,6 +228,7 @@
                                 <div class="col-md-6 align-self-end mt-2">
 
                                     <label for="img2" class="labelEvidencias">Evidencia 2</label>
+                                    <label for="img2" class="labelEvidencias" id="leyendaEvid2">(.jpg, .png)</label>
                                     <img id="img2" class="img-fluid mb-3" src="" alt="NINGUNA IMAGEN.SELECCIONE UNA" width="100%">
 
                                     <div class="custom-file">
@@ -212,7 +247,7 @@
                   <!--body-->
                   <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="agregarEvidencias();" data-dismiss="modal">Guardar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarEvidencias();" data-dismiss="modal" id="btnguardarEvidencias">Guardar</button>
                   </div>
                 </div>
                 <!-- /.modal-content -->
@@ -311,7 +346,7 @@
                          </div>
 
                          <div class="form-group">
-                          <label>Cantidad de Horas</label>
+                          <label>Cantidad de Horas (Totales)</label>
                            <div class="input-group">
                               <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-hourglass-end"></i></span>
@@ -731,7 +766,7 @@
           <div class="card">
           <div class="card-header">
             <h3 class="card-title" style="padding-top: 10px;">Alta de Eventos</h3>
-            <button type="button" class="btn btn-success" style="float: right;" data-toggle="modal"  data-target="#modal-success" id = "nuevoEvento">Nuevo evento</button>
+            <button type="button" class="btn btn-success" style="float: right;" data-toggle="modal"  data-target="#modal-success" id = "nuevoEvento">Nuevo evento - Actividad</button>
           </div>
             <div class="card-body table-responsive">
               <table id="example1" class="table table-bordered table-striped" style="width: 100%;"> 
@@ -936,7 +971,7 @@
 <!-- date-range-picker -->
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-<script src="js/agregarNuevo_Evento.js"></script>
+<script src="js/agregarNuevos_Eventos.js"></script>
 <script src="js/login_Evento.js"></script>
 <script>
     
@@ -982,6 +1017,6 @@ document.getElementById("exampleInputFile1").onchange = function(e) {
   };
 }
 </script>
-
+<script src="js/chat.js"></script>
 </body>
 </html>

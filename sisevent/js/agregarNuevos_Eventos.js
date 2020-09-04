@@ -963,6 +963,7 @@ function logOut(){
 }
 
 function agregarEvidencias(){
+        $("#btnguardarEvidencias").attr("data-dismiss","");
         let hombres = $('#cantidadHombres').val();
         let mujeres = $('#cantidadMujeres').val();
         let cantidadExpo = $('#cantidadExpo').val();
@@ -985,11 +986,13 @@ function agregarEvidencias(){
         const nombre = renglon[0];  
 
         
-
-        if(hombres == "" || mujeres == "" || cantidadExpo == "" || pormenores == ""){
+        if(cantidadExpo == ""){
+          cantidadExpo = 0;
+        }
+        if(hombres == "" || mujeres == "" || pormenores == ""){
             toastr.error('Faltan campos! Verifiquelos');
         }else{
-        
+          $("#btnguardarEvidencias").attr("data-dismiss","modal");
          $.ajax({
            method : "post",
             url: 'php/subirEvidencias.php',

@@ -33,11 +33,11 @@ function leerEvidencias(id){
          let respuesta = JSON.parse(response);
 
             if (respuesta.estatus != 0) {
-              $('#onvre').html(respuesta.numHombres);
-              $('#muhere').html(respuesta.numMujeres);
-              $('#patos').html(respuesta.numExpositores);
+              $('#onvre').html("<strong>Hombres</strong>"+respuesta.numHombres);
+              $('#muhere').html("<strong>Mujeres</strong>"+respuesta.numMujeres);
+              $('#patos').html("<strong>Expositores</strong>"+respuesta.numExpositores);
               $('#descripcionEv').html(respuesta.pormenores);
-
+              
               if(respuesta.imagen1 != ""){
                 let imagen1 = "img/"+respuesta.imagen1;
                 ev1.setAttribute("src",imagen1);

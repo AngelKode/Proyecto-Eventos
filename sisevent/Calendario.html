@@ -20,8 +20,7 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- Estilo Evidencias -->
-  <link rel="stylesheet" type="text/css" href="css/css.css">
-  <link rel="stylesheet" type="text/css" href="css/estilosEvento-Calendarios.css">
+  <link rel="stylesheet" type="text/css" href="css/estilos-EventoCalendarios.css">
   <!--ToolTip-->
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css"/>
   <link rel="stylesheet" href="css/tooltip.css">
@@ -180,52 +179,61 @@
             </button>
           </div>
           <div class="modal-body">
-            <div id="descripcionEvento" class="muestra"></div>
-            <div>
-                <table width="100%">
-                    <tr>
-                        <th width="50$">Tipo de Evento</th>
-                        <th>Publico Objetivo</th>
-                    </tr>
-                    <tr>
-                      <td><p id="tipo_evento"></p></td>
-                      <td><p id="publico"></p></td>
-                    </tr>
-                    <tr>
-                      <th>Fecha de Inicio</th>
-                      <th>Fecha de Fin</th>
-                    </tr>
-                    <tr>
-                        <td width="50%"><p id="fecha_in"></p></td>
-                        <td><p id="fecha_fin"></p></td>
-                    </tr>
-                    <tr>
-                      <th>Costo</th>
-                      <th>Cantidad de Horas</th>
-                    </tr>
-                    <tr>
-                        <td width="50%"><p id="costoEvCal"></p></td>
-                        <td><p id="horasEvCal"></p></td>
-                    </tr>
-                    <tr>
-                      <th colspan="2">Modalidad</td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" id="modalidadSinEvid"></td>
-                    </tr>
-                </table>
+            <div class="card">
+                <div class="card-header pb-0" id="cardHeaderTituloEvid">
+                    <div class="card-title">
+                        Datos del Evento
+                    </div>
+                </div>
+                <div class="card-body">
+                  <div>
+                      <table width="100%" id="tablaSinEvid">
+                          <tr>
+                              <th>Tipo de Evento</th>
+                              <th>Publico Objetivo</th>
+                          </tr>
+                          <tr>
+                            <td><p id="tipo_evento"></p></td>
+                            <td><p id="publico"></p></td>
+                          </tr>
+                          <tr>
+                            <th>Fecha de Inicio</th>
+                            <th>Fecha de Fin</th>
+                          </tr>
+                          <tr>
+                              <td width="50%"><p id="fecha_in"></p></td>
+                              <td><p id="fecha_fin"></p></td>
+                          </tr>
+                          <tr>
+                            <th>Costo</th>
+                            <th>Cantidad de Horas</th>
+                          </tr>
+                          <tr>
+                              <td width="50%"><p id="costoEvCal"></p></td>
+                              <td><p id="horasEvCal"></p></td>
+                          </tr>
+                          <tr>
+                            <th colspan="2">Modalidad</td>
+                          </tr>
+                          <tr>
+                            <td colspan="2" id="modalidadSinEvid"></td>
+                          </tr>
+                      </table>
+                  </div><br>
+                  <div id="descripcionEvento" class="callout"></div>
+                </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-azulito" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
           </div>
         </div>
       </div>
     </div>
     <!-- FIN DIV SIN EVIDENCIAS -->
 
-       <!-- DIV CON EVIDENCIAS -->
-       <div class="modal fade" id="conEvidencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- DIV CON EVIDENCIAS -->
+      <div class="modal fade" id="conEvidencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -235,48 +243,63 @@
               </button>
             </div>
             <div class="modal-body" style="word-break: break-all">
-              <div>
-                <table width="100%">
-                  <tr>
-                    <th style="text-align: center;">Hombres</th>
-                    <th style="text-align: center;">Mujeres</th>
-                    <th style="text-align: center;">Expositores</th>
-                  </tr>
-                  <tr>
-                    <td id="onvre" width="33%" style="text-align: center;"></td>
-                    <td id="muhere" width="33%" style="text-align: center;"></td>
-                    <td id="patos" width="33%" style="text-align: center;"></td>
-                  </tr>
-                  <tr>
-                    <th style="text-align: center;">Costo</th>
-                    <th style="text-align: center;">Cantidad de Horas</th>
-                    <th style="text-align: center;"><p>Modalidad</p></th>
-                  </tr>
-                  <tr>
-                    <td id="costoEvid" width="33%" style="text-align: center;"></td>
-                    <td id="horasEvid" width="33%" style="text-align: center;"></td>
-                    <td id="modalidadEvid" width="33%" style="text-align: center;"></td>
-                  </tr>
-                </table>
-              </div>
-              <span><b>Pormenores:</b></span>
-              <div id="descripcionEv" class="muestra"></div>
   
-              <div class="col-12">
-                <div class="row">
-                    <div class="col-md-6 align-self-center">
-                          <label for="ev1" class="tituloEvidencias">Evidencia 1</label>
-                          <img class="img-fluid mb-3" id="ev1" src="" width="100%">
+                <div class="card">
+                  <div class="card-header pb-0" id="cardHeaderTituloEvid">
+                      <div class="card-title">
+                        Datos del Evento
+                      </div>
+                  </div>
+                  <div class="card-body pb-0">
+  
+                      <div class="d-flex flex-column">
+                        <div class="d-flex" id="primeraFilaDatos">
+                          <div class="p-0" id="onvre"></div>
+                          <div class="p-0" id="muhere"></div>
+                          <div class="p-0"id="patos"></div>
+                        </div>
+                        <div class="d-flex" id="segundaFilaTitulo">
+                          <div class="p-2"><strong>Costo</strong></div>
+                          <div class="p-2" ><strong>Cantidad de Horas</strong></div>
+                          <div class="p-2"><strong>Modalidad</strong></div>
+                        </div>
+                        <div class="d-flex" id="segundaFilaDatos">
+                          <div id="costoEvid"></div>
+                          <div id="horasEvid"></div>
+                          <div id="modalidadEvid"></div>
+                        </div>
+                    </div><br>
+  
+                    <strong><p id="pormenorEvid">Pormenores</p></strong>
+                    <div id="descripcionEv" class="callout"></div><br>
+  
+                  </div>
+                </div>
+  
+                <div class="card">
+                  <div class="card-header pb-0" id="cardHeaderEvidencias">
+                    <div class="card-title">
+                        Evidencias
                     </div>
-                    <div class="col-md-6 align-self-center">
-                      <label for="ev2" class="tituloEvidencias">Evidencia 2</label>
-                        <img class="img-fluid mb-3" id="ev2" src="" width="100%">
+                  </div>
+                    <div class="card-body">
+                      <div class="col-12">
+                        <div class="row">
+                            <div class="col-md-6 align-self-center">
+                                  <img class="img-fluid mb-3" id="ev1" src="" width="100%">
+                            </div>
+                            <div class="col-md-6 align-self-center">
+                                <img class="img-fluid mb-3" id="ev2" src="" width="100%">
+                            </div>
+                        </div>
+                      </div>
                     </div>
                 </div>
-              </div>
+  
             </div>
+  
             <div class="modal-footer">
-              <button type="button" class="btn btn-azulito" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </div>
@@ -347,7 +370,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <!-- ORAAA -->
-<script src="js/calendarioEvidencias.js"></script>
+<script src="js/calendario_Evidencia_Eventos.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <script src="js/login_Evento.js"></script>

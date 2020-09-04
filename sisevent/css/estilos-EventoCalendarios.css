@@ -1,0 +1,95 @@
+#descripcionEv{
+    white-space:pre-line; 
+    word-break: keep-all; 
+    text-align: justify;
+}
+#descripcionEvento{
+    white-space: pre-line; 
+    word-break: keep-all; 
+    text-align: justify;
+}
+#primeraFilaDatos{
+    width: 100%;
+}
+#tablaSinEvid tr,th{
+    text-align: center;
+}
+#primeraFilaDatos > div{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    word-break: keep-all;
+    width: 33%;
+    align-content: center;
+    flex-direction: column;/*Para que todo el contenido sea en una columna*/
+}
+#segundaFilaDatos{
+    width: 100%;
+}
+#segundaFilaDatos > div{
+    display: flex;
+    justify-content:flex-start;
+    text-align: center;
+    word-break: keep-all;
+    width: 33%;
+    align-content: center;
+    flex-direction: column;
+}
+#segundaFilaTitulo{
+    width: 100%;
+}
+#segundaFilaTitulo > div{
+    display: flex;
+    justify-content: flex-end;
+    text-align: center;
+    word-break: keep-all;
+    width: 33%;
+    align-content: center;
+    flex-direction: column;
+}
+#pormenorEvid{
+    text-align: center;
+    margin-bottom: 0;
+}
+#cardHeaderEvidencias{
+    color:white;
+    background: rgb(158,112,135);
+    background: linear-gradient(0deg, rgba(158,112,135,1) 13%, rgba(101,31,65,1) 87%);
+}
+#cardHeaderTituloEvid{
+    color:white;
+    background: rgb(158,112,135);
+    background: linear-gradient(0deg, rgba(158,112,135,1) 13%, rgba(101,31,65,1) 87%);
+}
+#descripcionEv{
+   border-left-color:  rgb(185,139,162);; 
+}
+#descripcionEvento{
+    border-left-color:  rgb(185, 139, 162);; 
+ }
+.fc-event{
+    cursor: pointer;
+}
+.tituloEvidencias{
+    display: block;
+    text-align:center;
+}
+#imgUPIIZ{
+    border-radius: 50%;
+    height: 50px;
+    background-color: transparent;
+}
+#imgUPIIZ:hover{
+   opacity: 0.5;
+}
+#imgUPIIZ::after{
+    transition-duration : 0.5s;
+}
+#imgIPN{
+    border-radius: 50%;
+    height: 50px;
+    background-color: transparent;
+}
+.fc-center h2{
+    text-align: center;
+}

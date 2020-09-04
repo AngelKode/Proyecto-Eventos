@@ -1,0 +1,20 @@
+.custom-file-label::after {
+    content: 'Buscar';
+}
+.labelEvidencias{
+    display: block;
+    text-align: center;
+    margin-bottom: 0;
+}
+#contenedorCardExpo{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+#leyendaEvid1{
+    font-style: italic;
+}
+#leyendaEvid2{
+    font-style: italic;
+}
