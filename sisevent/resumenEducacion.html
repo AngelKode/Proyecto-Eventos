@@ -17,6 +17,7 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini" onload="actionRead();">
 <div class="wrapper">
@@ -81,7 +82,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="evento.html" class="nav-link active">
+                <a href="evento.html" class="nav-link">
                   <i class="nav-icon fas fa-calendar-plus"></i>
                   <p>Alta tipo de eventos</p>
                 </a>
@@ -95,7 +96,7 @@
               </li>
 
               <li class="nav-item" id="linkResumenEducacion"> 
-                <a href="resumenEducacion.html" class="nav-link">
+                <a href="resumenEducacion.html" class="nav-link active">
                   <i class="nav-icon fas fa-book-open"></i>
                   <p>Resúmen de Educación</p>
                 </a>
@@ -122,117 +123,43 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Alta Tipos de Eventos</h1><br>
+            <h1>Resúmen de Educacion para la Vida</h1><br>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-              <li class="breadcrumb-item active">Alta tipo de eventos</li>
+              <li class="breadcrumb-item active">Resúmen de Educacion para la Vida</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid --> 
     </section>
 
-        
-
-            <div class="modal fade" id="modal-success">
-              <div class="modal-dialog">
-                <div class="modal-content bg-success">
-                  <div class="modal-header">
-                   <h4 class="modal-title">Agregar Evento</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                 </div>
-                  <div class="modal-body">
-                    <div class="form-group">
-                          <label>Nombre del evento</label><br>
-                          <input type="text" placeholder="Ingrese un nombre..." class="form-control" id="eventoAgregar">
-                        </div>    
-                    <div class="form-group">
-                           <label>Observaciones</label><br>
-                          <input type="text" placeholder="Ingrese una observacion..." class="form-control" id="observacionAgregar">
-                        </div>    
-                  </div>
-                   <div class="modal-footer justify-content-between">
-                   <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-outline-light"  data-dismiss="modal" onclick="actionCreate();" id="btnAgregarTipEv">Agregar</button>
-                  </div>
-                 </div>
-                 <!-- /.modal-content -->
-               </div>
-                <!-- /.modal-dialog -->
-              </div>
-              <!-- /.modal -->
-
-              <div class="modal fade" id="modal-danger">
-                <div class="modal-dialog">
-                  <div class="modal-content bg-danger">
-                    <div class="modal-header">
-                      <h4 class="modal-title">Eliminar Evento</h4>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <h4 style="font-size: 10;">¿Está seguro de eliminar el evento?</h4>
-                      <label >Evento:</label>
-                      <label id="eventoEliminar" class="lblEventoEliminar"></label><br>
-                      <label >Observacion:</label>
-                      <label id="observacionEliminar" class="lblObservacionEliminar"></label>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                      <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cancelar</button>
-                      <button type="button" class="btn btn-outline-light" onclick="actionDelete();" data-dismiss="modal">Aceptar</button>
-                    </div>
-                  </div>
-                  <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-              </div>
-
-              <div class="modal fade" id="modal-info">
-                <div class="modal-dialog">
-                  <div class="modal-content bg-info">
-                    <div class="modal-header">
-                      <h4 class="modal-title">Editar evento</h4>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                     <div class="form-group">
-                      <label>Nombre del evento</label><br>
-                      <input placeholder="Ingrese el nombre:" type="text" id = "nombreAct" class="form-control"input>
-                     </div>
-                     <div class="form-group">
-                      <label>Observaciones</label>
-                      <form><input placeholder="Ingrese una descripcion:" type="text" id = "observacionesAct" class="form-control"></input></form>
-                     </div> 
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                      <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
-                      <button type="button" class="btn btn-outline-light" onclick="actionUpdate();" data-dismiss="modal" id="btnActTipoEvento">Actualizar</button>
-                    </div>
-                  </div>
-                  <!-- /.modal-content -->
-                </div>
-              </div>
-            <!-- /.modal-dialog -->
     <section class="content">        
       <div class="row">      
         <div class="col-12">    
           <div class="card">
             <div class="card-header">
-                <h3 style="padding-top:10px;" class="card-title">Alta tipo de Eventos</h3>
-                 <button type="button"class="btn btn-success" data-toggle="modal" data-target="#modal-success" style="float: right;">Nuevo evento</button>
+                <h3 style="padding-top:10px;" class="card-title">Resúmen</h3>
             </div>
             <div class="card-body table-responsive">
-              <table id="example1" class="table table-bordered table-striped" style="width: 100%;"> 
+              <table id="tablaDatosEvento" class="table table-bordered table-striped" style="width: 100%; text-align: center; vertical-align: middle;"> 
                 <thead>
                 <tr>
-                  <th>Nombre</th>
-                  <th>Observaciones</th>
-                  <th>Acciones</th>
+                  <th>Nombre del Evento</th>
+                  <th>Modalidad</th>
+                  <th>Tipo de Evento</th>
+                  <th>Rama</th>
+                  <th>Duración (en horas)</th>
+                  <th># de Registro</th>
+                  <th>Fecha de Inicio</th>
+                  <th>Fecha de Termino</th>
+                  <th># Hombres</th>
+                  <th># Mujeres</th>
+                  <th>Forma de Pago</th>
+                  <th>Instancia Atendida</th>
+                  <th>Procedencia del capacitador</th>
+                  <th>Capturado</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -277,7 +204,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
-
+<script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
 <script>
   $(function () {
     let idioma = {
@@ -308,20 +235,22 @@
         "colvis": "Visibilidad"
     }
   }
-    let table = $("#example1").DataTable();
+    let table = $("#tablaDatosEvento").DataTable();
     table.destroy();
-    $('#example1').DataTable({
+    $('#tablaDatosEvento').DataTable( {
+      "scrollX": true,
       "paging": true,
       "lengthChange": true,
       "searching": true,
+      "processing":true,
       "ordering": true,
       "info": true,
-      "autoWidth": false,
-       "language" : idioma
+      "autoWidth": true,
+      "language" : idioma
     });
   });
 </script>
-<script src="js/agregarTipoEvento.js"></script>
 <script src="js/login_Evento.js"></script>
+<script src="js/resumenEvento.js"></script>
 </body>
 </html>

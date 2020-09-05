@@ -151,7 +151,7 @@ function actionRead(){
             }else
               alert(resultJSON.mensaje);//Si hubo un error, mandamos un mensaje
         }
-      });
+    });
 }
 function actionUpdate(){
 

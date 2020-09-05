@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-09-2020 a las 04:55:16
+-- Tiempo de generación: 05-09-2020 a las 22:25:23
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.2
 
@@ -86,17 +86,21 @@ CREATE TABLE `eventos` (
   `costoEvento` varchar(30) DEFAULT NULL,
   `FormaDePago` varchar(100) DEFAULT NULL,
   `cantidadHoras` varchar(10) DEFAULT NULL,
-  `MemoriaInstitucional` varchar(5) DEFAULT NULL
+  `MemoriaInstitucional` varchar(5) DEFAULT NULL,
+  `datosCapturados` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `eventos`
 --
 
-INSERT INTO `eventos` (`idEvento`, `usuarioCreador`, `titulo`, `descripcion`, `NoRegistro`, `Rama`, `modalidad`, `inicio`, `final`, `tipoEv`, `categoria`, `publico`, `origenPonentes`, `costoEvento`, `FormaDePago`, `cantidadHoras`, `MemoriaInstitucional`) VALUES
-(2, 12, 'Programacion Orientada a Objetos', 'Nada', '', 'Ingeniería y Ciencias Físico Matemáticas', 'Virtual', '2020-06-01 12:00:00', '2020-06-05 11:00:00', 1, 4, 'Gobierno', 'IPN', '10', 'Oferta Libre de Cuota', '14', 'Si'),
-(3, 12, 'Semana mecatrónica', 'Evento mecatronicas', '1728421', 'Ciencias Sociales y Administrativas', 'Mixta', '2020-06-01 08:00:00', '2020-06-19 16:00:00', 1, 3, 'Público General', 'Institución Privada', '5500', 'Convenio', '20', 'No'),
-(4, 19, 'Semana de salud', 'Evento de salud sobre como cuidar tu cuerpo y asi poder tener una vida mas plena', '1248219', 'Ciencias Médico Biológicas', 'Presencial', '2020-05-20 10:30:00', '2020-06-24 15:20:00', 5, 2, 'Atención a Sectores Sociales', 'No Aplica', '2500', 'Cat. Cuotas Institucionales', '8', 'Si');
+INSERT INTO `eventos` (`idEvento`, `usuarioCreador`, `titulo`, `descripcion`, `NoRegistro`, `Rama`, `modalidad`, `inicio`, `final`, `tipoEv`, `categoria`, `publico`, `origenPonentes`, `costoEvento`, `FormaDePago`, `cantidadHoras`, `MemoriaInstitucional`, `datosCapturados`) VALUES
+(2, 12, 'Programacion Orientada a Objetos', 'Nada', '', 'Ingeniería y Ciencias Físico Matemáticas', 'Mixta', '2020-07-05 12:00:00', '2020-10-07 11:00:00', 1, 4, 'Gobierno', 'IPN', '10', 'Oferta Libre de Cuota', '14', 'Si', 1),
+(3, 12, 'Semana mecatrónica', 'Evento mecatronicas', '1728421', 'Ciencias Sociales y Administrativas', 'Mixta', '2020-06-01 08:00:00', '2020-06-19 16:00:00', 1, 3, 'Público General', 'Institución Privada', '5500', 'Convenio', '20', 'No', 0),
+(4, 19, 'Semana de salud', 'Evento de salud sobre como cuidar tu cuerpo y asi poder tener una vida mas plena', '', 'Ingeniería y Ciencias Físico Matemáticas', 'Presencial', '2020-05-20 10:30:00', '2020-06-02 15:20:00', 5, 2, 'Comunidad IPN', 'Institución Pública', '2500', 'Convenio', '8', 'Si', 0),
+(5, 1, 'Ejemplo primer Trimestre 2019', 'Nada', '', 'Ciencias Sociales y Administrativas', 'Presencial', '2019-02-05 00:47:00', '2019-02-08 00:47:00', 1, 1, 'Gobierno', 'IPN', '20', 'Oferta Libre de Cuota', '17', 'Si', 1),
+(6, 1, 'Primer trimestre', 'nada', '', 'Ciencias Sociales y Administrativas', 'Presencial', '2019-03-04 00:47:00', '2019-03-08 00:47:00', 1, 1, 'Gobierno', 'IPN', '1', 'Oferta Libre de Cuota', '17', 'Si', 0),
+(7, 1, 'Ejemplo primer trimestre 2020', 'Nada', '2', 'Ciencias Sociales y Administrativas', 'Presencial', '2020-02-05 13:16:00', '2020-02-07 13:16:00', 1, 1, 'Gobierno', 'IPN', '120', 'Oferta Libre de Cuota', '25', 'Si', 0);
 
 -- --------------------------------------------------------
 
@@ -119,7 +123,9 @@ CREATE TABLE `evidencias` (
 --
 
 INSERT INTO `evidencias` (`id`, `numHombres`, `numMujeres`, `numExpositores`, `pormenores`, `evidencia1`, `evidencia2`) VALUES
-(2, 10, 20, 10, 'Nada', '5f4d62bc3dec2-101219.jpg', '5f4d62bc441ff-Images of Landscapes of colorful spring _22 Wallpaper Full HD.jpg');
+(2, 10, 20, 10, 'Nada acerca de este evento.\nFue un evento realmente bueno porque pudimos tener la oportunidad de conocer mas acerca de esta interesante área de conocimiento.', '5f4d62bc3dec2-101219.jpg', '5f4d62bc441ff-Images of Landscapes of colorful spring _22 Wallpaper Full HD.jpg'),
+(3, 10, 10, 10, 'Fue un evento importante.\nTuvimos demasiadas cosas interesantes que pudimos observar y tener la oportunidad de estar frente a frente a ese tipo de tecnología.\nQue sigan asi!.', '', ''),
+(4, 10, 5, 10, 'Ninguno', '5f50410d43438-101219.jpg', '');
 
 -- --------------------------------------------------------
 

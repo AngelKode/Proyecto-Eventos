@@ -93,3 +93,12 @@
 .fc-center h2{
     text-align: center;
 }
+#btn-custom-color{
+    background-color: white;
+    border-color: #642444;
+    color:black;
+}
+#btn-custom-color:hover{
+    background-color: #642444;
+    color:white;
+}

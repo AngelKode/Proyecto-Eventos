@@ -91,6 +91,7 @@ function actionRead(){
       $("#linkAltaCategoria").remove();
       $("#linkAltaTipoEvento").remove();
       $("#linkAltaUsuarios").remove();
+      $("#linkResumenEducacion").remove();
       $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
     }
   }else{
