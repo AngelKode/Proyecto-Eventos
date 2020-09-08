@@ -1,6 +1,10 @@
 let idEventoMostrar = 0;
 let estadoActual = 0;
 let años = Array();
+let arregloNombres = ["Nombre del Evento","Modalidad", "Tipo de Evento", "Rama", "Duración en Horas",
+                     "# de Registro", "Fecha de Inicio", "Fecha de Termino", "# Hombres", "# Mujeres",
+                     "Forma de Pago", "Instancia Atendida", "Procedencia del Capacitador"
+                    ];
 
 function actionRead(){
 
@@ -42,7 +46,7 @@ function actionRead(){
                     }else{
                        boolCapturado = "Si";
                     }    
-                    btnMostrarEventoResumen = '<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info" id = "botonCapturado'+evento.id+'" onclick = "identificarEstadoCapturado('+evento.id+');">Mostrar</button>';
+                    btnMostrarEventoResumen = '<button type="button" class="btn btn-info" id = "botonCapturado'+evento.id+'" onclick = "identificarEstadoCapturado('+evento.id+');">Mostrar</button>';
 
                     let fechaInicio = evento.inicio;
                     let fechaFin = evento.fin;
@@ -80,31 +84,36 @@ function actionRead(){
 
 function identificarEstadoCapturado(idEvento){
     
+    //Desactivamos el boton mientras se ejecuta la peticion al servidor
+    $("#botonCapturado"+idEvento).addClass("disabled");
     //Borramos todas las filas del tbody para que no se repitan
     $("#tablaDatosModal tbody tr").remove();
+
     idEventoMostrar = idEvento;
     let tabla = $("#tablaDatosEvento").DataTable();
     let renglon = tabla.row("#row_"+idEvento).data();
 
-    if(renglon[4] == "Si"){
-        $("#labelEstatus").html("El evento ya está capturado!");
-        estadoActual = "Si";
-        if($("#btnActTipoEvento").hasClass("btn-warning")){
-            $("#btnActTipoEvento").removeClass("btn-warning");
-            $("#btnActTipoEvento").addClass("btn-success");
-        }else if(!$("#btnActTipoEvento").hasClass("btn-success")){
-            $("#btnActTipoEvento").addClass("btn-success");
+    //Checamos el valor de la tabla, para saber el estado actual del evento
+        if(renglon[4] == "Si"){
+            $("#labelEstatus").html("El evento ya está capturado!");
+            estadoActual = "Si";
+            if($("#btnActTipoEvento").hasClass("btn-warning")){
+                $("#btnActTipoEvento").removeClass("btn-warning");
+                $("#btnActTipoEvento").addClass("btn-success");
+            }else if(!$("#btnActTipoEvento").hasClass("btn-success")){
+                $("#btnActTipoEvento").addClass("btn-success");
+            }
+        }else{
+            $("#labelEstatus").html("El evento aún no se ha capturado. Presione el boton 'Capturado' cuando ya lo este");
+            estadoActual = "No";
+            if($("#btnActTipoEvento").hasClass("btn-success")){
+                $("#btnActTipoEvento").removeClass("btn-success");
+                $("#btnActTipoEvento").addClass("btn-warning");
+            }else if(!$("#btnActTipoEvento").hasClass("btn-warning")){
+                $("#btnActTipoEvento").addClass("btn-warning");
+            }    
         }
-    }else{
-        $("#labelEstatus").html("El evento aún no se ha capturado. Presione el boton 'Capturado' cuando ya lo este");
-        estadoActual = "No";
-        if($("#btnActTipoEvento").hasClass("btn-success")){
-            $("#btnActTipoEvento").removeClass("btn-success");
-            $("#btnActTipoEvento").addClass("btn-warning");
-        }else if(!$("#btnActTipoEvento").hasClass("btn-warning")){
-            $("#btnActTipoEvento").addClass("btn-warning");
-        }    
-    }
+    //Checamos el valor de la tabla, para saber el estado actual del evento
 
     $.ajax({
         method : "post",
@@ -116,12 +125,9 @@ function identificarEstadoCapturado(idEvento){
             let resultadoJSON = JSON.parse(result);
 
             if(resultadoJSON.estatus == 1){
-
-                $("#tablaDatosModal").find('tbody').append( "<tr><td>Nombre del Evento</td><td><i>"+resultadoJSON.nombreEvento+"</i></td></tr>" );
-                $("#tablaDatosModal").find('tbody').append( "<tr><td>Modalidad</td><td><i>"+resultadoJSON.modalidad+"</i></td></tr>" );
-                $("#tablaDatosModal").find('tbody').append( "<tr><td>Tipo de Evento</td><td><i>"+renglon[1]+"</i></td></tr>" );
-                $("#tablaDatosModal").find('tbody').append( "<tr><td>Rama</td><td><i>"+resultadoJSON.rama+"</i></td></tr>" );
-
+                //Aqui recorremos el array de los nombres y en base a la respuesta de la peticion a la BD,
+                //ponemos los datos en la tabla del modal
+                ponerDatosModal(resultadoJSON);                
             }else{
 
                 $(function() {
@@ -350,7 +356,7 @@ function actionFiltrar(){
                     }else{
                        boolCapturado = "Si";
                     }    
-                    btnMostrarEventoResumen = '<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info" id = "botonCapturado'+evento.id+'" onclick = "identificarEstadoCapturado('+evento.id+');">Mostrar</button>';
+                    btnMostrarEventoResumen = '<button type="button" class="btn btn-info" id = "botonCapturado'+evento.id+'" onclick = "identificarEstadoCapturado('+evento.id+');">Mostrar</button>';
                     //Agregamos los datos al renglon de la tabla
                     let fechaInicio = evento.inicio;
                     let fechaFin = evento.fin;
@@ -412,4 +418,14 @@ function actionFiltrar(){
         }
     });
     
+}
+
+function ponerDatosModal(resultadoJSON){
+    let contador = 0;
+    arregloNombres.forEach(nombreDato =>{
+        $("#tablaDatosModal").find('tbody').append( "<tr><td>"+nombreDato+"</td><td><i>"+resultadoJSON[contador]+"</i></td></tr>" );
+        contador++;
+    });
+    $("#botonCapturado"+idEventoMostrar).removeClass("disabled");
+    $('#modal-info').modal('show');//Al tener todo, mostramos el modal
 }

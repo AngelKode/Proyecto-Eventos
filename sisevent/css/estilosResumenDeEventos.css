@@ -13,15 +13,21 @@
 .btnModal{
     margin: 10px;
 }
-
+#tablaDatosModal{
+    border-collapse: collapse; 
+}
 #tablaDatosModal thead{
     text-align: center;
 }
-
+#tablaDatosModal thead th{
+  position: sticky;
+  top: 0;
+  background-color: #444;
+  color:white;
+}
 #tablaDatosModal tbody{
     text-align: center;
 }
-
 #labelEstatus{
     word-wrap: break-word;
 }

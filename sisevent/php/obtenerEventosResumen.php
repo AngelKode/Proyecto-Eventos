@@ -261,11 +261,61 @@ function ActionReadDatosEventoModal($conexion){
     $Resultado = mysqli_query($conexion,$Query);
     $Renglon = mysqli_fetch_array($Resultado);
     $Respuesta = array();
+    
 
         if(mysqli_affected_rows($conexion) > 0){
-            $Respuesta['nombreEvento'] = $Renglon['titulo'];
-            $Respuesta['modalidad'] = $Renglon['modalidad'];
-            $Respuesta['rama'] = $Renglon['Rama'];
+            $idEvento = $Renglon['idEvento'];
+            array_push($Respuesta,$Renglon['titulo']);
+            array_push($Respuesta,$Renglon['modalidad']);
+                //Hacemos query a la tabla de tipos de eventos dependiendo el ID
+                    $idTipoEvento = $Renglon['tipoEv'];
+                    $Query = "SELECT * FROM tipo_evento WHERE ID =".$idTipoEvento;
+                    $Res = mysqli_query($conexion,$Query);
+                    $Dato = mysqli_fetch_array($Res);
+                //Hacemos query a la tabla de tipos de eventos dependiendo el ID
+            array_push($Respuesta,$Dato['Nombre']);
+            array_push($Respuesta,$Renglon['Rama']);
+            array_push($Respuesta,$Renglon['cantidadHoras']);
+                //Condicion para saber si tiene numero de registro o no
+                    if($Renglon['NoRegistro'] == ""){
+                        array_push($Respuesta,"S/N");
+                    }else{
+                        array_push($Respuesta,$Renglon['NoRegistro']);
+                    }
+                //Condicion para saber si tiene numero de registro o no
+
+                //Haremos un query para tener un formato de fecha diferente
+                    $Query = "SELECT DATE_FORMAT(inicio, '%d/%l/%Y') AS 'fechaInicio' FROM eventos WHERE idEvento =".$idEvento;
+                    $Res = mysqli_query($conexion,$Query);
+                    $Dato = mysqli_fetch_array($Res);
+                    array_push($Respuesta,$Dato['fechaInicio']);
+
+                    $Query = "SELECT DATE_FORMAT(final, '%d/%l/%Y') AS 'fechaFin' FROM eventos WHERE idEvento =".$idEvento;
+                    $Res = mysqli_query($conexion,$Query);
+                    $Dato = mysqli_fetch_array($Res);
+                    array_push($Respuesta,$Dato['fechaFin']);
+                //Haremos un query para tener un formato de fecha diferente
+
+                //Hacemos query a las evidencias para obtener la cantidad de mujeres y de hombres
+                    $idEvidencias = $Renglon['idEvento'];
+                    $Query = "SELECT * FROM evidencias WHERE id =".$idEvidencias;
+                    $Res = mysqli_query($conexion,$Query);
+
+                        //Condicion para saber si ese evento tenia evidencias o no
+                            if(mysqli_affected_rows($conexion) > 0){
+                                $Dato = mysqli_fetch_array($Res);
+                                array_push($Respuesta,$Dato['numHombres']);
+                                array_push($Respuesta,$Dato['numMujeres']);
+                            }else{
+                                array_push($Respuesta,"S/E");
+                                array_push($Respuesta,"S/E");
+                            }
+                         //Condicion para saber si ese evento tenia evidencias o no
+
+                //Hacemos query a las evidencias para obtener la cantidad de mujeres y de hombres
+            array_push($Respuesta,$Renglon['FormaDePago']);
+            array_push($Respuesta,$Renglon['publico']);
+            array_push($Respuesta,$Renglon['origenPonentes']);
             $Respuesta['estatus'] = 1;
         }else{
             $Respuesta['estatus'] = 0; 
