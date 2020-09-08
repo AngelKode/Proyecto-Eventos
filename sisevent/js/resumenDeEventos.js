@@ -1,4 +1,5 @@
-let idEstadoCapturadoEvento = 0;
+let idEventoMostrar = 0;
+let estadoActual = 0;
 let años = Array();
 
 function actionRead(){
@@ -35,21 +36,14 @@ function actionRead(){
             let tablaResumen = $("#tablaDatosEvento").DataTable();
             //Con el siguiente siclo forEach, recorremos el arreglo de los datos para agregarlos a la tabla
                 resultadoJSON.evento.forEach(evento => {
-                    
+                let boolCapturado;    
                     if(evento.datoCapturado == 0){
-                        btnEventoCapturado = '<button type="button" class="btn btn-outline-warning" id = "botonCapturado'+evento.id+'" onclick = "identificarEstadoCapturado('+evento.id+');">No</button>';
+                       boolCapturado = "No";
                     }else{
-                        btnEventoCapturado = '<button type="button" class="btn btn-outline-success" id = "botonCapturado'+evento.id+'" onclick = "identificarEstadoCapturado('+evento.id+');">Si</button>';
+                       boolCapturado = "Si";
                     }    
-                    
-                    //Checar si tiene # de registro
-                    let numRegistro;
-                    if(evento.numRegistro == ""){
-                        numRegistro = "N/A";
-                    }else{
-                        numRegistro = evento.numRegistro;
-                    }
-                    
+                    btnMostrarEventoResumen = '<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info" id = "botonCapturado'+evento.id+'" onclick = "identificarEstadoCapturado('+evento.id+');">Mostrar</button>';
+
                     let fechaInicio = evento.inicio;
                     let fechaFin = evento.fin;
                     //Operacion para obtener fecha inicio
@@ -69,32 +63,13 @@ function actionRead(){
                         dd = fechaFin.substr(0,2);
                         fechaFin = yy+"/"+mm+"/"+dd;
 
-                        //Checamos si el evento tiene evidencias o no
-                        let cantidadMujeres,cantidadHombres;
-                        if(evento[0] === undefined){
-                            cantidadHombres = "S/E";
-                            cantidadMujeres = "S/E";
-                        }else{
-                            cantidadHombres = evento[0].cantidadHombres;
-                            cantidadMujeres = evento[0].cantidadMujeres;
-                        }
-
-
                         tablaResumen.row.add([
                             evento.nombre,
-                            evento.modalidad,
                             evento.tipo,
-                            evento.rama,
-                            evento.duracion,
-                            numRegistro,
                             fechaInicio,
                             fechaFin,
-                            cantidadHombres,
-                            cantidadMujeres,
-                            evento.formaPago,
-                            evento.instanciaAtendida,
-                            evento.capacitador,
-                            btnEventoCapturado
+                            boolCapturado,
+                            btnMostrarEventoResumen
                         ]).draw().node().id= "row_"+evento.id;
                 });
                 años = [...new Set(años)]//Eliminamos repetidos
@@ -104,37 +79,78 @@ function actionRead(){
 }
 
 function identificarEstadoCapturado(idEvento){
+    
+    //Borramos todas las filas del tbody para que no se repitan
+    $("#tablaDatosModal tbody tr").remove();
+    idEventoMostrar = idEvento;
+    let tabla = $("#tablaDatosEvento").DataTable();
+    let renglon = tabla.row("#row_"+idEvento).data();
 
-    idEstadoCapturadoEvento = idEvento;
-    let botonEstatus = "botonCapturado"+idEstadoCapturadoEvento;
-    let botonDom = document.getElementById(botonEstatus);
-    let estadoActual = "";
-    let estadoSiguiente = "";
-
-    if(botonDom.textContent == "Si"){//Con .textContent obtenemos si "Si" o "No"
-      estadoActual = "btn btn-outline-success";
-      estadoSiguiente = "btn btn-outline-warning";
-      botonDom.textContent = "No";
+    if(renglon[4] == "Si"){
+        $("#labelEstatus").html("El evento ya está capturado!");
+        estadoActual = "Si";
+        if($("#btnActTipoEvento").hasClass("btn-warning")){
+            $("#btnActTipoEvento").removeClass("btn-warning");
+            $("#btnActTipoEvento").addClass("btn-success");
+        }else if(!$("#btnActTipoEvento").hasClass("btn-success")){
+            $("#btnActTipoEvento").addClass("btn-success");
+        }
     }else{
-      estadoActual = "btn btn-outline-warning";
-      estadoSiguiente = "btn btn-outline-success";
-      botonDom.textContent = "Si";
+        $("#labelEstatus").html("El evento aún no se ha capturado. Presione el boton 'Capturado' cuando ya lo este");
+        estadoActual = "No";
+        if($("#btnActTipoEvento").hasClass("btn-success")){
+            $("#btnActTipoEvento").removeClass("btn-success");
+            $("#btnActTipoEvento").addClass("btn-warning");
+        }else if(!$("#btnActTipoEvento").hasClass("btn-warning")){
+            $("#btnActTipoEvento").addClass("btn-warning");
+        }    
     }
 
-    let jquery = "#"+botonEstatus;//Texto que nos sirve para detectar el objeto con la id usando jquery para luego usarlo
-    $(jquery).removeClass(estadoActual).addClass(estadoSiguiente);//Removemos la clase del boton y le agreamos otra
+    $.ajax({
+        method : "post",
+        url : "php/obtenerEventosResumen.php",
+        data : {
+            action : 'leerParaModal',
+            id : idEvento
+        },success : function (result){
+            let resultadoJSON = JSON.parse(result);
 
-    actualizarEstadoCapturado(botonDom.textContent);//Usamos ajax para actualizar el estado
+            if(resultadoJSON.estatus == 1){
+
+                $("#tablaDatosModal").find('tbody').append( "<tr><td>Nombre del Evento</td><td><i>"+resultadoJSON.nombreEvento+"</i></td></tr>" );
+                $("#tablaDatosModal").find('tbody').append( "<tr><td>Modalidad</td><td><i>"+resultadoJSON.modalidad+"</i></td></tr>" );
+                $("#tablaDatosModal").find('tbody').append( "<tr><td>Tipo de Evento</td><td><i>"+renglon[1]+"</i></td></tr>" );
+                $("#tablaDatosModal").find('tbody').append( "<tr><td>Rama</td><td><i>"+resultadoJSON.rama+"</i></td></tr>" );
+
+            }else{
+
+                $(function() {
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000
+                    });
+      
+                      Toast.fire({
+                          type: 'error',
+                          title: "Error al hacer la petición!"
+                      })
+      
+                  }); 
+
+            }
+
+        }
+    });
 }
 
-function actualizarEstadoCapturado(estadoNuevo){
-
-    let nuevoEstado;
-    
-    if(estadoNuevo == "Si"){
-        nuevoEstado = 1;
-    }else{
+function actualizarEstadoCapturado(){
+    $("#btnActTipoEvento").addClass("disabled");//Para evitar errores, y esperar a tener respuesta del servidor
+    if(estadoActual == "Si"){
         nuevoEstado = 0;
+    }else{
+        nuevoEstado = 1;
     }
     
     $.ajax({
@@ -143,15 +159,36 @@ function actualizarEstadoCapturado(estadoNuevo){
         data: {
           action : "actualizarCapturado",
           estado : nuevoEstado,
-          id : idEstadoCapturadoEvento
+          id : idEventoMostrar
         },
         success: function( result ) {
+            $("#btnActTipoEvento").removeClass("disabled");//Una vez teniendo respuesta, habilitamos de nuevo el boton
             let resultadoJSON = JSON.parse(result);
-    
+            
+            //Obtenemos la tabla principal y el renglon de los datos
+            let tabla = $("#tablaDatosEvento").DataTable();
+            let renglon = tabla.row("#row_"+idEventoMostrar).data();
+        
             if(resultadoJSON.estado == 1){//Si vale 1, quiere decir que se actualizo correctamente el estado del usuario
-                $(function() {
+                //Cambiamos la presentación del modal
+                if(estadoActual == "Si"){//Para este punto, el estado ya es pasado
+                    $("#labelEstatus").html("El evento aún no se ha capturado. Presione el boton 'Capturado' cuando ya lo este");//Cambiamos el label del modal
+                    $("#btnActTipoEvento").removeClass("btn-success");//Quitamos el boton verde
+                    $("#btnActTipoEvento").addClass("btn-warning");//Y ponemos el amarillo
+                    renglon[4] = "No";//Actualizamos la posicion donde dice si esta capturado o no
+                    estadoActual = "No";
+                }else{
+                    $("#labelEstatus").html("El evento ya está capturado!");//Cambiamos el label del modal
+                    $("#btnActTipoEvento").removeClass("btn-warning");//Quitamos el boton amarillo
+                    $("#btnActTipoEvento").addClass("btn-success");//Y agregamos el boton verde
+                    renglon[4] = "Si";//Actualizamos la posicion donde dice si esta capturado o no
+                    estadoActual = "Si";
+                }
+                tabla.row("#row_"+idEventoMostrar).data(renglon);//Actualizamos la tabla con los nuevos datos
+
+                $(function() {//Y por ultimo mandamos un toast para decirle al usuario que se actualizó correctamente
                   const tabla = $("#tablaDatosEvento").DataTable();
-                  const renglon = tabla.row("#row_"+idEstadoCapturadoEvento).data();
+                  const renglon = tabla.row("#row_"+idEventoMostrar).data();
                   let mensaje = "Estado del evento '"+renglon[0]+"' actualizado correctamente!";
                   const Toast = Swal.mixin({
                     toast: true,
@@ -307,20 +344,13 @@ function actionFiltrar(){
             tablaResumen.draw();
             //Con el siguiente siclo forEach, recorremos el arreglo de los datos para agregarlos a la tabla
                 resultadoJSON.evento.forEach(evento => {
-
+                    let boolCapturado;    
                     if(evento.datoCapturado == 0){
-                        btnEventoCapturado = '<button type="button" class="btn btn-outline-warning" id = "botonCapturado'+evento.id+'" onclick = "identificarEstadoCapturado('+evento.id+');">No</button>';
+                       boolCapturado = "No";
                     }else{
-                        btnEventoCapturado = '<button type="button" class="btn btn-outline-success" id = "botonCapturado'+evento.id+'" onclick = "identificarEstadoCapturado('+evento.id+');">Si</button>';
+                       boolCapturado = "Si";
                     }    
-                    
-                    //Checar si tiene # de registro
-                    let numRegistro;
-                    if(evento.numRegistro == ""){
-                        numRegistro = "N/A";
-                    }else{
-                        numRegistro = evento.numRegistro;
-                    }
+                    btnMostrarEventoResumen = '<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info" id = "botonCapturado'+evento.id+'" onclick = "identificarEstadoCapturado('+evento.id+');">Mostrar</button>';
                     //Agregamos los datos al renglon de la tabla
                     let fechaInicio = evento.inicio;
                     let fechaFin = evento.fin;
@@ -341,19 +371,11 @@ function actionFiltrar(){
                         
                     tablaResumen.row.add([
                         evento.nombre,
-                        evento.modalidad,
                         evento.tipo,
-                        evento.rama,
-                        evento.duracion,
-                        numRegistro,
                         fechaInicio,
                         fechaFin,
-                        evento[0].cantidadHombres,
-                        evento[0].cantidadMujeres,
-                        evento.formaPago,
-                        evento.instanciaAtendida,
-                        evento.capacitador,
-                        btnEventoCapturado
+                        boolCapturado,
+                        btnMostrarEventoResumen
                     ]).draw().node().id= "row_"+evento.id;
                 });
             if(resultadoJSON.estatus == 0){

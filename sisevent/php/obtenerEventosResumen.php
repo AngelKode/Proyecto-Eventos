@@ -16,6 +16,10 @@ if(isset($_POST['action'])){
             break;
         case 'filtrarTabla':
             ActionFiltrarTabla($conexion);
+            break;
+        case 'leerParaModal':
+            ActionReadDatosEventoModal($conexion);
+            break;
     }
 }else{
 	$Respuesta["estado"]=0;
@@ -37,11 +41,7 @@ function ActionReadPHP($conexion){
             $Eventos = array();
 
             $Eventos["id"] 		          = $Renglon["idEvento"];
-            $Eventos["usuarioCreador"]	  = $Renglon["usuarioCreador"];
             $Eventos["nombre"]            = $Renglon["titulo"];
-            $Eventos["numRegistro"]       = $Renglon["NoRegistro"];
-            $Eventos["rama"]              = $Renglon["Rama"];
-            $Eventos["modalidad"]         = $Renglon["modalidad"];
             $Eventos["inicio"]            = $Renglon["inicio"];
             $Eventos["fin"]               = $Renglon["final"];
                 //Aqui hago un query a la tabla de tipo de evento
@@ -51,32 +51,11 @@ function ActionReadPHP($conexion){
                 $RenglonDatoTipoEvento    = mysqli_fetch_array($ResultadoQueryTipoEvento);
                 //Aqui hago un query a la tabla dde tipo evento
             $Eventos["tipo"]              = $RenglonDatoTipoEvento["Nombre"];
-            $Eventos["instanciaAtendida"] = $Renglon["publico"];
-            $Eventos["capacitador"]       = $Renglon["origenPonentes"];
-            $Eventos["formaPago"]         = $Renglon["FormaDePago"];
-            $Eventos["duracion"]          = $Renglon["cantidadHoras"];
             $Eventos["datoCapturado"]     = $Renglon["datosCapturados"];
 
             array_push($Respuesta["evento"], $Eventos);//Guardamos el dato de la BD en la posicion "evento"
         }
     //----------------------------------Obteniendo datos de la tabla eventos--------------------------------------------
-
-    //----------------------------------Obteniendo datos de la tabla evidencias--------------------------------------------
-        $Query = "SELECT * FROM evidencias";//Query a realizar
-
-        $Resultado 	= mysqli_query($conexion,$Query);//Guardamos el query obtenido
-        $contador = 0;
-        while($Renglon = mysqli_fetch_array($Resultado)){//Mientras haya un renglón, seguimos guardando los datos en $Resultado
-
-            $Evidencias = array();
-            $Evidencias["cantidadMujeres"]  = $Renglon["numMujeres"];
-            $Evidencias['cantidadHombres']	= $Renglon['numHombres'];
-
-            array_push($Respuesta["evento"][$contador], $Evidencias);//Guardamos el dato de la BD en la posicion "categorias"
-            $contador = $contador + 1;
-        }
-        
-    //----------------------------------Obteniendo datos de la tabla evidencias--------------------------------------------
     $Respuesta["estado"] = 1;
 	$Respuesta["mensaje"] = "Consulta exitosa";
 
@@ -89,9 +68,9 @@ function ActionActualizarPHP($conexion){
     $Respuesta = array();
 	$estado = $_POST['estado'];
 	$id = $_POST['id'];
-	$query = "UPDATE eventos SET datosCapturados='".$estado."'
+	$query = "UPDATE eventos SET datosCapturados=".$estado."
               WHERE idEvento =".$id;
-              
+
 	$res = mysqli_query($conexion,$query);
 
 	if(mysqli_affected_rows($conexion)>0){
@@ -129,12 +108,8 @@ function ActionFiltrarTabla($conexion){
             
             $años = array();
             $años = $_POST['añosTotales'];
-            $contador = 0;
             $Respuesta = array();
             $Respuesta['evento'] = array();
-            $idArreglo = array();
-            $contadorDeEventos = 0;                     
-            $contadorIngresarHomMuj = 0;
 
             foreach($años as $todoslosAños){//Ciclo para ir buscando por cada año
 
@@ -150,12 +125,7 @@ function ActionFiltrarTabla($conexion){
                         $Eventos = array();
 
                         $Eventos["id"] 		          = $Renglon["idEvento"];
-                            array_push($idArreglo,$Renglon["idEvento"]);
-                        $Eventos["usuarioCreador"]	  = $Renglon["usuarioCreador"];
                         $Eventos["nombre"]            = $Renglon["titulo"];
-                        $Eventos["numRegistro"]       = $Renglon["NoRegistro"];
-                        $Eventos["rama"]              = $Renglon["Rama"];
-                        $Eventos["modalidad"]         = $Renglon["modalidad"];
                         $Eventos["inicio"]            = $Renglon["inicio"];
                         $Eventos["fin"]               = $Renglon["final"];
                             //Aqui hago un query a la tabla de tipo de evento
@@ -165,38 +135,10 @@ function ActionFiltrarTabla($conexion){
                             $RenglonDatoTipoEvento    = mysqli_fetch_array($ResultadoQueryTipoEvento);
                             //Aqui hago un query a la tabla dde tipo evento
                         $Eventos["tipo"]              = $RenglonDatoTipoEvento["Nombre"];
-                        $Eventos["instanciaAtendida"] = $Renglon["publico"];
-                        $Eventos["capacitador"]       = $Renglon["origenPonentes"];
-                        $Eventos["formaPago"]         = $Renglon["FormaDePago"];
-                        $Eventos["duracion"]          = $Renglon["cantidadHoras"];
                         $Eventos["datoCapturado"]     = $Renglon["datosCapturados"];
 
                         array_push($Respuesta["evento"], $Eventos);//Guardamos el dato de la BD en la posicion "evento"
-                        $contadorDeEventos = $contadorDeEventos + 1;
                     }
-                }
-            }
-
-            foreach($idArreglo as $id){
-                $Query = "SELECT * FROM evidencias WHERE id=".$id;//Query a realizar
-
-                $Resultado 	= mysqli_query($conexion,$Query);//Guardamos el query obtenido
-                if(mysqli_affected_rows($conexion) > 0){
-                    while($Renglon = mysqli_fetch_array($Resultado)){//Mientras haya un renglón, seguimos guardando los datos en $Resultado
-
-                        $Evidencias = array();
-                        $Evidencias["cantidadMujeres"]  = $Renglon["numMujeres"];
-                        $Evidencias['cantidadHombres']	= $Renglon['numHombres'];
-
-                        array_push($Respuesta["evento"][$contador], $Evidencias);//Guardamos el dato de la BD en la posicion "categorias"
-                        $contador = $contador + 1;
-                    }
-                }else{//En caso de no tener evidencias
-                        $Evidencias = array();
-                        $Evidencias["cantidadMujeres"]  = "S/E";
-                        $Evidencias['cantidadHombres']	= "S/E";
-                        array_push($Respuesta["evento"][$contadorIngresarHomMuj], $Evidencias);//Guardamos el dato de la BD en la posicion "categorias"
-                        $contadorIngresarHomMuj = $contadorIngresarHomMuj + 1;
                 }
             }
             $Respuesta['estatus'] = 1;
@@ -208,10 +150,6 @@ function ActionFiltrarTabla($conexion){
                 $Resultado = mysqli_query($conexion,$Query);
                 $Respuesta = array();
                 $Respuesta['evento'] = array();
-                $idArreglo = array();
-                $contadorDeEventos = 0;
-                $contadorIngresarHomMuj = 0;
-
 
                 if(mysqli_affected_rows($conexion) > 0){
 
@@ -219,12 +157,7 @@ function ActionFiltrarTabla($conexion){
                         $Eventos = array();
 
                         $Eventos["id"] 		          = $Renglon["idEvento"];
-                            array_push($idArreglo,$Renglon["idEvento"]);
-                        $Eventos["usuarioCreador"]	  = $Renglon["usuarioCreador"];
                         $Eventos["nombre"]            = $Renglon["titulo"];
-                        $Eventos["numRegistro"]       = $Renglon["NoRegistro"];
-                        $Eventos["rama"]              = $Renglon["Rama"];
-                        $Eventos["modalidad"]         = $Renglon["modalidad"];
                         $Eventos["inicio"]            = $Renglon["inicio"];
                         $Eventos["fin"]               = $Renglon["final"];
                             //Aqui hago un query a la tabla de tipo de evento
@@ -234,40 +167,11 @@ function ActionFiltrarTabla($conexion){
                             $RenglonDatoTipoEvento    = mysqli_fetch_array($ResultadoQueryTipoEvento);
                             //Aqui hago un query a la tabla dde tipo evento
                         $Eventos["tipo"]              = $RenglonDatoTipoEvento["Nombre"];
-                        $Eventos["instanciaAtendida"] = $Renglon["publico"];
-                        $Eventos["capacitador"]       = $Renglon["origenPonentes"];
-                        $Eventos["formaPago"]         = $Renglon["FormaDePago"];
-                        $Eventos["duracion"]          = $Renglon["cantidadHoras"];
                         $Eventos["datoCapturado"]     = $Renglon["datosCapturados"];
 
                         array_push($Respuesta["evento"], $Eventos);//Guardamos el dato de la BD en la posicion "evento"
-                        $contadorDeEventos = $contadorDeEventos + 1;
                     }
 
-                    foreach($idArreglo as $id){
-                        $Query = "SELECT * FROM evidencias WHERE id=".$id;//Query a realizar
-
-                        $Resultado 	= mysqli_query($conexion,$Query);//Guardamos el query obtenido
-                        if(mysqli_affected_rows($conexion) > 0){
-                            while($Renglon = mysqli_fetch_array($Resultado)){//Mientras haya un renglón, seguimos guardando los datos en $Resultado
-
-                                $Evidencias = array();
-                                $Evidencias["cantidadMujeres"]  = $Renglon["numMujeres"];
-                                $Evidencias['cantidadHombres']	= $Renglon['numHombres'];
-
-                                array_push($Respuesta["evento"][$contadorIngresarHomMuj], $Evidencias);//Guardamos el dato de la BD en la posicion "categorias"
-                                $contadorIngresarHomMuj = $contadorIngresarHomMuj + 1;
-                            }
-                        }else{//En caso de no tener evidencias
-                    
-                                $Evidencias = array();
-                                $Evidencias["cantidadMujeres"]  = "S/E";
-                                $Evidencias['cantidadHombres']	= "S/E";
-
-                                array_push($Respuesta["evento"][$contadorIngresarHomMuj], $Evidencias);//Guardamos el dato de la BD en la posicion "categorias"
-                                $contadorIngresarHomMuj = $contadorIngresarHomMuj + 1;
-                        }
-                    }
                     $Respuesta['estatus'] = 1;
                 }else{
                     $Respuesta['estatus'] = 0;
@@ -281,9 +185,6 @@ function ActionFiltrarTabla($conexion){
             $Resultado = mysqli_query($conexion,$Query);
             $Respuesta = array();
             $Respuesta['evento'] = array();
-            $idArreglo = array();
-            $contadorDeEventos = 0;                    
-            $contadorIngresarHomMuj = 0;
 
             if(mysqli_affected_rows($conexion) > 0){
 
@@ -291,12 +192,7 @@ function ActionFiltrarTabla($conexion){
                     $Eventos = array();
 
                     $Eventos["id"] 		          = $Renglon["idEvento"];
-                        array_push($idArreglo,$Renglon["idEvento"]);
-                    $Eventos["usuarioCreador"]	  = $Renglon["usuarioCreador"];
                     $Eventos["nombre"]            = $Renglon["titulo"];
-                    $Eventos["numRegistro"]       = $Renglon["NoRegistro"];
-                    $Eventos["rama"]              = $Renglon["Rama"];
-                    $Eventos["modalidad"]         = $Renglon["modalidad"];
                     $Eventos["inicio"]            = $Renglon["inicio"];
                     $Eventos["fin"]               = $Renglon["final"];
                         //Aqui hago un query a la tabla de tipo de evento
@@ -306,40 +202,11 @@ function ActionFiltrarTabla($conexion){
                         $RenglonDatoTipoEvento    = mysqli_fetch_array($ResultadoQueryTipoEvento);
                         //Aqui hago un query a la tabla dde tipo evento
                     $Eventos["tipo"]              = $RenglonDatoTipoEvento["Nombre"];
-                    $Eventos["instanciaAtendida"] = $Renglon["publico"];
-                    $Eventos["capacitador"]       = $Renglon["origenPonentes"];
-                    $Eventos["formaPago"]         = $Renglon["FormaDePago"];
-                    $Eventos["duracion"]          = $Renglon["cantidadHoras"];
                     $Eventos["datoCapturado"]     = $Renglon["datosCapturados"];
 
                     array_push($Respuesta["evento"], $Eventos);//Guardamos el dato de la BD en la posicion "evento"
-                    $contadorDeEventos = $contadorDeEventos + 1;
                 }
 
-                foreach($idArreglo as $id){
-                    $Query = "SELECT * FROM evidencias WHERE id=".$id;//Query a realizar
-
-                    $Resultado 	= mysqli_query($conexion,$Query);//Guardamos el query obtenido
-                    if(mysqli_affected_rows($conexion) > 0){
-                        while($Renglon = mysqli_fetch_array($Resultado)){//Mientras haya un renglón, seguimos guardando los datos en $Resultado
-
-                            $Evidencias = array();
-                            $Evidencias["cantidadMujeres"]  = $Renglon["numMujeres"];
-                            $Evidencias['cantidadHombres']	= $Renglon['numHombres'];
-
-                            array_push($Respuesta["evento"][$contadorIngresarHomMuj], $Evidencias);//Guardamos el dato de la BD en la posicion "categorias"
-                            $contadorIngresarHomMuj = $contadorIngresarHomMuj + 1;
-                        }
-                    }else{//En caso de no tener evidencias
-                
-                            $Evidencias = array();
-                            $Evidencias["cantidadMujeres"]  = "S/E";
-                            $Evidencias['cantidadHombres']	= "S/E";
-
-                            array_push($Respuesta["evento"][$contadorIngresarHomMuj], $Evidencias);//Guardamos el dato de la BD en la posicion "categorias"
-                            $contadorIngresarHomMuj = $contadorIngresarHomMuj + 1;
-                    }
-                }
                 $Respuesta['estatus'] = 1;
             }else{
                 $Respuesta['estatus'] = 0;
@@ -350,9 +217,6 @@ function ActionFiltrarTabla($conexion){
             $años = $_POST['añosTotales'];
             $Respuesta = array();
             $Respuesta['evento'] = array();
-            $idArreglo = array();
-            $contadorDeEventos = 0;                     
-            $contadorIngresarHomMuj = 0;
 
             foreach($años as $todoslosAños){//Ciclo para ir buscando por cada año
 
@@ -368,12 +232,7 @@ function ActionFiltrarTabla($conexion){
                         $Eventos = array();
 
                         $Eventos["id"] 		          = $Renglon["idEvento"];
-                            array_push($idArreglo,$Renglon["idEvento"]);
-                        $Eventos["usuarioCreador"]	  = $Renglon["usuarioCreador"];
                         $Eventos["nombre"]            = $Renglon["titulo"];
-                        $Eventos["numRegistro"]       = $Renglon["NoRegistro"];
-                        $Eventos["rama"]              = $Renglon["Rama"];
-                        $Eventos["modalidad"]         = $Renglon["modalidad"];
                         $Eventos["inicio"]            = $Renglon["inicio"];
                         $Eventos["fin"]               = $Renglon["final"];
                             //Aqui hago un query a la tabla de tipo de evento
@@ -383,42 +242,33 @@ function ActionFiltrarTabla($conexion){
                             $RenglonDatoTipoEvento    = mysqli_fetch_array($ResultadoQueryTipoEvento);
                             //Aqui hago un query a la tabla dde tipo evento
                         $Eventos["tipo"]              = $RenglonDatoTipoEvento["Nombre"];
-                        $Eventos["instanciaAtendida"] = $Renglon["publico"];
-                        $Eventos["capacitador"]       = $Renglon["origenPonentes"];
-                        $Eventos["formaPago"]         = $Renglon["FormaDePago"];
-                        $Eventos["duracion"]          = $Renglon["cantidadHoras"];
                         $Eventos["datoCapturado"]     = $Renglon["datosCapturados"];
 
                         array_push($Respuesta["evento"], $Eventos);//Guardamos el dato de la BD en la posicion "evento"
-                        $contadorDeEventos = $contadorDeEventos + 1;
                     }
-                }
-            }
-
-            foreach($idArreglo as $id){
-                $Query = "SELECT * FROM evidencias WHERE id=".$id;//Query a realizar
-
-                $Resultado 	= mysqli_query($conexion,$Query);//Guardamos el query obtenido
-                if(mysqli_affected_rows($conexion) > 0){
-                    while($Renglon = mysqli_fetch_array($Resultado)){//Mientras haya un renglón, seguimos guardando los datos en $Resultado
-
-                        $Evidencias = array();
-                        $Evidencias["cantidadMujeres"]  = $Renglon["numMujeres"];
-                        $Evidencias['cantidadHombres']	= $Renglon['numHombres'];
-
-                        array_push($Respuesta["evento"][$contadorIngresarHomMuj], $Evidencias);//Guardamos el dato de la BD en la posicion "categorias"
-                        $contadorIngresarHomMuj = $contadorIngresarHomMuj + 1;
-                    }
-                }else{//En caso de no tener evidencias
-                        $Evidencias = array();
-                        $Evidencias["cantidadMujeres"]  = "S/E";
-                        $Evidencias['cantidadHombres']	= "S/E";
-                        array_push($Respuesta["evento"][$contadorIngresarHomMuj], $Evidencias);//Guardamos el dato de la BD en la posicion "categorias"
-                        $contadorIngresarHomMuj = $contadorIngresarHomMuj + 1;
                 }
             }
             $Respuesta['estatus'] = 1;      
            
+        }
+    echo json_encode($Respuesta);
+}
+
+function ActionReadDatosEventoModal($conexion){
+    $idEvento = $_POST['id'];
+
+    $Query = "SELECT * FROM eventos WHERE idEvento =".$idEvento;
+    $Resultado = mysqli_query($conexion,$Query);
+    $Renglon = mysqli_fetch_array($Resultado);
+    $Respuesta = array();
+
+        if(mysqli_affected_rows($conexion) > 0){
+            $Respuesta['nombreEvento'] = $Renglon['titulo'];
+            $Respuesta['modalidad'] = $Renglon['modalidad'];
+            $Respuesta['rama'] = $Renglon['Rama'];
+            $Respuesta['estatus'] = 1;
+        }else{
+            $Respuesta['estatus'] = 0; 
         }
     echo json_encode($Respuesta);
 }

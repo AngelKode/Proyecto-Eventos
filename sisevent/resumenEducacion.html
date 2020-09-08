@@ -14,9 +14,14 @@
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="css/estilosResumenEventos.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!--SweetAlert-->
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <link rel="stylesheet" type="text/css" href="plugins/sweetalert2/sweetalert2.min.css">
+  <!--Toastr-->
+  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
 
 </head>
 <body class="hold-transition sidebar-mini" onload="actionRead();">
@@ -115,7 +120,50 @@
     </div>
     <!-- /.sidebar -->
   </aside>
- 
+  
+  <!--Modal para mostrar los datos del evento-->
+  <div class="modal fade" id="modal-info">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Datos del Evento</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+           <div class="row">
+              <div class="divTablaDatosModal col-sm-12">
+                <div class="row">
+                  <div class="col-sm-12"><label id="labelEstatus"></label></div>
+                  <div class="col-sm-12">                                
+                    <table id="tablaDatosModal" class="table table-bordered table-hover" style="width: 100%;">
+                      <thead>
+                          <tr>
+                            <th width="50%">Nombre</th>
+                            <th width="50%">Valor</th>
+                          </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+              
+              <div class="col-sm-12">
+                <div class="divBotonesCapturar">
+                  <button type="button" class="btn btn-danger btnModal" data-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btnModal" id="btnActTipoEvento" onclick="actualizarEstadoCapturado();">Capturado</button>
+                </div>
+              </div>
+           </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+  </div>
+  <!--Modal para mostrar los datos del evento-->
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -143,23 +191,15 @@
                 <h3 style="padding-top:10px;" class="card-title">Resúmen</h3>
             </div>
             <div class="card-body table-responsive">
-              <table id="tablaDatosEvento" class="table table-bordered table-striped" style="width: 100%; text-align: center; vertical-align: middle;"> 
+              <table id="tablaDatosEvento" class="table table-bordered table-striped" style="width: 100%;"> 
                 <thead>
                 <tr>
                   <th>Nombre del Evento</th>
-                  <th>Modalidad</th>
                   <th>Tipo de Evento</th>
-                  <th>Rama</th>
-                  <th>Duración (en horas)</th>
-                  <th># de Registro</th>
                   <th>Fecha de Inicio</th>
                   <th>Fecha de Termino</th>
-                  <th># Hombres</th>
-                  <th># Mujeres</th>
-                  <th>Forma de Pago</th>
-                  <th>Instancia Atendida</th>
-                  <th>Procedencia del capacitador</th>
                   <th>Capturado</th>
+                  <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -238,19 +278,21 @@
     let table = $("#tablaDatosEvento").DataTable();
     table.destroy();
     $('#tablaDatosEvento').DataTable( {
-      "scrollX": true,
       "paging": true,
       "lengthChange": true,
       "searching": true,
-      "processing":true,
       "ordering": true,
       "info": true,
-      "autoWidth": true,
-      "language" : idioma
+      "autoWidth": false,
+       "language" : idioma,
     });
   });
 </script>
 <script src="js/login_Evento.js"></script>
-<script src="js/resumenEvento.js"></script>
+<script src="js/resumenDeEventos.js"></script>
+<!--Toastr-->
+<script src="plugins/toastr/toastr.min.js"></script>
+<!--SweetAler-->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
 </body>
 </html>

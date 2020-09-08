@@ -1,0 +1,34 @@
+.divTablaDatosModal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.divBotonesCapturar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnModal{
+    margin: 10px;
+}
+
+#tablaDatosModal thead{
+    text-align: center;
+}
+
+#tablaDatosModal tbody{
+    text-align: center;
+}
+
+#labelEstatus{
+    word-wrap: break-word;
+}
+#tablaDatosModal thead td{
+    vertical-align: middle;
+}
+
+#tablaDatosModal tbody td{
+    vertical-align: middle;
+}
