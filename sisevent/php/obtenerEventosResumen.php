@@ -285,12 +285,12 @@ function ActionReadDatosEventoModal($conexion){
                 //Condicion para saber si tiene numero de registro o no
 
                 //Haremos un query para tener un formato de fecha diferente
-                    $Query = "SELECT DATE_FORMAT(inicio, '%d/%l/%Y') AS 'fechaInicio' FROM eventos WHERE idEvento =".$idEvento;
+                    $Query = "SELECT DATE_FORMAT(inicio, '%d/%m/%Y') AS 'fechaInicio' FROM eventos WHERE idEvento =".$idEvento;
                     $Res = mysqli_query($conexion,$Query);
                     $Dato = mysqli_fetch_array($Res);
                     array_push($Respuesta,$Dato['fechaInicio']);
 
-                    $Query = "SELECT DATE_FORMAT(final, '%d/%l/%Y') AS 'fechaFin' FROM eventos WHERE idEvento =".$idEvento;
+                    $Query = "SELECT DATE_FORMAT(final, '%d/%m/%Y') AS 'fechaFin' FROM eventos WHERE idEvento =".$idEvento;
                     $Res = mysqli_query($conexion,$Query);
                     $Dato = mysqli_fetch_array($Res);
                     array_push($Respuesta,$Dato['fechaFin']);
