@@ -55,6 +55,7 @@
                     $Respuesta["estatus"] = 1;
                     $Respuesta['admin'] = "No";
                     $Respuesta['obtenido'] = $renglon['id'];
+                    $Respuesta['editorMemoria'] = $renglon['Editor_MemInstitucional'];
                 }else{
                     $Respuesta["estatus"] = -1;
                     $Respuesta["mensaje"] = "Acceso denegado!";

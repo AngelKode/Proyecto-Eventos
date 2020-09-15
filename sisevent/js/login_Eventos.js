@@ -13,7 +13,7 @@ function log_In(){
 		},
 		success: function( result ) {
 			 var resultado = JSON.parse(result);
-			 
+			 	
 				if(resultado.bd == 1){
 					if(resultado.estatus == 1){
 						if(resultado.admin == "Si"){
@@ -21,6 +21,7 @@ function log_In(){
 							sessionStorage.setItem("data",nombreUsuario);//Mandamos el dato al local storage
 							sessionStorage.setItem("admin","Si");
 							sessionStorage.setItem("idUsuario",resultado.obtenido);
+							sessionStorage.setItem("editorMemInst","Si");
 							window.location.replace("Calendario.html");//Cambiamos de ventana
 						}else{
 							if(resultado.estado == "Activo"){
@@ -29,6 +30,7 @@ function log_In(){
 								sessionStorage.setItem("data",resultado.usuario);//Mandamos el dato al local storage
 								sessionStorage.setItem("idUsuario",resultado.obtenido);
 								window.location.replace("Calendario.html");//Cambiamos de ventana
+								sessionStorage.setItem("editorMemInst",resultado.editorMemoria);//Para saber si el usuario puede editar la memoria Institucional
 								sessionStorage.setItem("admin","No");
 							}else{
 								//El usuario en esta condicion se encuentra inactivo, por lo que no podrá iniciar

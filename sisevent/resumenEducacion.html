@@ -20,6 +20,7 @@
   <!--SweetAlert-->
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="stylesheet" type="text/css" href="plugins/sweetalert2/sweetalert2.min.css">
+  <link rel="stylesheet" href="css/cssSweetAlert.css">
   <!--Toastr-->
   <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
 
@@ -63,9 +64,8 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" data-accordion="false" role="menu">
+
               <li class="nav-item">
                 <a href="Calendario.html" class="nav-link">
                   <i class="nav-icon far fa-calendar-alt"></i>
@@ -74,29 +74,39 @@
                   </p>
                 </a>
               </li>
+
               <li class="nav-item">
                 <a href="altaevento.html" class="nav-link">
-                  <i class="nav-icon fas fa-edit"></i>
-                  <p>Alta de eventos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="altacategorias.html" class="nav-link">
-                  <i class="nav-icon fas fa-folder-plus"></i>
-                  <p>Alta de Categorías</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="evento.html" class="nav-link">
-                  <i class="nav-icon fas fa-calendar-plus"></i>
-                  <p>Alta tipo de eventos</p>
+                  <i class="nav-icon fas fa-plus"></i>
+                  <p>Alta de Eventos</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="altausuarios.html" class="nav-link">
-                  <i class="nav-icon fas fa-user-plus"></i>
-                  <p>Alta de Usuarios</p>
+                  <a href="altacategorias.html" class="nav-link">
+                    <i class="nav-icon fas fa-plus"></i>
+                    <p>Alta de Categorías</p>
+                  </a>
+              </li>
+
+              <li class="nav-item">
+                  <a href="evento.html" class="nav-link">
+                    <i class="nav-icon fas fa-plus"></i>
+                    <p>Alta Tipo de Eventos</p>
+                  </a>
+              </li>
+                    
+              <li class="nav-item">
+                  <a href="altausuarios.html" class="nav-link">
+                    <i class="nav-icon fas fa-plus"></i>
+                    <p>Alta de Usuarios</p>
+                  </a>
+              </li>
+
+              <li class="nav-item" id="linkMemoriaAnual"> 
+                <a href="edicionMemoriaAnual.html" class="nav-link">
+                  <i class="nav-icon fas fa-edit"></i>
+                  <p>Edición Memoria Anual</p>
                 </a>
               </li>
 
@@ -109,7 +119,7 @@
               
               <li class="nav-item">
                 <a href="#" class="nav-link" onclick="logout();">
-                  <i class="nav-icon far fa-circle text-danger"></i>
+                  <i class="nav-icon fas fa-sign-out-alt"></i>
                   <p>Salir</p>
                 </a>
               </li>
@@ -288,11 +298,14 @@
     });
   });
 </script>
-<script src="js/login_Evento.js"></script>
-<script src="js/resumenDeEvento.js"></script>
+<!--Funcionalidad-->
+<script src="js/login_Eventos.js"></script>
+<script src="js/resumen_Eventos.js"></script>
 <!--Toastr-->
 <script src="plugins/toastr/toastr.min.js"></script>
 <!--SweetAler-->
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 </body>
 </html>

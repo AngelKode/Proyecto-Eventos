@@ -1,0 +1,114 @@
+#calloutPorMenores{
+    border-left-color: rgb(158,112,135);
+}
+#calloutDescripcion{
+    border-left-color: rgb(158,112,135);
+}
+#cardHeaderTituloEvid{
+    color:white;
+    background: rgb(158,112,135);
+    background: linear-gradient(0deg, rgba(158,112,135,1) 13%, rgba(101,31,65,1) 87%);
+}
+#cardHeaderEdicion{
+    color:white;
+    background: rgb(158,112,135);
+    background: linear-gradient(0deg, rgba(158,112,135,1) 13%, rgba(101,31,65,1) 87%);
+}
+#descripcionEv{
+   border-left-color:  rgb(185,139,162);; 
+}
+#descripcionEvento{
+    border-left-color:  rgb(185, 139, 162);; 
+}
+
+#tituloDelEvento{
+    word-wrap: break-word;
+}
+#tablaDatosModal tbody td{
+    width: 25%;
+}
+#tablaDatosModal thead th{
+    position: sticky;
+    top: 0;
+    background: linear-gradient(0deg, rgba(158,112,135,1) 13%, rgba(101,31,65,1) 87%);
+    color:white
+}
+#evidenciasModal::before{
+    content : 'EVIDENCIAS';
+    background-color: white;
+    width: 100%;
+    color:#442444;
+    padding: 0;
+    text-align: center;
+    border: 1px solid #442444;
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+    font-size: 20px;
+}
+.tituloPrimero::before{
+    content: 'INFORMACIÓN DEL EVENTO';
+    background-color: white;
+    width: 100%;
+    margin-bottom: 15px;
+    color:#442444;
+    border: 1px solid #442444;
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+    font-size: 20px;
+    text-align: center;
+    
+}
+#pormenorEvid{
+    color:#442444;
+    font-size: 16px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+.callout{
+    box-shadow: 0px 0px 5px #442444;
+}
+#divTabla{
+    width: 90%;
+    height: 25vh; 
+    overflow:scroll;
+    box-shadow: 0px 0px 10px #442444; 
+}
+#divBodyDatos{
+    height: 60vh; 
+    overflow:scroll;
+}
+.img-fluid.mb-3.mt-3{
+    box-shadow: 0px 0px 20px #442444; 
+}
+.tituloCard{
+    font-size: 22px;
+}
+#tablaDatosModal tr{
+    text-align: center;
+}
+#tablaDatosModal tr td{
+    vertical-align: middle;
+}
+#cardDatos{
+    box-shadow: 0px 0px 20px #442444;
+}
+#cardTextoMemoria{
+    box-shadow: 0px 0px 20px #442444;
+}
+.note-editable.card-block{
+    height: 55vh;
+    max-height: 90vh;
+}
+.btn.btn-sm{
+    background-color: transparent;
+}
+.card.collapsed-card{
+    margin-bottom: 0;
+}
+tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}

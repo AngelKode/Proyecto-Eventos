@@ -87,11 +87,18 @@ function actionRead(){
   if(nombreUsuario != null){
     if(sessionStorage.getItem("admin") == "Si"){
       $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
+    }else if(sessionStorage.getItem("editorMemInst") == "Si"){
+      $("#linkAltaCategoria").remove();
+      $("#linkAltaTipoEvento").remove();
+      $("#linkAltaUsuarios").remove();
+      $("#linkResumenEducacion").remove();
+      $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
     }else{
       $("#linkAltaCategoria").remove();
       $("#linkAltaTipoEvento").remove();
       $("#linkAltaUsuarios").remove();
       $("#linkResumenEducacion").remove();
+      $("#linkMemoriaAnual").remove();
       $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
     }
   }else{

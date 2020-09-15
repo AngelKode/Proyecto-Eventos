@@ -158,18 +158,35 @@ function actionCreate(){
 }
 function actionRead(){
   //Checar sesion
-    var nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
-    if(nombreUsuario != null && nombreUsuario == "Admin"){
+  var nombreUsuario = sessionStorage.getItem("data");//Obtenemos el valor del session storage
+  if(nombreUsuario != null){
+    if(sessionStorage.getItem("admin") == "Si"){
       $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
     }else{
-      if(nombreUsuario == null){
-        alert("Su sesión ha expirado, inicie de nuevo su sesion!");
-        window.location.replace("login.html");
-      }else{
-        alert("No tiene permiso para ingresar!. Será redireccionado");
-        window.location.replace("Calendario.html");
-      }  
+      
+        Swal.fire({
+          showConfirmButton: false,
+          allowOutsideClick : false, 
+          icon : 'error',
+          title: 'No tiene permiso para ingresar. Será redireccionado'
+        })
+
+        setTimeout(() => {
+          window.location.replace("Calendario.html");
+        }, 2000);
+        
+        clearTimeout();
     }
+  }else{
+    Swal.fire({
+      showConfirmButton: false,
+      allowOutsideClick : false,
+      icon : 'error',
+      title: 'Su sesión ha expirado. Inicie de nuevo su sesión'
+    })
+    setTimeout(function(){ window.location.replace("login.html"); }, 2000);
+    clearTimeout();
+  }
   //Checar sesion
     $.ajax({
         method : "post",

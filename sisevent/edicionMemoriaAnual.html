@@ -16,9 +16,15 @@
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!--SweetAlert-->
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-  <!--Estilo SweetAlert-->
+  <link rel="stylesheet" type="text/css" href="plugins/sweetalert2/sweetalert2.min.css">
+  <!--Toastr-->
+  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+  <link rel="stylesheet" href="css/editMemoriaEventos.css">
   <link rel="stylesheet" href="css/cssSweetAlert.css">
+  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
+
 </head>
 <body class="hold-transition sidebar-mini" onload="actionRead();">
 <div class="wrapper">
@@ -60,7 +66,7 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column">
-            
+
           <li class="nav-item">
             <a href="Calendario.html" class="nav-link">
               <i class="nav-icon far fa-calendar-alt"></i>
@@ -77,21 +83,21 @@
             </a>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item" id="linkAltaCategoria">
               <a href="altacategorias.html" class="nav-link">
                 <i class="nav-icon fas fa-plus"></i>
                 <p>Alta de Categorías</p>
               </a>
           </li>
 
-          <li class="nav-item">
-              <a href="evento.html" class="nav-link active">
+          <li class="nav-item" id="linkAltaTipoEvento">
+              <a href="evento.html" class="nav-link">
                 <i class="nav-icon fas fa-plus"></i>
                 <p>Alta Tipo de Eventos</p>
               </a>
           </li>
                 
-          <li class="nav-item">
+          <li class="nav-item" id="linkAltaUsuarios">
               <a href="altausuarios.html" class="nav-link">
                 <i class="nav-icon fas fa-plus"></i>
                 <p>Alta de Usuarios</p>
@@ -99,7 +105,7 @@
           </li>
 
           <li class="nav-item" id="linkMemoriaAnual"> 
-            <a href="edicionMemoriaAnual.html" class="nav-link">
+            <a href="edicionMemoriaAnual.html" class="nav-link active">
               <i class="nav-icon fas fa-edit"></i>
               <p>Edición Memoria Anual</p>
             </a>
@@ -126,7 +132,118 @@
     </div>
     <!-- /.sidebar -->
   </aside>
- 
+  
+  <!--Modal para mostrar los datos del evento-->
+  <div class="modal fade" id="modal-info">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Datos del Evento</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+           <div class="row">
+             <!--Card de los datos con las evidencias-->
+              <div class="divTablaDatosModal col-12 p-2">
+                <div class="card" style="height: 100%;" id="cardDatos">
+                  <div class="card-header pb-2" id="cardHeaderTituloEvid">
+                      <div class="card-title tituloCard" id="tituloDelEvento">
+                      </div>
+                      <div class="card-tools">
+                          <button type="button" class="btn btn-sm" data-card-widget="collapse">
+                            <i class="fas fa-minus" style="color:white"></i>
+                          </button>
+                      </div>
+                  </div>
+                  <div class="card-body p-2" id="divBodyDatos">
+                      <div class="row tituloPrimero">
+                      </div>
+                      <div class="d-flex justify-content-center align-content-center pt-3">
+                        <div id="divTabla">
+                            <table id="tablaDatosModal" class="table table-bordered table-hover mb-0">
+                              <tbody>
+                              </tbody>
+                            </table>
+                          </div>
+                      </div>
+
+                      <!--Div del callout de la descripcion-->
+                      <div class="d-flex justify-content-center align-content-center">
+                        <div style="width: 85%;">
+                          <div class="callout mt-5" id="calloutDescripcion">
+                            <h6>Descripción del Evento</h6>
+                            <p></p>
+                          </div><br>
+                        </div>
+                      </div>
+                      <!--Div del callout de la descripcion-->
+
+                       <!--Div del callout de los por menores-->
+                       <div class="d-flex justify-content-center align-content-center">
+                        <div style="width: 85%;">
+                          <div class="callout" id="calloutPorMenores">
+                            <h6>Pormenores</h6>
+                            <p></p>
+                          </div><br>
+                        </div>
+                      </div>
+                      <!--Div del callout de los por menores-->
+
+                      <!--Imagenes de las evidencias-->
+                      <div class="row pt-2" id="evidenciasModal">
+                        <div class="col-md-6 p-2">
+                              <img class="img-fluid mb-3 mt-3 p-2" id="ev1" src="" width="100%">
+                        </div>
+                        <div class="col-md-6 p-2">
+                            <img class="img-fluid mb-3 mt-3 p-2" id="ev2" src="" width="100%">
+                        </div>
+                      </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 p-2 pt-4" id="divTextoMemoria">
+                  <div class="card" id="cardTextoMemoria">
+                    <div class="card-header" id="cardHeaderEdicion">
+                      <h3 class="card-title tituloCard">
+                        Edición de la Memoria Institucional
+                      </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body pad p-0" style="height: 100%;">
+                        <textarea class="textarea"  placeholder="Place some text here"
+                                  style="width: 100%; height: 100vh; font-size: 14px; line-height: 18px; border: 1px solid #dddddd;" id="textoEdicion"></textarea>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="col-sm-12 p-2">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="p-2" id="divBotones">
+                    <button type="button" class="btn btn-info btnModal" onclick="guardarMemoriaInsitucional();" id="btnGuardar">Guardar</button>
+                    <button type="button" class="btn btn-success" onclick="liberarEvento();" id="btnLiberar">Liberar</button>
+                  </div>
+                  <div class="p-2">
+                    <p style="text-align: center;" id="labelInfoLiberado"><i class="icon fas fa-ban pr-2"></i>Evento NO liberado</p>
+                    <p style="text-align: center;" id="labelInfoMemoria"><i class="icon fas fa-ban pr-2"></i>Memoria Institucional SIN guardar</p>
+                </div>
+                </div>
+              </div>
+           </div>
+           <!--Row-->
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-danger btnModal" data-dismiss="modal">Cancelar</button>
+        </div>
+        <!--Modal Body-->
+      </div>
+      <!-- /.modal-content -->
+    </div>
+  </div>
+  <!--Modal para mostrar los datos del evento-->
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -134,120 +251,47 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Alta Tipos de Eventos</h1><br>
+            <h1>Edición Memoria Anual</h1><br>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-              <li class="breadcrumb-item active">Alta tipo de eventos</li>
+              <li class="breadcrumb-item active">Edición Memoria Anual</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid --> 
     </section>
 
-        
-
-            <div class="modal fade" id="modal-success">
-              <div class="modal-dialog">
-                <div class="modal-content bg-success">
-                  <div class="modal-header">
-                   <h4 class="modal-title">Agregar Evento</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                 </div>
-                  <div class="modal-body">
-                    <div class="form-group">
-                          <label>Nombre del evento</label><br>
-                          <input type="text" placeholder="Ingrese un nombre..." class="form-control" id="eventoAgregar">
-                        </div>    
-                    <div class="form-group">
-                           <label>Observaciones</label><br>
-                          <input type="text" placeholder="Ingrese una observacion..." class="form-control" id="observacionAgregar">
-                        </div>    
-                  </div>
-                   <div class="modal-footer justify-content-between">
-                   <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-outline-light"  data-dismiss="modal" onclick="actionCreate();" id="btnAgregarTipEv">Agregar</button>
-                  </div>
-                 </div>
-                 <!-- /.modal-content -->
-               </div>
-                <!-- /.modal-dialog -->
-              </div>
-              <!-- /.modal -->
-
-              <div class="modal fade" id="modal-danger">
-                <div class="modal-dialog">
-                  <div class="modal-content bg-danger">
-                    <div class="modal-header">
-                      <h4 class="modal-title">Eliminar Evento</h4>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <h4 style="font-size: 10;">¿Está seguro de eliminar el evento?</h4>
-                      <label >Evento:</label>
-                      <label id="eventoEliminar" class="lblEventoEliminar"></label><br>
-                      <label >Observacion:</label>
-                      <label id="observacionEliminar" class="lblObservacionEliminar"></label>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                      <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cancelar</button>
-                      <button type="button" class="btn btn-outline-light" onclick="actionDelete();" data-dismiss="modal">Aceptar</button>
-                    </div>
-                  </div>
-                  <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-              </div>
-
-              <div class="modal fade" id="modal-info">
-                <div class="modal-dialog">
-                  <div class="modal-content bg-info">
-                    <div class="modal-header">
-                      <h4 class="modal-title">Editar evento</h4>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                     <div class="form-group">
-                      <label>Nombre del evento</label><br>
-                      <input placeholder="Ingrese el nombre:" type="text" id = "nombreAct" class="form-control"input>
-                     </div>
-                     <div class="form-group">
-                      <label>Observaciones</label>
-                      <form><input placeholder="Ingrese una descripcion:" type="text" id = "observacionesAct" class="form-control"></input></form>
-                     </div> 
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                      <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
-                      <button type="button" class="btn btn-outline-light" onclick="actionUpdate();" data-dismiss="modal" id="btnActTipoEvento">Actualizar</button>
-                    </div>
-                  </div>
-                  <!-- /.modal-content -->
-                </div>
-              </div>
-            <!-- /.modal-dialog -->
     <section class="content">        
       <div class="row">      
         <div class="col-12">    
           <div class="card">
             <div class="card-header">
-                <h3 style="padding-top:10px;" class="card-title">Alta tipo de Eventos</h3>
-                 <button type="button"class="btn btn-success" data-toggle="modal" data-target="#modal-success" style="float: right;">Nuevo evento</button>
+                <h3 style="padding-top:10px;" class="card-title">Memoria Anual</h3>
             </div>
             <div class="card-body table-responsive">
-              <table id="example1" class="table table-bordered table-striped" style="width: 100%;"> 
+              <table id="tablaDatosEvento" class="table table-bordered table-striped" style="width: 100%;"> 
                 <thead>
                 <tr>
-                  <th>Nombre</th>
-                  <th>Observaciones</th>
+                  <th>Nombre del Evento</th>
+                  <th>Categoría</th>
+                  <th>Tipo de Evento</th>
+                  <th>Año</th>
+                  <th>Estado del Evento</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <td>Nombre</td>
+                    <td>Categoría</td>
+                    <td>Tipo de Evento</td>
+                    <td>Año</td>
+                    <td>Estatus</td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
             <!-- /.card-body -->
@@ -289,7 +333,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
-
+<script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
 <script>
   $(function () {
     let idioma = {
@@ -320,26 +364,46 @@
         "colvis": "Visibilidad"
     }
   }
-    let table = $("#example1").DataTable();
+    let table = $("#tablaDatosEvento").DataTable();
     table.destroy();
-    $('#example1').DataTable({
+    $('#tablaDatosEvento').DataTable( {
       "paging": true,
       "lengthChange": true,
       "searching": true,
       "ordering": true,
+      "orderCellsTop": true,
+      "fixedHeader": true,
       "info": true,
       "autoWidth": false,
-       "language" : idioma
+       "language" : idioma,
+       "createdRow": function () {
+             
+        }
+    });
+      
+
+    $(function () {
+    // Summernote
+    $('.textarea').summernote()
+  })
+
+    //Para evitar que el modal principal se cierre
+    $(document).on('hidden.bs.modal', '.modal.show', function () { 
+        $(document.body).addClass('modal-open');
     });
 
-    
   });
 </script>
-<script src="js/agregarTipoEventos.js"></script>
+<!--Funcionalidad-->
 <script src="js/login_Eventos.js"></script>
+<script src="js/edicionMemoriaEventos.js"></script>
+<!--Toastr-->
+<script src="plugins/toastr/toastr.min.js"></script>
 <!--SweetAlert-->
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+<!--Funcionalidad texto-word-->
+<script src="plugins/summernote/summernote-bs4.min.js"></script>
 </body>
 </html>

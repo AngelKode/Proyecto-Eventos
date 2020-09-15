@@ -12,16 +12,31 @@ function actionRead(){
     if(nombreUsuario != null){
       if(sessionStorage.getItem("admin") == "Si"){
         $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
-      }else{
+      }else if(sessionStorage.getItem("editorMemInst") == "Si"){
         $("#linkAltaCategoria").remove();
         $("#linkAltaTipoEvento").remove();
         $("#linkAltaUsuarios").remove();
         $("#linkResumenEducacion").remove();
         $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
+      }else{
+        $("#linkAltaCategoria").remove();
+        $("#linkAltaTipoEvento").remove();
+        $("#linkAltaUsuarios").remove();
+        $("#linkResumenEducacion").remove();
+        $("#linkMemoriaAnual").remove();
+        $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
       }
     }else{
-      alert("Su sesión ha expirado, inicie de nuevo su sesion!");
-      window.location.replace("login.html");
+      Swal.fire({
+        showConfirmButton: false,
+        allowOutsideClick : false, 
+        icon : 'error',
+        title: 'Su sesión ha expirado. Inicie de nuevo su sesión'
+      })
+      setTimeout(() => {
+        window.location.replace("login.html"); 
+      }, 2000);
+      clearTimeout();
     }
   //Checar sesion
     leerTipoDeEvento();
