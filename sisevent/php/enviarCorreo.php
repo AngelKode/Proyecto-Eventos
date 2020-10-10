@@ -3,7 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-if(isset($_POST['action'])){
+if(isset($_POST['action']) == false){
     include 'conexion.php';//Archivo de la conexion a la bd
     //Checamos si es momento de enviar los correos o no
     $Respuesta = array();
