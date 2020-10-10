@@ -69,12 +69,14 @@ if(isset($_POST['action'])){
 
             if($horaAhorita > $horaEnviar){
                 $boolHora = true;
-            }else{
+            }else if($horaAhorita = $horaEnviar){
                 if($minutosAhorita >= $minutoEnviar){
                     $boolHora = true;
                 }else{
                     $boolHora = false;
                 }
+            }else{
+                $boolHora = false;
             }
             //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
             if($diasTranscurridos == 1 && ($boolHora)){
@@ -110,9 +112,22 @@ if(isset($_POST['action'])){
             $Resultado = mysqli_query($conexion,$Query);
             $Renglon = mysqli_fetch_array($Resultado);
             $diasTranscurridos = intval($Renglon['diasTranscurridos']);
+            $boolHora = false;
+
+            if($horaAhorita > $horaEnviar){
+                $boolHora = true;
+            }else if($horaAhorita = $horaEnviar){
+                if($minutosAhorita >= $minutoEnviar){
+                    $boolHora = true;
+                }else{
+                    $boolHora = false;
+                }
+            }else{
+                $boolHora = false;
+            }
 
             //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
-            if($diasTranscurridos == 7 && ($horaAhorita >= $horaEnviar && ($minutosAhorita >= $minutoEnviar))){
+            if($diasTranscurridos == 7 && ($boolHora)){
                  enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contrasenia,$fechaHoy, $smtp);
             }
             break;
@@ -145,9 +160,21 @@ if(isset($_POST['action'])){
             $Resultado = mysqli_query($conexion,$Query);
             $Renglon = mysqli_fetch_array($Resultado);
             $diasTranscurridos = intval($Renglon['diasTranscurridos']);
+            $boolHora = false;
 
+            if($horaAhorita > $horaEnviar){
+                $boolHora = true;
+            }else if($horaAhorita = $horaEnviar){
+                if($minutosAhorita >= $minutoEnviar){
+                    $boolHora = true;
+                }else{
+                    $boolHora = false;
+                }
+            }else{
+                $boolHora = false;
+            }
             //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
-            if($diasTranscurridos == 15 && ($horaAhorita >= $horaEnviar && ($minutosAhorita >= $minutoEnviar))){
+            if($diasTranscurridos == 15 && ($boolHora)){
                 enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contrasenia,$fechaHoy, $smtp);
             }
             break;
@@ -180,9 +207,21 @@ if(isset($_POST['action'])){
             $Resultado = mysqli_query($conexion,$Query);
             $Renglon = mysqli_fetch_array($Resultado);
             $mesesTranscurridos = intval($Renglon['mesesTranscurridos']);
-           
+            $boolHora = false;
+
+            if($horaAhorita > $horaEnviar){
+                $boolHora = true;
+            }else if($horaAhorita = $horaEnviar){
+                if($minutosAhorita >= $minutoEnviar){
+                    $boolHora = true;
+                }else{
+                    $boolHora = false;
+                }
+            }else{
+                $boolHora = false;
+            }
             //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
-            if($mesesTranscurridos == 1 && ($horaAhorita >= $horaEnviar && ($minutosAhorita >= $minutoEnviar))){
+            if($mesesTranscurridos == 1 && ($boolHora)){
                 enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contrasenia,$fechaHoy, $smtp);
             }
             break;
