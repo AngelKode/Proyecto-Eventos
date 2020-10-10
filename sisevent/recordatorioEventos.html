@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Sistema</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+ <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <link rel="stylesheet" type="text/css" href="plugins/sweetalert2/sweetalert2.min.css">
+  <!--Estilo Sweet Alert-->
+  <link rel="stylesheet" href="css/cssSweetAlert.css">
+  <!--TimePicker-->
+  <link rel="stylesheet" href="plugins/timepicker/timepicki.css">
+    <!--ToolTip-->
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css"/>
+    <link rel="stylesheet" href="css/tooltip.css">
+
+
+</head>
+<body class="hold-transition sidebar-mini" onload="actionRead();">
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4" style="position: fixed;">
+    <a class="brand-link">
+      <img src="dist/img/logo.png"
+           alt="AdminLTE Logo"
+           class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light" style="color: white; font-family:Arial, Helvetica, sans-serif;">Sistema de Eventos</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <!-- Sidebar Menu -->
+      
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="dist/img/icono.png" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <span class="d-block" id="nombreUsuario"  style="color: white; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";"></span>
+        </div>
+      </div>
+
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column">
+          <li class="nav-item">
+            <a href="Calendario.html" class="nav-link">
+              <i class="nav-icon far fa-calendar-alt"></i>
+              <p>
+                Calendario
+              </p>
+            </a>
+          </li>
+
+
+          <li class="nav-item">
+            <a href="altaevento.html" class="nav-link">
+              <i class="nav-icon fas fa-plus"></i>
+              <p>Alta Eventos</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+              <a href="altacategorias.html" class="nav-link">
+                <i class="nav-icon fas fa-plus"></i>
+                <p>Alta Categorías</p>
+              </a>
+          </li>
+
+          <li class="nav-item">
+              <a href="evento.html" class="nav-link">
+                <i class="nav-icon fas fa-plus"></i>
+                <p>Alta Tipo de Eventos</p>
+              </a>
+          </li>
+                
+          <li class="nav-item">
+              <a href="altausuarios.html" class="nav-link">
+                <i class="nav-icon fas fa-plus"></i>
+                <p>Alta Usuarios</p>
+              </a>
+          </li>
+
+          <li class="nav-item" id="linkMemoriaAnual"> 
+            <a href="edicionMemoriaAnual.html" class="nav-link">
+              <i class="nav-icon fas fa-edit"></i>
+              <p>Edición Memoria Anual</p>
+            </a>
+          </li>
+
+          <li class="nav-item" id="linkRecordatorio"> 
+            <a href="recordatorioEventos.html" class="nav-link active">
+              <i class="nav-icon fas fa-envelope-open-text"></i>
+              <p>Recordatorio de Eventos</p>
+            </a>
+          </li>
+
+          <li class="nav-item" id="linkResumenEducacion"> 
+            <a href="resumenEducacion.html" class="nav-link">
+              <i class="nav-icon fas fa-book-open"></i>
+              <p>Resúmen de Educación</p>
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a href="#" class="nav-link" onclick="logout();">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>Salir</p>
+            </a>
+          </li>
+
+
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+ 
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Recordatorio Alta de Eventos</h1><br>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+              <li class="breadcrumb-item active">Recordatorio Alta de Eventos</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid --> 
+    </section>
+            
+          
+            <!-- Modal Frecuencia -->
+            <div class="modal fade" id="modalEditarFrecuencia">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content bg-info">
+                  <div class="modal-header">
+                   <h4 class="modal-title">Editar Frecuencia</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 </div>
+                  <div class="modal-body">
+                      <div class="form-group">
+                        <label>Frecuencia</label>
+                        <select class="form-control select2" id="selectFrecuencias">
+                          <option value="1">Diario</option>
+                          <option value="2">Semanal</option>
+                          <option value="3">Quincenal</option>
+                          <option value="4">Mensual</option>
+                        </select>
+                      </div>
+                  </div>
+                   <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-light" onclick="actionCambiarFrecuencia();" id="btnActualizarFrecuencia">Actualizar</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+            <!-- Modal Frecuencia -->
+
+            <!-- Modal Horario -->
+            <div class="modal fade" id="modalEditarHorario">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content bg-info">
+                  <div class="modal-header">
+                   <h4 class="modal-title">Editar Horario</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 </div>
+                  <div class="modal-body">
+                      <div class="form-group">
+                        <label>Horario</label>
+                        <input type="text"  id="horarioEditar" class="form-control">
+                      </div>
+                  </div>
+                   <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-light" onclick="actionCambiarHora();" id="btnActualizarFrecuencia">Actualizar</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+            <!-- Modal Horario -->
+
+            <!-- Modal Mensaje -->
+            <div class="modal fade" id="modalEditarMensaje">
+              <div class="modal-dialog">
+                <div class="modal-content bg-info">
+                  <div class="modal-header">
+                   <h4 class="modal-title">Editar Mensaje</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 </div>
+                  <div class="modal-body">
+                      <div class="form-group">
+                        <label>Mensaje</label>
+                        <input type="text" class="form-control" id="mensajeEditar">
+                      </div>
+                      <div class="form-group">
+                        <div><label>SMTP</label><button class='btn btn-lg float-right' id="botonInfoSMTP" style='background-color:transparent; padding: 0 0;'><i class="far fa-question-circle" style="color:white"></i></button></div>
+                        <input type="text" class="form-control" id="smtpCorreo">
+                      </div>
+                      <div class="form-group">
+                        <label>Remitente (correo)</label>
+                        <input type="email" class="form-control" id="remitenteEditar">
+                      </div>
+                      <div class="form-group">
+                        <label>Contraseña (correo)</label>
+                        <input type="password" class="form-control" id="contraseniaEditar">
+                    </div>
+                      <div class="form-group">
+                          <label>Nombre del Remitente</label>
+                          <input type="text" class="form-control" id="nombreRemitenteEditar">
+                      </div>
+                  </div>
+                   <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-outline-light" onclick="actionCambiarEstructuraMensaje();" id="btnActualizarFrecuencia" type="button">Actualizar</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+            <!-- Modal Mensaje -->
+
+            <!-- Modal Enviar Recordatorio -->
+            <div class="modal fade" id="modalEnviarRecordatorio">
+              <div class="modal-dialog">
+                <div class="modal-content bg-success">
+                  <div class="modal-header">
+                   <h4 class="modal-title">Enviar Recordatorio</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 </div>
+                  <div class="modal-body">
+                      <div class="form-group mb-0">
+                        <p style="font-size: 1.2rem; text-align: center;" class="mb-0">¿Está seguro de enviar el recordatorio?</p>
+                      </div>
+                  </div>
+                   <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-light" onclick="actionEnviarRecordatorio();" id="btnActualizarFrecuencia">Enviar</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+            <!-- Modal Enviar Recordatorio -->
+
+            <!-- Modal Eliminar Recordatorio -->
+            <div class="modal fade" id="modalEliminarRecordatorio">
+              <div class="modal-dialog">
+                <div class="modal-content bg-danger">
+                  <div class="modal-header">
+                   <h4 class="modal-title">Eliminar Recordatorio</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 </div>
+                  <div class="modal-body">
+                    <div class="form-group mb-0">
+                    <p style="font-size: 1.2rem; text-align: center;" class="mb-0">¿Está seguro de eliminar el recordatorio?</p>
+                  </div>
+                  </div>
+                   <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-light" onclick="actionEliminarRecordatorio();" id="btnActualizarFrecuencia">Eliminar</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+            <!-- Modal Eliminar Recordatorio -->
+
+            <!-- Modal Agregar Recordatorio -->
+            <div class="modal fade" id="modalAgregarRecordatorio">
+              <div class="modal-dialog">
+                <div class="modal-content bg-success">
+                  <div class="modal-header">
+                   <h4 class="modal-title">Agregar Recordatorio</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 </div>
+                  <div class="modal-body">
+                      <div class="form-group">
+                        <label>Frecuencia</label>
+                        <select class="form-control select2" id="frecuenciaAgregar">
+                            <option value="1">Diario</option>
+                            <option value="2">Semanal</option>
+                            <option value="3">Quincenal</option>
+                            <option value="4">Mensual</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>Horario</label>
+                        <input type="text"  id="horarioAgregar" class="form-control">
+                      </div>
+                      <div class="form-group">
+                         <label>Mensaje</label>
+                         <textarea class="form-control" id="mensajeRecordatorioNuevo"></textarea>
+                      </div>
+                      <div class="form-group">
+                        <div><label>SMTP</label><button class='btn btn-lg float-right' id="botonInfoSMTP" style='background-color:transparent; padding: 0 0;'><i class="far fa-question-circle" style="color:white"></i></button></div>
+                        <input type="text" class="form-control" id="smtpCorreoNuevo">
+                      </div>
+                      <div class="form-group">
+                        <label>Remitente (correo)</label>
+                        <input type="email" class="form-control" id="remitenteNuevo">
+                      </div>
+                      <div class="form-group">
+                        <label>Contraseña (correo)</label>
+                        <input type="password" class="form-control" id="contraseniaNuevo">
+                    </div>
+                      <div class="form-group">
+                          <label>Nombre del Remitente</label>
+                          <input type="text" class="form-control" id="nombreRemitenteNuevo">
+                      </div>
+                  </div>
+                   <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-light" onclick="actionCrearRecordatorio();" id="btnActualizarFrecuencia">Actualizar</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+            <!-- Modal Agregar Recordatorio -->
+
+      <section class="content p-0"> 
+        <div class="container-fluid" id="containerCentral">
+            
+        </div>    
+      <!-- /.row -->
+    </section>
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 3.0.2
+    </div>
+    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+    reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<script src="plugins/select2/js/select2.full.min.js"></script>
+<script src="plugins/toastr/toastr.min.js"></script>
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+    $('#horarioEditar').timepicki(); 
+    $('#horarioAgregar').timepicki(); 
+
+    tippy("#botonInfoSMTP",{
+                content: "Busque el SMTP dependiendo su cuenta de correo electrónico. Si tiene Gmail, busque en internet 'smtp gmail'",
+                animation : 'scale',
+                theme : 'lightBorderModified',
+                touch : 'hold',//Para telefonos
+                placement : 'top',
+                inertia : true
+            });
+  })
+  
+</script>
+<!--InputMask -->
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- date-range-picker -->
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!--Funcionalidad-->
+<script src="js/login_Eventos.js"></script>
+<script src="js/recordatorios_Eventos.js"></script>
+<!--SweetAlert-->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+<!--TimePicker-->
+<script src="plugins/timepicker/timepicki.js"></script>
+<!-- Tooltip -->
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+</body>
+</html>

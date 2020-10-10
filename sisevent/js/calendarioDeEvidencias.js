@@ -92,12 +92,14 @@ function actionRead(){
       $("#linkAltaTipoEvento").remove();
       $("#linkAltaUsuarios").remove();
       $("#linkResumenEducacion").remove();
+      $("#linkRecordatorio").remove();
       $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
     }else{
       $("#linkAltaCategoria").remove();
       $("#linkAltaTipoEvento").remove();
       $("#linkAltaUsuarios").remove();
       $("#linkResumenEducacion").remove();
+      $("#linkRecordatorio").remove();
       $("#linkMemoriaAnual").remove();
       $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
     }

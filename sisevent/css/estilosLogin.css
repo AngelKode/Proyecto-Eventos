@@ -1,0 +1,13 @@
+.loginBox{
+    box-shadow: 0rem 0rem 1rem #c5a8b58a;
+}
+
+.login-page{
+    background-image: linear-gradient(to bottom, #642444, #713050, #7e3c5b, #8b4968, #995574);
+    backdrop-filter: blur(1rem);
+}
+.login-box-msg{
+    font-size: 1.3em;
+    color:#444;
+}
+
