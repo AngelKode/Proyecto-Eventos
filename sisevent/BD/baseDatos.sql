@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-09-2020 a las 08:03:31
+-- Tiempo de generación: 10-10-2020 a las 06:37:16
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.2
 
@@ -99,7 +99,7 @@ INSERT INTO `eventos` (`idEvento`, `usuarioCreador`, `titulo`, `descripcion`, `N
 (2, 12, 'Programacion Orientada a Objetos', 'Nada', '', 'Ingeniería y Ciencias Físico Matemáticas', 'Mixta', '2020-07-05 12:00:00', '2020-10-07 11:00:00', 1, 4, 'Gobierno', 'IPN', '10', 'Oferta Libre de Cuota', '14', 'Si', 1, 1),
 (3, 12, 'Semana mecatrónica', 'Evento mecatronicas', '1728421', 'Ciencias Sociales y Administrativas', 'Mixta', '2020-06-01 08:00:00', '2020-06-19 16:00:00', 1, 3, 'Público General', 'Institución Privada', '5500', 'Convenio', '20', 'No', 1, 1),
 (4, 19, 'Semana de salud', 'Evento de salud sobre como cuidar tu cuerpo y asi poder tener una vida mas plena', '', 'Ingeniería y Ciencias Físico Matemáticas', 'Presencial', '2020-05-20 10:30:00', '2020-06-02 15:20:00', 5, 2, 'Comunidad IPN', 'Institución Pública', '2500', 'Convenio', '8', 'Si', 1, 0),
-(5, 1, 'Ejemplo primer Trimestre 2019', 'Nada', '', 'Ciencias Sociales y Administrativas', 'Presencial', '2019-02-05 00:47:00', '2019-02-08 00:47:00', 1, 1, 'Gobierno', 'IPN', '20', 'Oferta Libre de Cuota', '17', 'Si', 1, 0),
+(5, 1, 'Ejemplo primer Trimestre 2019', 'Nada', '', 'Ciencias Sociales y Administrativas', 'Presencial', '2019-02-05 00:47:00', '2019-02-08 00:47:00', 1, 1, 'Gobierno', 'IPN', '20', 'Oferta Libre de Cuota', '17', 'Si', 0, 0),
 (6, 1, 'Primer trimestre', 'nada', '', 'Ciencias Sociales y Administrativas', 'Presencial', '2019-03-04 00:47:00', '2019-03-08 00:47:00', 1, 1, 'Gobierno', 'IPN', '1', 'Oferta Libre de Cuota', '17', 'Si', 1, 0),
 (7, 1, 'Ejemplo primer trimestre 2020', 'Nada', '2', 'Ciencias Sociales y Administrativas', 'Presencial', '2020-02-05 13:16:00', '2020-02-07 13:16:00', 1, 1, 'Gobierno', 'IPN', '120', 'Oferta Libre de Cuota', '25', 'Si', 1, 1);
 
@@ -148,6 +148,31 @@ INSERT INTO `memoria_institucional` (`ID`, `edicionMemInst`) VALUES
 (5, 'Ejemplo primer trimestre del año<span style=\"color: rgb(255, 255, 255);\"> <u style=\"background-color: rgb(57, 132, 198);\">2019</u></span>'),
 (6, 'Primer trimestre <span style=\"background-color: rgb(255, 255, 0);\">2019</span>'),
 (7, 'Ejemplo primer trimestre');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `recordatorio`
+--
+
+CREATE TABLE `recordatorio` (
+  `ID` int(11) NOT NULL,
+  `mensaje` text NOT NULL,
+  `remitente` varchar(300) DEFAULT NULL,
+  `nombreRemitente` varchar(250) DEFAULT NULL,
+  `passwd` varchar(300) DEFAULT NULL,
+  `smtp` varchar(200) DEFAULT NULL,
+  `frecuencia` int(11) NOT NULL,
+  `horario` time NOT NULL,
+  `fechaInicio` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `recordatorio`
+--
+
+INSERT INTO `recordatorio` (`ID`, `mensaje`, `remitente`, `nombreRemitente`, `passwd`, `smtp`, `frecuencia`, `horario`, `fechaInicio`) VALUES
+(40, 'Prueba', 'ejemplo@live.com', 'Sin Nombre', '1234', 'smtp.live.com', 1, '23:08:00', '2020-10-09');
 
 -- --------------------------------------------------------
 
@@ -233,6 +258,12 @@ ALTER TABLE `memoria_institucional`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indices de la tabla `recordatorio`
+--
+ALTER TABLE `recordatorio`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indices de la tabla `tipo_evento`
 --
 ALTER TABLE `tipo_evento`
@@ -253,6 +284,12 @@ ALTER TABLE `usuarioeditor`
 --
 ALTER TABLE `evidencias`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `recordatorio`
+--
+ALTER TABLE `recordatorio`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarioeditor`
