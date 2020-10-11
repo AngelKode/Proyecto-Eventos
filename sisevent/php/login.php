@@ -34,7 +34,7 @@
             $buscarDatos = mysqli_query($conexion,$query);//Haciendo la consulta
             $Respuesta["bd"] = 1;
 
-            if(mysqli_affected_rows($conexion) > 0){//Verificando que las credenciales fueron correctas!
+            if(mysqli_num_rows($buscarDatos) > 0){//Verificando que las credenciales fueron correctas!
                 $renglon = mysqli_fetch_array($buscarDatos);
                 $Respuesta["estatus"] = 1;
                 $Respuesta['usuario'] = "Admin";
@@ -47,7 +47,7 @@
                 $buscarDatos = mysqli_query($conexion,$query);//Haciendo la consulta
                 $Respuesta["bd"] = 1;
 
-                if(mysqli_affected_rows($conexion) > 0){//Verificando que las credenciales fueron correctas!
+                if(mysqli_num_rows($buscarDatos) > 0){//Verificando que las credenciales fueron correctas!
                     $Respuesta["estatus"] = 1;
                     $renglon = mysqli_fetch_array($buscarDatos);
                     $Respuesta["usuario"] = $renglon["Nombre_Editor"];
