@@ -31,9 +31,9 @@
     <!--ToolTip-->
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css"/>
     <link rel="stylesheet" href="css/tooltip.css">
-
-    <link rel="stylesheet" href="css/estilosRecordatorio.css">
-
+    <link rel="stylesheet" href="css/estilosRecordatorios.css">
+  <!--SummerNote-->
+  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
 
 </head>
 <body class="hold-transition sidebar-mini" onload="actionRead();">
@@ -89,14 +89,14 @@
           <li class="nav-item">
             <a href="altaevento.html" class="nav-link">
               <i class="nav-icon fas fa-plus"></i>
-              <p>Alta Eventos</p>
+              <p>Alta de Eventos</p>
             </a>
           </li>
 
           <li class="nav-item">
               <a href="altacategorias.html" class="nav-link">
                 <i class="nav-icon fas fa-plus"></i>
-                <p>Alta Categorías</p>
+                <p>Alta de Categorías</p>
               </a>
           </li>
 
@@ -110,7 +110,7 @@
           <li class="nav-item">
               <a href="altausuarios.html" class="nav-link">
                 <i class="nav-icon fas fa-plus"></i>
-                <p>Alta Usuarios</p>
+                <p>Alta de Usuarios</p>
               </a>
           </li>
 
@@ -229,7 +229,7 @@
 
             <!-- Modal Mensaje -->
             <div class="modal fade" id="modalEditarMensaje">
-              <div class="modal-dialog">
+              <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-info">
                   <div class="modal-header">
                    <h4 class="modal-title">Editar Mensaje</h4>
@@ -237,9 +237,11 @@
                     <span aria-hidden="true">&times;</span></button>
                  </div>
                   <div class="modal-body">
-                      <div class="form-group">
+
+                      <div class="form-group" id="textoEditar">
                         <label>Mensaje</label>
-                        <input type="text" class="form-control" id="mensajeEditar">
+                        <textarea class="textarea form-control"  placeholder="Place some text here"
+                        style="width: 100%; height: 100vh; font-size: 14px; line-height: 18px; border: 1px solid #dddddd;" id="mensajeEditar"></textarea>
                       </div>
                       <div class="form-group">
                         <div><label>SMTP</label><button class='btn btn-lg float-right' id="botonInfoSMTP" style='background-color:transparent; padding: 0 0;'><i class="far fa-question-circle" style="color:white"></i></button></div>
@@ -321,7 +323,7 @@
 
             <!-- Modal Agregar Recordatorio -->
             <div class="modal fade" id="modalAgregarRecordatorio">
-              <div class="modal-dialog">
+              <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-success">
                   <div class="modal-header">
                    <h4 class="modal-title">Agregar Recordatorio</h4>
@@ -329,6 +331,11 @@
                     <span aria-hidden="true">&times;</span></button>
                  </div>
                   <div class="modal-body">
+                        <div class="form-group" id="textoCrear">
+                          <label>Mensaje</label>
+                          <textarea class="textarea form-control"  placeholder="Place some text here"
+                        style="width: 100%; height: 100vh; font-size: 14px; line-height: 18px; border: 1px solid #dddddd;" id="mensajeRecordatorioNuevo"></textarea>
+                      </div>
                       <div class="form-group">
                         <label>Frecuencia</label>
                         <select class="form-control select2" id="frecuenciaAgregar">
@@ -341,10 +348,6 @@
                       <div class="form-group">
                         <label>Horario</label>
                         <input type="text"  id="horarioAgregar" class="form-control">
-                      </div>
-                      <div class="form-group">
-                         <label>Mensaje</label>
-                         <textarea class="form-control" id="mensajeRecordatorioNuevo"></textarea>
                       </div>
                       <div class="form-group">
                         <div><label>SMTP</label><button class='btn btn-lg float-right' id="botonInfoSMTP" style='background-color:transparent; padding: 0 0;'><i class="far fa-question-circle" style="color:white"></i></button></div>
@@ -365,7 +368,7 @@
                   </div>
                    <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-outline-light" onclick="actionCrearRecordatorio();" id="btnActualizarFrecuencia">Actualizar</button>
+                    <button type="button" class="btn btn-outline-light" onclick="actionCrearRecordatorio();" id="btnActualizarFrecuencia">Crear</button>
                   </div>
                 </div>
                 <!-- /.modal-content -->
@@ -427,7 +430,15 @@
                 touch : 'hold',//Para telefonos
                 placement : 'top',
                 inertia : true
-            });
+    });
+
+      $('#mensajeEditar').summernote()
+      $("#mensajeRecordatorioNuevo").summernote()
+
+       //Para evitar que el modal principal se cierre
+    $(document).on('hidden.bs.modal', '.modal.show', function () { 
+        $(document.body).addClass('modal-open');
+    });
   })
   
 </script>
@@ -439,7 +450,7 @@
 <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!--Funcionalidad-->
 <script src="js/login_Eventos.js"></script>
-<script src="js/recordatorios_Eventos.js"></script>
+<script src="js/recordatorio_de_evento.js"></script>
 <!--SweetAlert-->
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -449,5 +460,7 @@
 <!-- Tooltip -->
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://unpkg.com/tippy.js@6"></script>
+<!--Funcionalidad texto-word-->
+<script src="plugins/summernote/summernote-bs4.min.js"></script>
 </body>
 </html>

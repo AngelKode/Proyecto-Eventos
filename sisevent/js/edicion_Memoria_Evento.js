@@ -16,12 +16,15 @@ function actionRead(){
       if(sessionStorage.getItem("admin") == "Si"){
         $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
       }else if(sessionStorage.getItem("editorMemInst") == "Si"){
-        quitarLinks('linkAltaCategoria');
-        quitarLinks('linkAltaTipoEvento');
-        quitarLinks('linkAltaUsuarios');
-        quitarLinks('linkResumenEducacion');
+        $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
+        $("#linkAltaCategoria").remove();
+        $("#linkAltaTipoEvento").remove();
+        $("#linkAltaUsuarios").remove();
+        $("#linkRecordatorio").remove();
+        $("#linkResumenEducacion").remove();
         $("#nombreUsuario").text("Bienvenido "+nombreUsuario);
       }else{
+        //TODO links para evitar que se vean todos los links asi como en linksSideBarEditor
         Swal.fire({
           showConfirmButton: false,
           allowOutsideClick : false, 
@@ -273,9 +276,6 @@ function guardarMemoriaInsitucional(){
     }); 
 }
 
-function quitarLinks(idLink){
-  $("#"+idLink).remove();
-}
 
 function checarCambio(){
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-10-2020 a las 06:37:16
+-- Tiempo de generación: 13-10-2020 a las 03:28:51
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.2
 
@@ -31,14 +31,14 @@ SET time_zone = "+00:00";
 CREATE TABLE `administrador` (
   `idadmin` int(11) NOT NULL,
   `usuario` varchar(45) DEFAULT NULL,
-  `contraseña` varchar(45) DEFAULT NULL
+  `password` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `administrador`
 --
 
-INSERT INTO `administrador` (`idadmin`, `usuario`, `contraseña`) VALUES
+INSERT INTO `administrador` (`idadmin`, `usuario`, `password`) VALUES
 (1, 'upiiz_isc@gmail.com', '123456');
 
 -- --------------------------------------------------------
@@ -145,7 +145,7 @@ CREATE TABLE `memoria_institucional` (
 
 INSERT INTO `memoria_institucional` (`ID`, `edicionMemInst`) VALUES
 (2, '<p>Memoria de el evento <span style=\"background-color: rgb(255, 255, 0); color: rgb(156, 198, 239);\">PROGRAMACIÓN ORIENTADA A OBJETOS.</span></p><p><span style=\"color: rgb(0, 0, 255); font-weight: bold; background-color: rgb(0, 0, 0);\">Probando que todo funcione correctamente</span></p>'),
-(5, 'Ejemplo primer trimestre del año<span style=\"color: rgb(255, 255, 255);\"> <u style=\"background-color: rgb(57, 132, 198);\">2019</u></span>'),
+(5, '<span style=\"background-color: rgb(255, 255, 0);\">Ejemplo primer trimestre del año <u style=\"\">2019</u></span>'),
 (6, 'Primer trimestre <span style=\"background-color: rgb(255, 255, 0);\">2019</span>'),
 (7, 'Ejemplo primer trimestre');
 
@@ -172,7 +172,7 @@ CREATE TABLE `recordatorio` (
 --
 
 INSERT INTO `recordatorio` (`ID`, `mensaje`, `remitente`, `nombreRemitente`, `passwd`, `smtp`, `frecuencia`, `horario`, `fechaInicio`) VALUES
-(40, 'Prueba', 'ejemplo@live.com', 'Sin Nombre', '1234', 'smtp.live.com', 1, '23:08:00', '2020-10-09');
+(46, '<p>dsad</p>', 'dsadd', 'dsadsd', 'dsad', 'dsad', 1, '20:28:00', '2020-10-12');
 
 -- --------------------------------------------------------
 
@@ -209,7 +209,7 @@ CREATE TABLE `usuarioeditor` (
   `Correo_Editor` varchar(250) NOT NULL,
   `Celular_Editor` varchar(30) NOT NULL,
   `Nombre_Usuario` varchar(250) NOT NULL,
-  `Contraseña_Usuario` varchar(250) NOT NULL,
+  `password_Usuario` varchar(150) DEFAULT NULL,
   `Editor_MemInstitucional` varchar(10) NOT NULL,
   `estado` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -218,7 +218,7 @@ CREATE TABLE `usuarioeditor` (
 -- Volcado de datos para la tabla `usuarioeditor`
 --
 
-INSERT INTO `usuarioeditor` (`id`, `Nombre_Editor`, `Correo_Editor`, `Celular_Editor`, `Nombre_Usuario`, `Contraseña_Usuario`, `Editor_MemInstitucional`, `estado`) VALUES
+INSERT INTO `usuarioeditor` (`id`, `Nombre_Editor`, `Correo_Editor`, `Celular_Editor`, `Nombre_Usuario`, `password_Usuario`, `Editor_MemInstitucional`, `estado`) VALUES
 (12, 'Pedro', 'pedro@live.com', '(451) 513-5313', 'Pedro01', '1234', 'Si', 'Activo'),
 (19, 'Angel', 'angel@live.com', '(492) 218-9243', 'Assesin', '1234', 'No', 'Activo'),
 (23, 'Ejemplo', 'ejemplo@live.com', '(125) 125-1859', 'Pedrito', '1234', 'Si', 'Activo');
@@ -289,7 +289,7 @@ ALTER TABLE `evidencias`
 -- AUTO_INCREMENT de la tabla `recordatorio`
 --
 ALTER TABLE `recordatorio`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarioeditor`

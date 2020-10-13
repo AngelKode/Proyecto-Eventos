@@ -29,8 +29,9 @@
         $email = $_POST["email"];//Obteniendo el valor del email
         $pswrd = $_POST["password"];//Obteniendo el valor de la contraseña
         include "conexion.php"; 
+        
         if($conexion){//Buena conexion a la BD
-            $query = "SELECT * FROM administrador where usuario='$email' AND contraseña ='$pswrd'";//Query a hacer en la BD
+            $query = "SELECT * FROM administrador where usuario='$email' AND password ='$pswrd'";//Query a hacer en la BD
             $buscarDatos = mysqli_query($conexion,$query);//Haciendo la consulta
             $Respuesta["bd"] = 1;
 
@@ -43,7 +44,7 @@
                 echo json_encode($Respuesta);
             }else{
                 //Si no encontro en la BD de administrador, buscamos en la BD de usuarios editores
-                $query = "SELECT * FROM usuarioeditor where Correo_Editor='$email' AND Contraseña_Usuario ='$pswrd'";//Query a hacer en la BD
+                $query = "SELECT * FROM usuarioeditor where Correo_Editor='$email' AND password_Usuario ='$pswrd'";//Query a hacer en la BD
                 $buscarDatos = mysqli_query($conexion,$query);//Haciendo la consulta
                 $Respuesta["bd"] = 1;
 

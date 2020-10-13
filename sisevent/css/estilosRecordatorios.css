@@ -1,3 +1,7 @@
 .btnEditar:hover{
     cursor: pointer;
 }
+
+.bg-info>a{
+    color:transparent;
+}

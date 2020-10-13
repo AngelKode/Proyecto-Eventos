@@ -6,8 +6,14 @@ use PHPMailer\PHPMailer\Exception;
 if(isset($_POST['action']) == false){
     include 'conexion.php';//Archivo de la conexion a la bd
     //Checamos si es momento de enviar los correos o no
-    $Respuesta = array();
     //Obtenemos la fecha actual
+
+    //Checamos si hay recordatorio
+    $Query = "SELECT * FROM recordatorio";
+    $Resultado = mysqli_query($conexion,$Query);
+
+    if(mysqli_num_rows($Resultado) > 0){
+    $Respuesta = array();
     $Query = "SELECT DATE_FORMAT(now(),'%d/%m/%Y') AS 'fecha'";
     $Resultado = mysqli_query($conexion,$Query);
     $Renglon = mysqli_fetch_array($Resultado);
@@ -21,6 +27,7 @@ if(isset($_POST['action']) == false){
     //Obtenemos la hora actual
     $Query = "SELECT DATE_FORMAT(now(),'%H:%i') AS 'hora'";
     $Resultado = mysqli_query($conexion,$Query);
+
     $Renglon = mysqli_fetch_array($Resultado);
     $horaActual = $Renglon['hora'];
 
@@ -36,198 +43,199 @@ if(isset($_POST['action']) == false){
     $nombreRemitente = $Renglon['nombreRemitente'];
     $smtp = $Renglon['smtp'];
 
-    switch($tipoFrecuencia){
-        case '1' :{
+        switch($tipoFrecuencia){
+            case '1' :{
 
-            $Query = "SELECT DATE_ADD(recordatorio.fechaInicio,INTERVAL 1 DAY) AS 'siguienteFecha' FROM recordatorio";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $SiguienteFecha = $Renglon['siguienteFecha'];
+                $Query = "SELECT DATE_ADD(recordatorio.fechaInicio,INTERVAL 1 DAY) AS 'siguienteFecha' FROM recordatorio";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $SiguienteFecha = $Renglon['siguienteFecha'];
 
-            //Ahora obtenemos la hora, puede ser el mismo dia, pero a una hora mas tarde
-            $Query = "SELECT HOUR(recordatorio.horario) AS horario FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $horaEnviar = intval($Renglon['horario']);
+                //Ahora obtenemos la hora, puede ser el mismo dia, pero a una hora mas tarde
+                $Query = "SELECT HOUR(recordatorio.horario) AS horario FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $horaEnviar = intval($Renglon['horario']);
 
-            //Y obtenemos los minutos
-            $Query = "SELECT MINUTE(recordatorio.horario) AS horario FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $minutoEnviar = intval($Renglon['horario']);
+                //Y obtenemos los minutos
+                $Query = "SELECT MINUTE(recordatorio.horario) AS horario FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $minutoEnviar = intval($Renglon['horario']);
 
-            //Obtenemos la hora actual
-            $horaAhorita = intval(substr($horaActual,0,2));
-            $minutosAhorita = intval(substr($horaActual,3,2));
+                //Obtenemos la hora actual
+                $horaAhorita = intval(substr($horaActual,0,2));
+                $minutosAhorita = intval(substr($horaActual,3,2));
 
-            //Obtenemos cuantos dias han pasado desde la fecha de inicio
-            $Query = "SELECT TIMESTAMPDIFF(DAY, fechaInicio, '$fechaHoy') AS diasTranscurridos FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $diasTranscurridos = intval($Renglon['diasTranscurridos']);
-            $boolHora = false;
+                //Obtenemos cuantos dias han pasado desde la fecha de inicio
+                $Query = "SELECT TIMESTAMPDIFF(DAY, fechaInicio, '$fechaHoy') AS diasTranscurridos FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $diasTranscurridos = intval($Renglon['diasTranscurridos']);
+                $boolHora = false;
 
-            if($horaAhorita > $horaEnviar){
-                $boolHora = true;
-            }else if($horaAhorita = $horaEnviar){
-                if($minutosAhorita >= $minutoEnviar){
+                if($horaAhorita > $horaEnviar){
                     $boolHora = true;
+                }else if($horaAhorita = $horaEnviar){
+                    if($minutosAhorita >= $minutoEnviar){
+                        $boolHora = true;
+                    }else{
+                        $boolHora = false;
+                    }
                 }else{
                     $boolHora = false;
                 }
-            }else{
-                $boolHora = false;
-            }
-            //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
-            if($diasTranscurridos == 1 && ($boolHora)){
-                enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contrasenia,$fechaHoy, $smtp);
-            }
-            break;
-        }
-        case '2':{
-           
-            $Query = "SELECT DATE_ADD(recordatorio.fechaInicio,INTERVAL 7 DAY) AS 'siguienteFecha' FROM recordatorio";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $SiguienteFecha = $Renglon['siguienteFecha'];
-
-            //Ahora obtenemos la hora, puede ser el mismo dia, pero a una hora mas tarde
-            $Query = "SELECT HOUR(recordatorio.horario) AS horario FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $horaEnviar = intval($Renglon['horario']);
-
-            //Y obtenemos los minutos
-            $Query = "SELECT MINUTE(recordatorio.horario) AS horario FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $minutoEnviar = intval($Renglon['horario']);
-
-            //Obtenemos la hora actual
-            $horaAhorita = intval(substr($horaActual,0,2));
-            $minutosAhorita = intval(substr($horaActual,3,2));
-
-            //Obtenemos cuantos dias han pasado desde la fecha de inicio
-            $Query = "SELECT TIMESTAMPDIFF(DAY, fechaInicio, '$fechaHoy') AS diasTranscurridos FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $diasTranscurridos = intval($Renglon['diasTranscurridos']);
-            $boolHora = false;
-
-            if($horaAhorita > $horaEnviar){
-                $boolHora = true;
-            }else if($horaAhorita = $horaEnviar){
-                if($minutosAhorita >= $minutoEnviar){
-                    $boolHora = true;
-                }else{
-                    $boolHora = false;
+                //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
+                if($diasTranscurridos == 1 && ($boolHora)){
+                    enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contrasenia,$fechaHoy, $smtp);
                 }
-            }else{
-                $boolHora = false;
+                break;
             }
-
-            //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
-            if($diasTranscurridos == 7 && ($boolHora)){
-                 enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contrasenia,$fechaHoy, $smtp);
-            }
-            break;
-        }
-        case '3':{
-           
-            $Query = "SELECT DATE_ADD(recordatorio.fechaInicio,INTERVAL 15 DAY) AS 'siguienteFecha' FROM recordatorio";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $SiguienteFecha = $Renglon['siguienteFecha'];
-
-            //Ahora obtenemos la hora, puede ser el mismo dia, pero a una hora mas tarde
-            $Query = "SELECT HOUR(recordatorio.horario) AS horario FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $horaEnviar = intval($Renglon['horario']);
-
-            //Y obtenemos los minutos
-            $Query = "SELECT MINUTE(recordatorio.horario) AS horario FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $minutoEnviar = intval($Renglon['horario']);
-
-            //Obtenemos la hora actual
-            $horaAhorita = intval(substr($horaActual,0,2));
-            $minutosAhorita = intval(substr($horaActual,3,2));
-
-            //Obtenemos cuantos dias han pasado desde la fecha de inicio
-            $Query = "SELECT TIMESTAMPDIFF(DAY, fechaInicio, '$fechaHoy') AS diasTranscurridos FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $diasTranscurridos = intval($Renglon['diasTranscurridos']);
-            $boolHora = false;
-
-            if($horaAhorita > $horaEnviar){
-                $boolHora = true;
-            }else if($horaAhorita = $horaEnviar){
-                if($minutosAhorita >= $minutoEnviar){
-                    $boolHora = true;
-                }else{
-                    $boolHora = false;
-                }
-            }else{
-                $boolHora = false;
-            }
-            //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
-            if($diasTranscurridos == 15 && ($boolHora)){
-                enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contrasenia,$fechaHoy, $smtp);
-            }
-            break;
-        }
-        case '4':{
+            case '2':{
             
-            $Query = "SELECT DATE_ADD(recordatorio.fechaInicio,INTERVAL 1 MONTH) AS 'siguienteFecha' FROM recordatorio";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $SiguienteFecha = $Renglon['siguienteFecha'];
+                $Query = "SELECT DATE_ADD(recordatorio.fechaInicio,INTERVAL 7 DAY) AS 'siguienteFecha' FROM recordatorio";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $SiguienteFecha = $Renglon['siguienteFecha'];
 
-            //Ahora obtenemos la hora, puede ser el mismo dia, pero a una hora mas tarde
-            $Query = "SELECT HOUR(recordatorio.horario) AS horario FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $horaEnviar = intval($Renglon['horario']);
+                //Ahora obtenemos la hora, puede ser el mismo dia, pero a una hora mas tarde
+                $Query = "SELECT HOUR(recordatorio.horario) AS horario FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $horaEnviar = intval($Renglon['horario']);
 
-            //Y obtenemos los minutos
-            $Query = "SELECT MINUTE(recordatorio.horario) AS horario FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $minutoEnviar = intval($Renglon['horario']);
+                //Y obtenemos los minutos
+                $Query = "SELECT MINUTE(recordatorio.horario) AS horario FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $minutoEnviar = intval($Renglon['horario']);
 
-            //Obtenemos la hora actual
-            $horaAhorita = intval(substr($horaActual,0,2));
-            $minutosAhorita = intval(substr($horaActual,3,2));
+                //Obtenemos la hora actual
+                $horaAhorita = intval(substr($horaActual,0,2));
+                $minutosAhorita = intval(substr($horaActual,3,2));
 
-            //Obtenemos cuantos dias han pasado desde la fecha de inicio
-            $Query = "SELECT TIMESTAMPDIFF(MONTH, fechaInicio, '$fechaHoy') AS mesesTranscurridos FROM recordatorio;";
-            $Resultado = mysqli_query($conexion,$Query);
-            $Renglon = mysqli_fetch_array($Resultado);
-            $mesesTranscurridos = intval($Renglon['mesesTranscurridos']);
-            $boolHora = false;
+                //Obtenemos cuantos dias han pasado desde la fecha de inicio
+                $Query = "SELECT TIMESTAMPDIFF(DAY, fechaInicio, '$fechaHoy') AS diasTranscurridos FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $diasTranscurridos = intval($Renglon['diasTranscurridos']);
+                $boolHora = false;
 
-            if($horaAhorita > $horaEnviar){
-                $boolHora = true;
-            }else if($horaAhorita = $horaEnviar){
-                if($minutosAhorita >= $minutoEnviar){
+                if($horaAhorita > $horaEnviar){
                     $boolHora = true;
+                }else if($horaAhorita = $horaEnviar){
+                    if($minutosAhorita >= $minutoEnviar){
+                        $boolHora = true;
+                    }else{
+                        $boolHora = false;
+                    }
                 }else{
                     $boolHora = false;
                 }
-            }else{
+
+                //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
+                if($diasTranscurridos == 7 && ($boolHora)){
+                    enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contrasenia,$fechaHoy, $smtp);
+                }
+                break;
+            }
+            case '3':{
+            
+                $Query = "SELECT DATE_ADD(recordatorio.fechaInicio,INTERVAL 15 DAY) AS 'siguienteFecha' FROM recordatorio";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $SiguienteFecha = $Renglon['siguienteFecha'];
+
+                //Ahora obtenemos la hora, puede ser el mismo dia, pero a una hora mas tarde
+                $Query = "SELECT HOUR(recordatorio.horario) AS horario FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $horaEnviar = intval($Renglon['horario']);
+
+                //Y obtenemos los minutos
+                $Query = "SELECT MINUTE(recordatorio.horario) AS horario FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $minutoEnviar = intval($Renglon['horario']);
+
+                //Obtenemos la hora actual
+                $horaAhorita = intval(substr($horaActual,0,2));
+                $minutosAhorita = intval(substr($horaActual,3,2));
+
+                //Obtenemos cuantos dias han pasado desde la fecha de inicio
+                $Query = "SELECT TIMESTAMPDIFF(DAY, fechaInicio, '$fechaHoy') AS diasTranscurridos FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $diasTranscurridos = intval($Renglon['diasTranscurridos']);
                 $boolHora = false;
+
+                if($horaAhorita > $horaEnviar){
+                    $boolHora = true;
+                }else if($horaAhorita = $horaEnviar){
+                    if($minutosAhorita >= $minutoEnviar){
+                        $boolHora = true;
+                    }else{
+                        $boolHora = false;
+                    }
+                }else{
+                    $boolHora = false;
+                }
+                //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
+                if($diasTranscurridos == 15 && ($boolHora)){
+                    enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contrasenia,$fechaHoy, $smtp);
+                }
+                break;
             }
-            //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
-            if($mesesTranscurridos == 1 && ($boolHora)){
-                enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contrasenia,$fechaHoy, $smtp);
+            case '4':{
+                
+                $Query = "SELECT DATE_ADD(recordatorio.fechaInicio,INTERVAL 1 MONTH) AS 'siguienteFecha' FROM recordatorio";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $SiguienteFecha = $Renglon['siguienteFecha'];
+
+                //Ahora obtenemos la hora, puede ser el mismo dia, pero a una hora mas tarde
+                $Query = "SELECT HOUR(recordatorio.horario) AS horario FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $horaEnviar = intval($Renglon['horario']);
+
+                //Y obtenemos los minutos
+                $Query = "SELECT MINUTE(recordatorio.horario) AS horario FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $minutoEnviar = intval($Renglon['horario']);
+
+                //Obtenemos la hora actual
+                $horaAhorita = intval(substr($horaActual,0,2));
+                $minutosAhorita = intval(substr($horaActual,3,2));
+
+                //Obtenemos cuantos dias han pasado desde la fecha de inicio
+                $Query = "SELECT TIMESTAMPDIFF(MONTH, fechaInicio, '$fechaHoy') AS mesesTranscurridos FROM recordatorio;";
+                $Resultado = mysqli_query($conexion,$Query);
+                $Renglon = mysqli_fetch_array($Resultado);
+                $mesesTranscurridos = intval($Renglon['mesesTranscurridos']);
+                $boolHora = false;
+
+                if($horaAhorita > $horaEnviar){
+                    $boolHora = true;
+                }else if($horaAhorita = $horaEnviar){
+                    if($minutosAhorita >= $minutoEnviar){
+                        $boolHora = true;
+                    }else{
+                        $boolHora = false;
+                    }
+                }else{
+                    $boolHora = false;
+                }
+                //Ahora comparamos si la siguiente fecha es la de hoy, si si lo es, mandamos el correo
+                if($mesesTranscurridos == 1 && ($boolHora)){
+                    enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contrasenia,$fechaHoy, $smtp);
+                }
+                break;
             }
-            break;
+            
         }
-    }
-    echo json_encode($Respuesta);
+     }
 }else{
     include 'conexion.php';//Archivo de la conexion a la bd
     //Checamos si es momento de enviar los correos o no
@@ -265,6 +273,8 @@ function enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contraseni
     require 'srcPHPMailer/SMTP.php';
 
     $mail = new PHPMailer(true);
+    //lenguaje en español
+    $mail->setLanguage('es', '');
 
     try {
         //Server settings
@@ -278,7 +288,7 @@ function enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contraseni
         $mail->Port       = 587;                                    
     
         //Recipients
-        $mail->setFrom($remitente, $nombreRemitente);
+        $mail->setFrom($remitente,$nombreRemitente);
         //Leemos los correos a enviar de la BD
             $Query = "SELECT * FROM usuarioeditor";
             $Resultado = mysqli_query($conexion,$Query);
@@ -293,14 +303,20 @@ function enviarCorreo($conexion,$mensaje,$remitente,$nombreRemitente,$contraseni
         $mail->isHTML(true);                                 
         $mail->Subject = 'Recordatorio Alta de Eventos';
         $mail->Body    = $mensaje;
-    
+        
+        
         $mail->send();
+        $Respuesta = array();
+        $Respuesta['estadoEmail'] = 1;
+        echo json_encode($Respuesta);
         //Una vez enviado, actualizamos la BD con los nuevos datos
         $Query = "UPDATE recordatorio SET fechaInicio = '$fechaActual'";
         $Resultado = mysqli_query($conexion,$Query);
-         echo "Bien";
+
     } catch (Exception $e) {
-        echo "No se pudo mandar el mensaje";
+        $Respuesta['estadoEmail'] = 0;
+        $Respuesta['mensaje'] = $mail->ErrorInfo;
+        echo json_encode($Respuesta);
     }
 
 }

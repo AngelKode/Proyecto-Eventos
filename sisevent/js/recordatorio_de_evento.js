@@ -1,22 +1,47 @@
 
 async function actionEnviarRecordatorio(){
     await ajaxEnviarCorreo()
-    .then(()=>{
-        toastr.success("Correos enviados correctamente");
+    .then((respuesta)=>{
+        toastr.success(respuesta);
+    })
+    .catch((respuesta)=>{
+        toastr.error(respuesta);
     })
 }
 
 function ajaxEnviarCorreo(){
     toastr.info("Enviando correos...");
-    return new Promise((resolve)=>{
+
+    let mensajeEspera = setInterval(() => {
+        toastr.info("Esperando respuesta del servidor...");
+    }, 15000);
+
+    $("#modalEnviarRecordatorio").modal('hide');
+
+    return new Promise((resolve,reject)=>{
         $.ajax({
             method  : "post",
             url     : "php/enviarCorreo.php",
             data    : {
                 action : "sendEmail"
             }, success : function (result){
+                clearInterval(mensajeEspera);
+                let inicioPosicion = result.search("{");
+                let finPosicion = result.search("}");
+                let estatus = parseInt(result.substr(inicioPosicion+15,1));
+
+                let mensaje = result.substr(inicioPosicion,(finPosicion-inicioPosicion));
+                mensaje = mensaje.substr(17);
+                let posicionFinMensaje = mensaje.indexOf(".");
+
+                let mensajeFinal = mensaje.substr(11,(posicionFinMensaje-11));
                 alert(result);
-                resolve();
+                if(estatus == 1){
+                     resolve("Correos enviados correctamente"); 
+                }else{
+                    reject(mensajeFinal);
+                }
+                
             }
         })
     })
@@ -149,7 +174,7 @@ function actionCambiarFrecuencia(){
 
 async function actionCambiarEstructuraMensaje(){
 
-    let mensaje = $("#mensajeEditar").val();
+    let mensaje = $("#textoEditar .note-editable.card-block")[0]['innerHTML'];
     let remitente = $("#remitenteEditar").val();
     let nombreRemitente = $("#nombreRemitenteEditar").val();
     let passwd = $("#contraseniaEditar").val();
@@ -172,6 +197,7 @@ async function actionCambiarEstructuraMensaje(){
                 let resultJSON = JSON.parse(result);
 
                     if(resultJSON.estatus == 1){
+                        $("#divEstructuraMensaje").html(mensaje);
                         toastr.success("Datos actualizados correctamente");
 
                     }else{
@@ -195,7 +221,7 @@ function obtenerDatosBD(){
                 let resultJSON = JSON.parse(result);
 
                 if(resultJSON.estatus == 1){
-                    $("#mensajeEditar").val(resultJSON.mensaje);
+                    $(".note-editable.card-block").html(resultJSON.mensaje);
                     $("#remitenteEditar").val(resultJSON.remitente);
                     $("#nombreRemitenteEditar").val(resultJSON.nombreRemitente);
                     $("#contraseniaEditar").val(resultJSON.passwd);
@@ -341,8 +367,7 @@ function actionRead(){
                         }
                     }
                      //Obtenemos la frecuencia
-                    
-                    let contenido = '<div class="row align-items-center" id="divConRecordatorio"><div class="d-flex justify-content-center align-items-center flex-column col"><div><em><h4 style="display: block; text-align: center;font-size:1.7rem;">Recordatorio Actual</h4></em></div><div class="row mt-4 w-100"><div class="col-6"><div class="row"><div class="col-sm-6 p-0"><div class="small-box bg-info m-2"><div class="inner"><h5 style="display: inline-block;">Frecuencia</h5><p id="frecuenciaForma">'+nombreFrecuencia+'</p><p id="proxRecord">Próximo recordatorio: '+stringFecha+'</p></div><div class="icon"><i class="far fa-calendar-alt fa-lg"></i></div><a id = "editarFrecuencia" class="small-box-footer btnEditar">Editar</a></div></div><div class="col-sm-6 p-0" style="display: flex;"><div class="small-box bg-info m-2 w-100"><div class="inner"><h5 style="display: inline-block;">Horario</h5><p style="margin-bottom: 1rem;" id="hora_Recordatorio">'+horario+'</p></div><div class="icon"><i class="far fa-clock fa-lg"></i></div><a id="editarHorario" class="small-box-footer btnEditar" style="position: absolute; bottom: 0;width: 100%;">Editar</a></div> </div></div><div class="row"><div class="col-sm-6 p-0"><div class="small-box bg-success m-2"><div class="inner"><h5 style="display: inline-block;">Enviar Recordatorio</h5><i class="far fa-paper-plane fa-lg float-right" style="padding-top: 0.5rem;"></i></div><a id = "enviarRecordatorio"  class="small-box-footer btnEditar">Enviar</a></div></div><div class="col-sm-6 p-0"><div class="small-box bg-danger m-2"><div class="inner"><h5 style="display: inline-block;">Eliminar recordatorio</h5> <i class="fas fa-trash-alt fa-lg float-right" style="color:white;padding-top: 0.4rem;"></i></div><a id="eliminarRecordatorio" class="small-box-footer btnEditar">Eliminar</a></div></div></div></div><div class="col-6" style="display: flex; justify-content: center; align-items: stretch;"><div class="small-box bg-info m-2 flex-fill"><div class="inner"><h5 style="display: inline-block;">Mensaje</h5><p style="text-align: justify;padding: .8rem;">'+mensaje+'</p></div><div class="icon"><i class="far fa-envelope-open fa-lg" style="opacity: 0.5;"></i></div><a id="editarMensaje" class="small-box-footer btnEditar" style="position: absolute; bottom: 0;width: 100%;">Editar</a></div></div></div></div></div>';
+                    let contenido = '<div class="row align-items-center" id="divConRecordatorio"><div class="d-flex justify-content-center align-items-center flex-column col"><div><em><h4 style="display: block; text-align: center;font-size:1.7rem;">Recordatorio Actual</h4></em></div><div class="row mt-4 w-100"><div class="col-12" style="display: flex; justify-content: center; align-items: stretch;"><div class="small-box flex-fill"><div class="small-box-header p-2 bg-info"><h5 style="display: inline-block;">Mensaje</h5><i class="fas fa-envelope-open fa-lg float-right pt-2"></i></div><div class="inner p-2" style="overflow:auto; height:30vh;"><div id="divEstructuraMensaje" class="p-2">'+mensaje+'</div></div><a id="editarMensaje" class="small-box-footer bg-info btnEditar" style="position: absolute; bottom: 0;width: 100%;">Editar</a></div></div><div class="col-12 p-2"><div class="row"><div class="col-sm-12 col-md-3 p-0"><div class="small-box bg-info m-2"><div class="inner"><h5 style="display: inline-block;">Frecuencia</h5><p id="frecuenciaForma">'+nombreFrecuencia+'</p><p id="proxRecord">Próximo recordatorio: '+stringFecha+'</p></div><div class="icon"><i class="far fa-calendar-alt fa-lg"></i></div><a id = "editarFrecuencia" class="small-box-footer btnEditar">Editar</a></div></div><div class="col-sm-12 col-md-3 p-0" style="display: flex;"><div class="small-box bg-info m-2 w-100"><div class="inner p-2"><h5 style="display: inline-block;">Horario</h5><p style="margin-bottom: 1rem;" id="hora_Recordatorio" class="pb-2">'+horario+'</p></div><div class="icon"><i class="far fa-clock fa-lg"></i></div><a id="editarHorario" class="small-box-footer btnEditar" style="position: absolute; bottom: 0;width: 100%;">Editar</a></div></div><div class="col-sm-12 col-md-3 p-0 d-flex"><div class="small-box bg-success m-2 w-100"><div class="inner" style="height:15vh;"><h5 style="display: inline-block;">Enviar Recordatorio</h5><i class="far fa-paper-plane fa-lg float-right" style="padding-top: 0.5rem;"></i></div><a id = "enviarRecordatorio"  class="small-box-footer btnEditar" style="position: absolute; bottom: 0;width: 100%;">Enviar</a></div></div><div class="col-sm-12 col-md-3 p-0 d-flex"><div class="small-box bg-danger m-2 w-100"><div class="inner" style="height:15vh;"><h5 style="display: inline-block;">Eliminar recordatorio</h5><i class="fas fa-trash-alt fa-lg float-right" style="color:white;padding-top: 0.4rem;"></i></div><a id="eliminarRecordatorio" class="small-box-footer btnEditar" style="position: absolute; bottom: 0;width: 100%;">Eliminar</a></div></div></div></div></div></div></div>';
                     $("#containerCentral").append(contenido);
                     activarListeners();
                 }else{
@@ -356,7 +381,7 @@ function actionRead(){
 
 function actionCrearRecordatorio(){
     
-    let mensaje = $("#mensajeRecordatorioNuevo").val();
+    let mensaje = $("#textoCrear .note-editable.card-block")[0]['innerHTML'];
     let horario = $("#horarioAgregar").val();
     let am_pm = horario.substr(6);
     am_pm = am_pm.trim();
@@ -427,7 +452,7 @@ function actionCrearRecordatorio(){
                 if(resultJSON.estatus == 1){
                     $("#divSinRecordatorio").remove();
                     $("#subDivSinRecordatorio").remove();
-                    let contenido = '<div class="row align-items-center" id="divConRecordatorio"><div class="d-flex justify-content-center align-items-center flex-column col"><div><em><h4 style="display: block; text-align: center;font-size:1.7rem;">Recordatorio Actual</h4></em></div><div class="row mt-4 w-100"><div class="col-6"><div class="row"><div class="col-sm-6 p-0"><div class="small-box bg-info m-2"><div class="inner"><h5 style="display: inline-block;">Frecuencia</h5><p id="frecuenciaForma">'+nombreFrecuencia+'</p><p id="proxRecord">Próximo recordatorio: '+fechaString+'</p></div><div class="icon"><i class="far fa-calendar-alt fa-lg"></i></div><a id = "editarFrecuencia" class="small-box-footer btnEditar">Editar</a></div></div><div class="col-sm-6 p-0" style="display: flex;"><div class="small-box bg-info m-2 w-100"><div class="inner"><h5 style="display: inline-block;">Horario</h5><p style="margin-bottom: 1rem;" id="hora_Recordatorio">'+horario+'</p></div><div class="icon"><i class="far fa-clock fa-lg"></i></div><a id="editarHorario" class="small-box-footer btnEditar" style="position: absolute; bottom: 0;width: 100%;">Editar</a></div> </div></div><div class="row"><div class="col-sm-6 p-0"><div class="small-box bg-success m-2"><div class="inner"><h5 style="display: inline-block;">Enviar Recordatorio</h5><i class="far fa-paper-plane fa-lg float-right" style="padding-top: 0.5rem;"></i></div><a id = "enviarRecordatorio"  class="small-box-footer btnEditar">Enviar</a></div></div><div class="col-sm-6 p-0"><div class="small-box bg-danger m-2"><div class="inner"><h5 style="display: inline-block;">Eliminar recordatorio</h5> <i class="fas fa-trash-alt fa-lg float-right" style="color:white;padding-top: 0.4rem;"></i></div><a id="eliminarRecordatorio" class="small-box-footer btnEditar">Eliminar</a></div></div></div></div><div class="col-6" style="display: flex; justify-content: center; align-items: stretch;"><div class="small-box bg-info m-2 flex-fill"><div class="inner"><h5 style="display: inline-block;">Mensaje</h5><p style="text-align: justify;padding: .8rem;">'+mensaje+'</p></div><div class="icon"><i class="far fa-envelope-open fa-lg" style="opacity: 0.5;"></i></div><a id="editarMensaje" class="small-box-footer btnEditar" style="position: absolute; bottom: 0;width: 100%;">Editar</a></div></div></div></div></div>';
+                    let contenido = '<div class="row align-items-center" id="divConRecordatorio"><div class="d-flex justify-content-center align-items-center flex-column col"><div><em><h4 style="display: block; text-align: center;font-size:1.7rem;">Recordatorio Actual</h4></em></div><div class="row mt-4 w-100"><div class="col-12" style="display: flex; justify-content: center; align-items: stretch;"><div class="small-box flex-fill"><div class="small-box-header p-2 bg-info"><h5 style="display: inline-block;">Mensaje</h5><i class="fas fa-envelope-open fa-lg float-right pt-2"></i></div><div class="inner p-2" style="overflow:auto; height:30vh;"><div id="divEstructuraMensaje" class="p-2">'+mensaje+'</div></div><a id="editarMensaje" class="small-box-footer bg-info btnEditar" style="position: absolute; bottom: 0;width: 100%;">Editar</a></div></div><div class="col-12 p-2"><div class="row"><div class="col-sm-12 col-md-3 p-0"><div class="small-box bg-info m-2"><div class="inner"><h5 style="display: inline-block;">Frecuencia</h5><p id="frecuenciaForma">'+nombreFrecuencia+'</p><p id="proxRecord">Próximo recordatorio: '+fechaString+'</p></div><div class="icon"><i class="far fa-calendar-alt fa-lg"></i></div><a id = "editarFrecuencia" class="small-box-footer btnEditar">Editar</a></div></div><div class="col-sm-12 col-md-3 p-0" style="display: flex;"><div class="small-box bg-info m-2 w-100"><div class="inner p-2"><h5 style="display: inline-block;">Horario</h5><p style="margin-bottom: 1rem;" id="hora_Recordatorio" class="pb-2">'+horario+'</p></div><div class="icon"><i class="far fa-clock fa-lg"></i></div><a id="editarHorario" class="small-box-footer btnEditar" style="position: absolute; bottom: 0;width: 100%;">Editar</a></div></div><div class="col-sm-12 col-md-3 p-0 d-flex"><div class="small-box bg-success m-2 w-100"><div class="inner" style="height:15vh;"><h5 style="display: inline-block;">Enviar Recordatorio</h5><i class="far fa-paper-plane fa-lg float-right" style="padding-top: 0.5rem;"></i></div><a id = "enviarRecordatorio"  class="small-box-footer btnEditar" style="position: absolute; bottom: 0;width: 100%;">Enviar</a></div></div><div class="col-sm-12 col-md-3 p-0 d-flex"><div class="small-box bg-danger m-2 w-100"><div class="inner" style="height:15vh;"><h5 style="display: inline-block;">Eliminar recordatorio</h5><i class="fas fa-trash-alt fa-lg float-right" style="color:white;padding-top: 0.4rem;"></i></div><a id="eliminarRecordatorio" class="small-box-footer btnEditar" style="position: absolute; bottom: 0;width: 100%;">Eliminar</a></div></div></div></div></div></div></div>';
                     $("#containerCentral").append(contenido);
                     activarListeners();
                     toastr.success("Recordatorio creado exitósamente");
